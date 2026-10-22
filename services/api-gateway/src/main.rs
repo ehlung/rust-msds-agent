@@ -69,7 +69,7 @@ pub(crate) struct ApiKeyEntry {
 #[derive(Clone)]
 pub(crate) struct AppState {
     pub(crate) tool_registry:      Arc<RwLock<ToolRegistry>>,
-    pub(crate) conversation_store: Arc<PgConversationStore>,
+    pub(crate) conversation_store: Arc<dyn ShortTermMemory>,
     pub(crate) orchestrator_ref:   ActorRef<OrchestratorActor>,
     pub(crate) event_publisher:    Arc<EventPublisher>,
     pub(crate) audit_logger:       Arc<AuditLogger>,
@@ -77,7 +77,7 @@ pub(crate) struct AppState {
     pub(crate) rbac:               Arc<RwLock<RbacManager>>,
     /// API-key → user identity map.  Keyed by the raw key string.
     pub(crate) api_keys:           Arc<HashMap<String, ApiKeyEntry>>,
-    pub(crate) vector_store:       Option<Arc<PgVectorStore>>,
+    pub(crate) vector_store:       Option<Arc<dyn LongTermMemory>>,
     pub(crate) metrics:            Arc<MetricsRegistry>,
     pub(crate) rate_limiter:       Arc<RateLimiter>,
     pub(crate) response_cache:     Option<Arc<ResponseCache>>,
@@ -2062,7 +2062,7 @@ async fn main() -> anyhow::Result<()> {
     PgConversationStore::migrate(&pg_pool).await
         .expect("Conversation store migration failed");
 
-    let conversation_store = Arc::new(PgConversationStore::new(pg_pool.clone(), 100));
+    let conversation_store: Arc<dyn ShortTermMemory> = Arc::new(PgConversationStore::new(pg_pool.clone(), 100));
 
     // ── Tool registry ─────────────────────────────────────────────────────────
     let mut tool_registry = ToolRegistry::new();
@@ -2134,7 +2134,7 @@ async fn main() -> anyhow::Result<()> {
         Arc::new(EmbeddingClient::new(key, model)) as Arc<dyn pekko_agent_core::Embedder>
     });
 
-    let vector_store: Option<Arc<PgVectorStore>> = if std::env::var("DISABLE_VECTOR_STORE")
+    let vector_store: Option<Arc<dyn LongTermMemory>> = if std::env::var("DISABLE_VECTOR_STORE")
         .map(|v| v == "true").unwrap_or(false)
     {
         info!("Vector store disabled by DISABLE_VECTOR_STORE=true");
@@ -2143,7 +2143,7 @@ async fn main() -> anyhow::Result<()> {
         match PgVectorStore::migrate(&pg_pool).await {
             Ok(()) => {
                 let has_embedder = embedder.is_some();
-                let vs = Arc::new(PgVectorStore::new(pg_pool.clone(), embedder));
+                let vs: Arc<dyn LongTermMemory> = Arc::new(PgVectorStore::new(pg_pool.clone(), embedder));
                 info!(has_embedder, "PgVectorStore ready");
                 Some(vs)
             }
@@ -2426,7 +2426,7 @@ mod tests {
         let event_publisher = Arc::new(EventPublisher::new("test", 128));
         let audit_logger    = Arc::new(AuditLogger::new(1000));
         let tool_registry   = Arc::new(RwLock::new(ToolRegistry::new()));
-        let conversation_store = Arc::new(PgConversationStore::new(pg_pool.clone(), 100));
+        let conversation_store: Arc<dyn ShortTermMemory> = Arc::new(PgConversationStore::new(pg_pool.clone(), 100));
 
         let llm_config = LlmConfig {
             api_key:    std::env::var("CLAUDE_API_KEY").unwrap_or_else(|_| "test-key".to_string()),

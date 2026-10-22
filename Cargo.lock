@@ -2399,7 +2399,6 @@ dependencies = [
  "pekko-agent-core",
  "pekko-agent-events",
  "pekko-agent-llm",
- "pekko-agent-memory",
  "pekko-agent-observability",
  "pekko-agent-tools",
  "pekko-persistence",

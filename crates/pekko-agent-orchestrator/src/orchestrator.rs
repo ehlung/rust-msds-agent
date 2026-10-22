@@ -37,7 +37,6 @@ use pekko_agent_llm::{
     ClaudeMessage, ContentBlock, ClaudeTool, OpenAIClient,
 };
 use pekko_actor::{CircuitBreaker, CircuitBreakerBuilder, CircuitBreakerError};
-use pekko_agent_memory::{PgConversationStore, PgVectorStore};
 use pekko_agent_observability::MetricsRegistry;
 use pekko_agent_tools::ToolRegistry;
 
@@ -49,7 +48,7 @@ use crate::persistence::{OrchestratorPersistence, spawn_save_agent, spawn_save_w
 
 /// All external service dependencies the orchestrator needs to process queries.
 pub struct OrchestratorDeps {
-    pub conversation_store: Arc<PgConversationStore>,
+    pub conversation_store: Arc<dyn ShortTermMemory>,
     pub tool_registry:      Arc<RwLock<ToolRegistry>>,
     pub claude_client:      Arc<ClaudeClient>,
     pub gemini_client:      Option<Arc<GeminiClient>>,
@@ -57,7 +56,7 @@ pub struct OrchestratorDeps {
     pub llm_config:         LlmConfig,
     pub llm_provider:       String,
     /// Optional long-term memory for RAG context injection.
-    pub vector_store:       Option<Arc<PgVectorStore>>,
+    pub vector_store:       Option<Arc<dyn LongTermMemory>>,
     /// Optional Prometheus metrics registry.
     pub metrics:            Option<Arc<MetricsRegistry>>,
     /// Per-provider circuit breakers (key = provider name: "claude", "gemini", "openai").
@@ -922,11 +921,11 @@ async fn call_llm_protected(
 pub async fn run_query_loop_pub(
     agent_id: String, content: String, session_id: Uuid,
     tenant_id: String, user_id: String,
-    conv: Arc<PgConversationStore>, tools: Arc<RwLock<ToolRegistry>>,
+    conv: Arc<dyn ShortTermMemory>, tools: Arc<RwLock<ToolRegistry>>,
     claude: Arc<ClaudeClient>, gemini: Option<Arc<GeminiClient>>,
     openai: Option<Arc<OpenAIClient>>, cfg: LlmConfig, provider: String,
     profile: AgentProfile,
-    vs: Option<Arc<PgVectorStore>>,
+    vs: Option<Arc<dyn LongTermMemory>>,
     metrics: Option<Arc<MetricsRegistry>>,
     cb: Option<CircuitBreaker>,
 ) -> Result<QueryResult, String> {
@@ -944,7 +943,7 @@ async fn run_query_loop(
     session_id:   Uuid,
     tenant_id:    String,
     user_id:      String,
-    conv:         Arc<PgConversationStore>,
+    conv:         Arc<dyn ShortTermMemory>,
     tools:        Arc<RwLock<ToolRegistry>>,
     claude:       Arc<ClaudeClient>,
     gemini:       Option<Arc<GeminiClient>>,
@@ -952,7 +951,7 @@ async fn run_query_loop(
     cfg:          LlmConfig,
     provider:     String,
     profile:      AgentProfile,
-    vector_store: Option<Arc<PgVectorStore>>,
+    vector_store: Option<Arc<dyn LongTermMemory>>,
     metrics:      Option<Arc<MetricsRegistry>>,
     cb:           Option<CircuitBreaker>,
 ) -> Result<QueryResult, String> {
@@ -1167,7 +1166,7 @@ async fn run_query_loop(
 /// Search the vector store for relevant documents and format them as a context
 /// prefix that can be prepended to the user query.
 /// Returns `None` when the store is absent or returns no results.
-async fn build_rag_prefix(query: &str, vs: Option<&PgVectorStore>) -> Option<String> {
+async fn build_rag_prefix(query: &str, vs: Option<&dyn LongTermMemory>) -> Option<String> {
     let store = vs?;
     let results = store.search(query, 3).await.ok()?;
     if results.is_empty() {
@@ -1205,7 +1204,7 @@ async fn run_stream_loop(
     session_id:   Uuid,
     tenant_id:    String,
     user_id:      String,
-    conv:         Arc<PgConversationStore>,
+    conv:         Arc<dyn ShortTermMemory>,
     tools:        Arc<RwLock<ToolRegistry>>,
     claude:       Arc<ClaudeClient>,
     gemini:       Option<Arc<GeminiClient>>,
@@ -1214,7 +1213,7 @@ async fn run_stream_loop(
     provider:     String,
     tx:           mpsc::Sender<String>,
     profile:      AgentProfile,
-    vector_store: Option<Arc<PgVectorStore>>,
+    vector_store: Option<Arc<dyn LongTermMemory>>,
     metrics:      Option<Arc<MetricsRegistry>>,
     cb:           Option<CircuitBreaker>,
 ) {
@@ -1423,7 +1422,7 @@ async fn run_stream_loop(
 #[allow(clippy::too_many_arguments)]
 async fn run_workflow_engine(
     mut workflow: Workflow,
-    conv:         Arc<PgConversationStore>,
+    conv:         Arc<dyn ShortTermMemory>,
     tools:        Arc<RwLock<ToolRegistry>>,
     claude:       Arc<ClaudeClient>,
     gemini:       Option<Arc<GeminiClient>>,
@@ -1585,7 +1584,7 @@ async fn step_failure_status(
     steps:           &[crate::workflow::WorkflowStep],
     completed_order: &[usize],
     context:         &HashMap<String, serde_json::Value>,
-    conv:            &Arc<PgConversationStore>,
+    conv:            &Arc<dyn ShortTermMemory>,
     tools:           &Arc<RwLock<ToolRegistry>>,
     claude:          &Arc<ClaudeClient>,
     gemini:          &Option<Arc<GeminiClient>>,
@@ -1631,7 +1630,7 @@ async fn run_workflow_compensations(
     steps:           &[crate::workflow::WorkflowStep],
     completed_order: &[usize],
     context:         &HashMap<String, serde_json::Value>,
-    conv:            &Arc<PgConversationStore>,
+    conv:            &Arc<dyn ShortTermMemory>,
     tools:           &Arc<RwLock<ToolRegistry>>,
     claude:          &Arc<ClaudeClient>,
     gemini:          &Option<Arc<GeminiClient>>,
@@ -1746,7 +1745,7 @@ async fn run_collaboration_engine(
     session_id: Uuid,
     tenant_id:  String,
     user_id:    String,
-    conv:       Arc<PgConversationStore>,
+    conv:       Arc<dyn ShortTermMemory>,
     tools:      Arc<RwLock<ToolRegistry>>,
     claude:     Arc<ClaudeClient>,
     gemini:     Option<Arc<GeminiClient>>,
@@ -1754,7 +1753,7 @@ async fn run_collaboration_engine(
     cfg:        LlmConfig,
     provider:   String,
     profiles:   HashMap<String, AgentProfile>,
-    vs:         Option<Arc<PgVectorStore>>,
+    vs:         Option<Arc<dyn LongTermMemory>>,
     metrics:    Option<Arc<MetricsRegistry>>,
     cbs:        HashMap<String, CircuitBreaker>,
     event_tx:   Option<mpsc::Sender<String>>,

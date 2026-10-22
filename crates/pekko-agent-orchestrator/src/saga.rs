@@ -7,9 +7,8 @@ use tokio::sync::{mpsc, RwLock};
 use tracing::{info, warn};
 use uuid::Uuid;
 
-use pekko_agent_core::AgentProfile;
+use pekko_agent_core::{AgentProfile, ShortTermMemory};
 use pekko_agent_llm::{ClaudeClient, GeminiClient, LlmConfig, OpenAIClient};
-use pekko_agent_memory::PgConversationStore;
 use pekko_agent_tools::ToolRegistry;
 
 // ─── Data structures ──────────────────────────────────────────────────────────
@@ -118,7 +117,7 @@ pub struct SagaResult {
 #[allow(clippy::too_many_arguments)]
 pub async fn run_saga_engine(
     saga:     SagaDefinition,
-    conv:     Arc<PgConversationStore>,
+    conv:     Arc<dyn ShortTermMemory>,
     tools:    Arc<RwLock<ToolRegistry>>,
     claude:   Arc<ClaudeClient>,
     gemini:   Option<Arc<GeminiClient>>,
@@ -265,7 +264,7 @@ pub async fn run_compensations(
     steps:        &[SagaStep],
     completed:    &[usize],
     step_outputs: &HashMap<String, String>,
-    conv:         &Arc<PgConversationStore>,
+    conv:         &Arc<dyn ShortTermMemory>,
     tools:        &Arc<RwLock<ToolRegistry>>,
     claude:       &Arc<ClaudeClient>,
     gemini:       &Option<Arc<GeminiClient>>,
