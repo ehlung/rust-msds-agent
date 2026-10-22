@@ -1,0 +1,30 @@
+# Rust
+/target/
+**/target/
+**/*.rs.bk
+Cargo.lock
+
+# Environment
+.env
+.env.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+/tmp/
+
+# Docker volumes
+redis-data/
+pg-data/
+qdrant-data/
+redpanda-data/

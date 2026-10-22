@@ -1,0 +1,39 @@
+# ============================================================================
+# pekko-agent Local Development — infrastructure services only
+# ============================================================================
+# 로컬 개발 시 외부 인프라 서비스만 실행합니다.
+# Rust 서비스(api-gateway, EHS agents)는 cargo run으로 직접 실행하세요.
+#
+# 사용법:
+#   docker compose -f docker-compose-local.yml up -d
+#   cargo run --bin api-gateway
+#
+# PostgreSQL 접속:
+#   psql postgres://pekko:pekko_secret@localhost:5432/pekko_agent
+# ============================================================================
+
+services:
+  # ── PostgreSQL + pgvector ───────────────────────────────────────────────────
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER:     pekko
+      POSTGRES_PASSWORD: pekko_secret
+      POSTGRES_DB:       pekko_agent
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-local:/var/lib/postgresql/data
+      - ./infra/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pekko -d pekko_agent"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres-local:
+
+networks:
+  default:
+    name: pekko-agent-local

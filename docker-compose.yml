@@ -1,0 +1,154 @@
+# ============================================================================
+# pekko-agent Production Docker Compose
+# ============================================================================
+# 사전 조건: Docker 24+, Docker Compose v2, PostgreSQL용 pgvector 지원
+#
+# 빠른 시작:
+#   cp .env.example .env && vi .env   # API 키 및 시크릿 설정
+#   docker compose up -d
+#   docker compose logs -f api-gateway
+#
+# 아키텍처:
+#   PostgreSQL   → 영속성 (대화 이력, 워크플로, 에이전트 레지스트리)
+#   api-gateway  → REST API (포트 8080)
+#   EHS agents   → api-gateway에 자기 등록 후 쿼리 수신
+# ============================================================================
+
+x-agent-env: &agent-env
+  RUST_LOG:              ${RUST_LOG:-info}
+  DATABASE_URL:          postgres://pekko:${POSTGRES_PASSWORD:-pekko_secret}@postgres:5432/pekko_agent
+  REDIS_URL:             redis://redis:6379
+  CLAUDE_API_KEY:        ${CLAUDE_API_KEY}
+  CLAUDE_MODEL:          ${CLAUDE_MODEL:-claude-sonnet-4-20250514}
+  CLAUDE_MAX_TOKENS:     ${CLAUDE_MAX_TOKENS:-4096}
+  LLM_PROVIDER:          ${LLM_PROVIDER:-claude}
+  GOOGLE_API_KEY:        ${GOOGLE_API_KEY:-}
+  OPENAI_API_KEY:        ${OPENAI_API_KEY:-}
+  JWT_SECRET:            ${JWT_SECRET}
+  ADMIN_API_KEY:         ${ADMIN_API_KEY}
+  AGENT_API_KEY:         ${AGENT_API_KEY}
+  RATE_LIMIT_ADMIN_RPM:  ${RATE_LIMIT_ADMIN_RPM:-1000}
+  RATE_LIMIT_AGENT_RPM:  ${RATE_LIMIT_AGENT_RPM:-300}
+  RATE_LIMIT_DEFAULT_RPM: ${RATE_LIMIT_DEFAULT_RPM:-60}
+  CB_MAX_FAILURES:       ${CB_MAX_FAILURES:-5}
+  CB_CALL_TIMEOUT_SECS:  ${CB_CALL_TIMEOUT_SECS:-30}
+  CB_RESET_TIMEOUT_SECS: ${CB_RESET_TIMEOUT_SECS:-60}
+  DISABLE_VECTOR_STORE:  ${DISABLE_VECTOR_STORE:-true}
+
+services:
+  # ── PostgreSQL ──────────────────────────────────────────────────────────────
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER:     pekko
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-pekko_secret}
+      POSTGRES_DB:       pekko_agent
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./infra/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pekko -d pekko_agent"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    restart: unless-stopped
+
+  # ── Redis (response cache) ──────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+
+  # ── API Gateway ─────────────────────────────────────────────────────────────
+  api-gateway:
+    build:
+      context: .
+      dockerfile: infra/Dockerfile
+      args:
+        SERVICE: api-gateway
+    ports:
+      - "${API_GATEWAY_PORT:-8080}:8080"
+      - "${GRPC_PORT:-50051}:50051"
+    environment:
+      <<: *agent-env
+      API_GATEWAY_PORT: "8080"
+      GRPC_PORT: "50051"
+      OTLP_ENDPOINT: ${OTLP_ENDPOINT:-}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8080/api/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+
+  # ── EHS Permit Agent ────────────────────────────────────────────────────────
+  ehs-permit-agent:
+    build:
+      context: .
+      dockerfile: infra/Dockerfile
+      args:
+        SERVICE: ehs-permit-agent
+    environment:
+      <<: *agent-env
+      GATEWAY_URL: http://api-gateway:8080
+    depends_on:
+      api-gateway:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # ── EHS Inspection Agent ────────────────────────────────────────────────────
+  ehs-inspection-agent:
+    build:
+      context: .
+      dockerfile: infra/Dockerfile
+      args:
+        SERVICE: ehs-inspection-agent
+    environment:
+      <<: *agent-env
+      GATEWAY_URL: http://api-gateway:8080
+    depends_on:
+      api-gateway:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # ── EHS Compliance Agent ────────────────────────────────────────────────────
+  ehs-compliance-agent:
+    build:
+      context: .
+      dockerfile: infra/Dockerfile
+      args:
+        SERVICE: ehs-compliance-agent
+    environment:
+      <<: *agent-env
+      GATEWAY_URL: http://api-gateway:8080
+    depends_on:
+      api-gateway:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
+  redis-data:
+
+networks:
+  default:
+    name: pekko-agent
+    driver: bridge
