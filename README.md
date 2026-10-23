@@ -18,5 +18,4 @@
 ```bash
 git clone https://github.com/ehlung/rust-msds-agent.git
 git clone https://github.com/daseul312/rust-pekko.git
-git clone https://github.com/yhc007/coredb.git rust-pekko/coredb
 ```
