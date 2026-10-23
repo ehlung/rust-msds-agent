@@ -39,6 +39,9 @@ jobs:
             -p pekko-agent-security \
             -p pekko-agent-memory \
             -p pekko-agent-tools \
+            -p pekko-agent-msds \
+            -p pekko-agent-msds-io \
+            -p msds-ingest \
             -- --test-threads=4
 
   # ── Workspace Compile Check ───────────────────────────────────────────────
@@ -93,6 +96,8 @@ jobs:
             -p pekko-agent-security \
             -p pekko-agent-memory \
             -p pekko-agent-tools \
+            -p pekko-agent-msds \
+            -p pekko-agent-msds-io \
             -- -W clippy::all
 
       - name: Run clippy (service binaries)
@@ -102,6 +107,7 @@ jobs:
             -p ehs-permit-agent \
             -p ehs-inspection-agent \
             -p ehs-compliance-agent \
+            -p msds-ingest \
             -- -W clippy::all -A clippy::too_many_arguments
 
   # ── Integration Tests ─────────────────────────────────────────────────────
