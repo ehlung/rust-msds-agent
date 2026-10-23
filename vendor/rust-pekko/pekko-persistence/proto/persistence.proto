@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package pekko.persistence;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/any.proto";
+
+// Persistent representation of an event
+message PersistentRepr {
+    string persistence_id = 1;
+    uint64 sequence_nr = 2;
+    string manifest = 3;
+    bytes payload = 4;
+    google.protobuf.Timestamp timestamp = 5;
+    string writer_uuid = 6;
+    repeated string tags = 7;
+    optional google.protobuf.Any metadata = 8;
+}
+
+// Journal write request
+message WriteMessages {
+    repeated PersistentRepr messages = 1;
+    string actor_instance_id = 2;
+}
+
+// Journal write response
+message WriteMessagesResponse {
+    bool success = 1;
+    optional string error_message = 2;
+    repeated WriteResult results = 3;
+}
+
+message WriteResult {
+    string persistence_id = 1;
+    uint64 sequence_nr = 2;
+    bool success = 3;
+    optional string error = 4;
+}
+
+// Journal read request
+message ReplayMessages {
+    string persistence_id = 1;
+    uint64 from_sequence_nr = 2;
+    uint64 to_sequence_nr = 3;
+    uint64 max_messages = 4;
+}
+
+// Journal read response
+message ReplayMessagesResponse {
+    repeated PersistentRepr messages = 1;
+    bool has_more = 2;
+    uint64 highest_sequence_nr = 3;
+}
+
+// Query highest sequence number
+message HighestSequenceNrQuery {
+    string persistence_id = 1;
+}
+
+message HighestSequenceNrResponse {
+    uint64 highest_sequence_nr = 1;
+}

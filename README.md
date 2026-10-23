@@ -10,12 +10,12 @@
 
 - 원본 대비 변경: `git diff baseline`
 - 원본 README: `git show baseline:README.md`
+- 액터 crate 3개는 [daseul312/rust-pekko](https://github.com/daseul312/rust-pekko)(Apache-2.0)에서 `vendor/rust-pekko/`로 복사했습니다.
 
-## 빌드에 필요한 폴더
+## 받기
 
-`Cargo.toml`이 액터 프레임워크를 옆 폴더에서 찾으므로 아래 구조로 clone합니다.
+액터 crate는 `vendor/rust-pekko/`에 포함되어 있어 이 저장소만 clone하면 됩니다.
 
 ```bash
 git clone https://github.com/ehlung/rust-msds-agent.git
-git clone https://github.com/daseul312/rust-pekko.git
 ```

@@ -18,6 +18,7 @@ members = [
 ]
 exclude = [
     "frontend/web-chat",
+    "vendor",
 ]
 
 [workspace.package]
@@ -28,9 +29,9 @@ license = "MIT"
 
 [workspace.dependencies]
 # rust-pekko base crates (path dependencies)
-pekko-actor     = { path = "../rust-pekko/pekko-actor" }
-pekko-persistence = { path = "../rust-pekko/pekko-persistence" }
-pekko-event-bus = { path = "../rust-pekko/pekko-event-bus" }
+pekko-actor     = { path = "vendor/rust-pekko/pekko-actor" }
+pekko-persistence = { path = "vendor/rust-pekko/pekko-persistence" }
+pekko-event-bus = { path = "vendor/rust-pekko/pekko-event-bus" }
 
 # Async runtime
 tokio = { version = "1", features = ["full"] }

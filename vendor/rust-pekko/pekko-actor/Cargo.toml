@@ -1,0 +1,30 @@
+[package]
+name = "pekko-actor"
+version = "0.1.0"
+edition = "2021"
+authors = ["Pekko Rust Contributors"]
+description = "Core actor system for Pekko"
+license = "Apache-2.0"
+
+[dependencies]
+tokio = { version = "1.0", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+uuid = { version = "1.0", features = ["v4"] }
+tracing = "0.1"
+tracing-subscriber = "0.3"
+thiserror = "1.0"
+async-trait = "0.1"
+futures = "0.3"
+parking_lot = "0.12"
+dashmap = "5.0"
+config = "0.14"
+# 추가된 의존성들
+tokio-util = "0.7"
+bytes = "1.0"
+chrono = { version = "0.4", features = ["serde"] }
+crossbeam-channel = "0.5"
+
+[dev-dependencies]
+tokio-test = "0.4"
+criterion = "0.5"

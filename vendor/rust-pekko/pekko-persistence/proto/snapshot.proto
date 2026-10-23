@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package pekko.persistence;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/any.proto";
+
+// Snapshot metadata
+message SnapshotMetadata {
+    string persistence_id = 1;
+    uint64 sequence_nr = 2;
+    google.protobuf.Timestamp timestamp = 3;
+    optional google.protobuf.Any metadata = 4;
+}
+
+// Snapshot with data
+message Snapshot {
+    SnapshotMetadata metadata = 1;
+    bytes data = 2;
+}
+
+// Snapshot save request
+message SaveSnapshot {
+    SnapshotMetadata metadata = 1;
+    bytes snapshot_data = 2;
+}
+
+// Snapshot save response
+message SaveSnapshotResponse {
+    bool success = 1;
+    optional string error_message = 2;
+    optional SnapshotMetadata metadata = 3;
+}
+
+// Snapshot load request
+message LoadSnapshot {
+    string persistence_id = 1;
+    optional uint64 max_sequence_nr = 2;
+    optional google.protobuf.Timestamp max_timestamp = 3;
+}
+
+// Snapshot load response
+message LoadSnapshotResponse {
+    optional Snapshot snapshot = 1;
+    bool found = 2;
+}
+
+// Delete snapshot request
+message DeleteSnapshot {
+    SnapshotMetadata metadata = 1;
+}
+
+// Delete snapshots request (by criteria)
+message DeleteSnapshots {
+    string persistence_id = 1;
+    optional uint64 max_sequence_nr = 2;
+    optional google.protobuf.Timestamp max_timestamp = 3;
+}
