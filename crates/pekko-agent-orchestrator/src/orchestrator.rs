@@ -1026,6 +1026,7 @@ async fn run_query_loop(
             max_tokens,
             temperature: cfg.temperature,
             cacheable: false,
+            ..Default::default()
         };
 
         let llm_start = std::time::Instant::now();
@@ -1280,6 +1281,7 @@ async fn run_stream_loop(
             max_tokens,
             temperature: cfg.temperature,
             cacheable: false,
+            ..Default::default()
         };
 
         let llm_start = std::time::Instant::now();
@@ -1944,6 +1946,7 @@ async fn synthesise_responses(
         temperature:   cfg.temperature,
         tools:         Vec::new(),
         cacheable:     false,
+        ..Default::default()
     };
 
     let response = call_llm_protected(provider, &request, claude, gemini, openai, cb, None).await?;

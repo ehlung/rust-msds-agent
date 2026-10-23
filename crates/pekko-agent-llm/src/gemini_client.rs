@@ -157,6 +157,8 @@ impl GeminiClient {
                     }
                     // Claude 전용 사고 블록 — Gemini에는 대응 개념이 없어 전달하지 않음
                     ContentBlock::Thinking { .. } | ContentBlock::RedactedThinking { .. } => {}
+                    // 이미지 입력은 Claude(MSDS 에이전트)에서만 쓴다. Gemini 변환은 아직 없어 전달하지 않음
+                    ContentBlock::Image { .. } => {}
                 }
             }
             
@@ -279,6 +281,7 @@ impl GeminiClient {
             usage: ClaudeUsage {
                 input_tokens: usage.and_then(|u| u.prompt_token_count).unwrap_or(0),
                 output_tokens: usage.and_then(|u| u.candidates_token_count).unwrap_or(0),
+                ..Default::default()
             },
         })
     }

@@ -45,7 +45,7 @@ impl LlmGateway {
         // Build the circuit breaker with pekko_actor's builder API.
         let circuit_breaker = CircuitBreaker::new()
             .max_failures(5)
-            .call_timeout(Duration::from_secs(30))
+            .call_timeout(Duration::from_secs(config.call_timeout_secs))
             .reset_timeout(Duration::from_secs(60))
             .max_half_open_calls(1)
             .exponential_backoff(1.5)

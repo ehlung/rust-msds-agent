@@ -273,6 +273,7 @@ impl OpenAIClient {
             usage: ClaudeUsage {
                 input_tokens: usage.map(|u| u.prompt_tokens).unwrap_or(0),
                 output_tokens: usage.map(|u| u.completion_tokens).unwrap_or(0),
+                ..Default::default()
             },
         })
     }
