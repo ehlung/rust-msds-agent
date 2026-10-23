@@ -1,4 +1,5 @@
 mod grpc;
+mod msds;
 mod openapi;
 
 use axum::{
@@ -85,6 +86,8 @@ pub(crate) struct AppState {
     pub(crate) pg_audit_store:     Arc<PgAuditStore>,
     pub(crate) api_key_store:      Arc<ApiKeyStore>,
     pub(crate) tenant_store:       Arc<PgTenantStore>,
+    /// MSDS 작업 API. `MSDS_STORAGE_DIR`가 없으면 `None`이고 MSDS 경로는 503을 돌려준다.
+    pub(crate) msds:               Option<Arc<msds::MsdsApi>>,
 }
 
 // ── JWT extractor ─────────────────────────────────────────────────────────────
@@ -1950,6 +1953,8 @@ pub(crate) fn build_router(state: AppState) -> axum::Router {
                                                          .put(update_tenant)
                                                          .delete(deactivate_tenant))
         .route("/api/admin/tenants/:id/activate",    post(activate_tenant))
+        // ── MSDS jobs ──
+        .merge(msds::routes())
         .layer(TimeoutLayer::new(BLOCKING_TIMEOUT));
 
     let streaming_protected = Router::new()
@@ -2246,6 +2251,11 @@ async fn main() -> anyhow::Result<()> {
     let tenant_store = Arc::new(PgTenantStore::new(pg_pool.clone()));
     info!("Tenant store ready");
 
+    // ── MSDS 작업 API ─────────────────────────────────────────────────────────
+    let msds = msds::MsdsApi::from_env((*pg_pool).clone()).await
+        .expect("MSDS job store migration failed");
+    info!(enabled = msds.is_some(), "MSDS job API");
+
     // ── Infrastructure ────────────────────────────────────────────────────────
     let event_publisher = Arc::new(EventPublisher::new("pekko-agent", 1024));
     let audit_logger    = Arc::new(
@@ -2302,6 +2312,7 @@ async fn main() -> anyhow::Result<()> {
         pg_audit_store,
         api_key_store,
         tenant_store,
+        msds,
     };
 
     // ── Webhook bridge (background task) ─────────────────────────────────────
@@ -2379,6 +2390,11 @@ mod tests {
 
     /// Build a minimal `AppState` wired to a real Postgres instance.
     async fn build_test_app() -> axum::Router {
+        build_router(build_test_state().await)
+    }
+
+    /// `build_test_app`과 같은 상태. MSDS 테스트는 여기에 `msds`를 채워 쓴다.
+    async fn build_test_state() -> AppState {
         let db_url = test_db_url().expect("TEST_DATABASE_URL must be set");
 
         let pg_pool = Arc::new(
@@ -2474,9 +2490,10 @@ mod tests {
             pg_audit_store,
             api_key_store,
             tenant_store,
+            msds:             None,
         };
 
-        build_router(state)
+        state
     }
 
     /// Exchange an API key for a JWT, returning the token string.
@@ -2738,5 +2755,190 @@ mod tests {
             .unwrap();
 
         assert_eq!(resp.status(), axum::http::StatusCode::FORBIDDEN);
+    }
+
+    // ── MSDS jobs ────────────────────────────────────────────────────────────
+
+    use pekko_agent_msds::message::{JobCreated, JobStatus};
+    use pekko_agent_msds::Envelope;
+    use pekko_agent_msds_io::{JobStore, LocalStorage};
+
+    /// Kafka 대신 보낸 메시지를 기록만 한다.
+    #[derive(Default)]
+    struct RecordingPublisher(std::sync::Mutex<Vec<Envelope<JobCreated>>>);
+
+    #[async_trait]
+    impl msds::JobPublisher for RecordingPublisher {
+        async fn job_created(&self, envelope: &Envelope<JobCreated>) -> anyhow::Result<()> {
+            self.0.lock().unwrap().push(envelope.clone());
+            Ok(())
+        }
+    }
+
+    struct FailingPublisher;
+
+    #[async_trait]
+    impl msds::JobPublisher for FailingPublisher {
+        async fn job_created(&self, _: &Envelope<JobCreated>) -> anyhow::Result<()> {
+            anyhow::bail!("broker down")
+        }
+    }
+
+    async fn build_msds_app(publisher: Arc<dyn msds::JobPublisher>) -> (axum::Router, JobStore, std::path::PathBuf) {
+        let mut state = build_test_state().await;
+        let store = JobStore::connect(&test_db_url().unwrap()).await.unwrap();
+        store.migrate().await.unwrap();
+        let dir = std::env::temp_dir().join(format!("msds-gw-test-{}", Uuid::new_v4()));
+        state.msds = Some(Arc::new(msds::MsdsApi {
+            store: store.clone(),
+            storage: LocalStorage::new(&dir).unwrap(),
+            publisher,
+        }));
+        (build_router(state), store, dir)
+    }
+
+    async fn upload(app: &axum::Router, token: &str, file_name: &str, bytes: &[u8]) -> axum::response::Response {
+        let boundary = "msds-test-boundary";
+        let mut body = format!(
+            "--{boundary}\r\nContent-Disposition: form-data; name=\"file\"; filename=\"{file_name}\"\r\nContent-Type: application/pdf\r\n\r\n"
+        )
+        .into_bytes();
+        body.extend_from_slice(bytes);
+        body.extend_from_slice(format!("\r\n--{boundary}--\r\n").as_bytes());
+        app.clone()
+            .oneshot(
+                Request::builder()
+                    .method("POST")
+                    .uri("/api/msds/jobs")
+                    .header("authorization", format!("Bearer {token}"))
+                    .header("content-type", format!("multipart/form-data; boundary={boundary}"))
+                    .body(Body::from(body))
+                    .unwrap(),
+            )
+            .await
+            .unwrap()
+    }
+
+    async fn get_json(app: &axum::Router, token: &str, uri: &str) -> (axum::http::StatusCode, serde_json::Value) {
+        let resp = app
+            .clone()
+            .oneshot(Request::builder().uri(uri).header("authorization", format!("Bearer {token}")).body(Body::empty()).unwrap())
+            .await
+            .unwrap();
+        let status = resp.status();
+        let bytes = axum::body::to_bytes(resp.into_body(), usize::MAX).await.unwrap();
+        (status, serde_json::from_slice(&bytes).unwrap_or(serde_json::Value::Null))
+    }
+
+    #[tokio::test]
+    async fn msds_upload_creates_job_and_publishes() {
+        if test_db_url().is_none() { return; }
+        let publisher = Arc::new(RecordingPublisher::default());
+        let (app, store, dir) = build_msds_app(publisher.clone()).await;
+        let token = get_jwt(&app, TEST_ADMIN_KEY).await;
+        let pdf = b"%PDF-1.4 msds test";
+
+        let resp = upload(&app, &token, "POLANE.pdf", pdf).await;
+        assert_eq!(resp.status(), axum::http::StatusCode::ACCEPTED);
+        let body: serde_json::Value =
+            serde_json::from_slice(&axum::body::to_bytes(resp.into_body(), usize::MAX).await.unwrap()).unwrap();
+        assert_eq!(body["status"], "received");
+        assert_eq!(body["file_name"], "POLANE.pdf");
+        assert_eq!(body["created_by"], "test-admin");
+        let job_id: Uuid = body["job_id"].as_str().unwrap().parse().unwrap();
+
+        // 보낸 메시지와 저장한 PDF
+        let sent = publisher.0.lock().unwrap().clone();
+        assert_eq!(sent.len(), 1);
+        assert_eq!(sent[0].payload.job_id, job_id);
+        assert_eq!(sent[0].payload.sha256, body["sha256"].as_str().unwrap());
+        assert_eq!(std::fs::read(dir.join(format!("jobs/{job_id}/source.pdf"))).unwrap(), pdf);
+
+        // 상태 조회, 결과는 아직 없음
+        let (status, job) = get_json(&app, &token, &format!("/api/msds/jobs/{job_id}")).await;
+        assert_eq!(status, axum::http::StatusCode::OK);
+        assert_eq!(job["status"], "received");
+        assert_eq!(job["usage"]["calls"], 0);
+        let (status, _) = get_json(&app, &token, &format!("/api/msds/jobs/{job_id}/result")).await;
+        assert_eq!(status, axum::http::StatusCode::NOT_FOUND);
+
+        // 오케스트레이터가 결과를 저장한 뒤
+        store.save_result(job_id, 1, &serde_json::json!({ "schema": "msds-result/1" }), "agent").await.unwrap();
+        let (status, result) = get_json(&app, &token, &format!("/api/msds/jobs/{job_id}/result")).await;
+        assert_eq!(status, axum::http::StatusCode::OK);
+        assert_eq!(result["version"], 1);
+        assert_eq!(result["result"]["schema"], "msds-result/1");
+
+        let (_, list) = get_json(&app, &token, "/api/msds/jobs?limit=200").await;
+        assert!(list.as_array().unwrap().iter().any(|j| j["job_id"] == job_id.to_string()));
+        let (status, _) = get_json(&app, &token, &format!("/api/msds/jobs/{}", Uuid::new_v4())).await;
+        assert_eq!(status, axum::http::StatusCode::NOT_FOUND);
+        std::fs::remove_dir_all(dir).ok();
+    }
+
+    #[tokio::test]
+    async fn msds_upload_rejects_non_pdf() {
+        if test_db_url().is_none() { return; }
+        let publisher = Arc::new(RecordingPublisher::default());
+        let (app, _, dir) = build_msds_app(publisher.clone()).await;
+        let token = get_jwt(&app, TEST_ADMIN_KEY).await;
+        let resp = upload(&app, &token, "note.txt", b"hello").await;
+        assert_eq!(resp.status(), axum::http::StatusCode::BAD_REQUEST);
+        assert!(publisher.0.lock().unwrap().is_empty());
+        std::fs::remove_dir_all(dir).ok();
+    }
+
+    #[tokio::test]
+    async fn msds_user_role_is_forbidden() {
+        if test_db_url().is_none() { return; }
+        let (app, _, dir) = build_msds_app(Arc::new(RecordingPublisher::default())).await;
+        let token = get_jwt(&app, TEST_USER_KEY).await;
+        let resp = upload(&app, &token, "a.pdf", b"%PDF-1.4").await;
+        assert_eq!(resp.status(), axum::http::StatusCode::FORBIDDEN);
+        let (status, _) = get_json(&app, &token, "/api/msds/jobs").await;
+        assert_eq!(status, axum::http::StatusCode::FORBIDDEN);
+        std::fs::remove_dir_all(dir).ok();
+    }
+
+    #[tokio::test]
+    async fn msds_publish_failure_marks_job_failed() {
+        if test_db_url().is_none() { return; }
+        let (app, store, dir) = build_msds_app(Arc::new(FailingPublisher)).await;
+        let token = get_jwt(&app, TEST_ADMIN_KEY).await;
+        let name = format!("fail-{}.pdf", Uuid::new_v4());
+        let resp = upload(&app, &token, &name, b"%PDF-1.4").await;
+        assert_eq!(resp.status(), axum::http::StatusCode::SERVICE_UNAVAILABLE);
+        let job = store.list(200).await.unwrap().into_iter().find(|j| j.file_name == name).expect("작업이 남아 있어야 함");
+        assert_eq!(job.status, JobStatus::Failed);
+        assert!(job.detail.unwrap().contains("broker down"));
+        std::fs::remove_dir_all(dir).ok();
+    }
+
+    #[tokio::test]
+    async fn msds_routes_return_503_when_disabled() {
+        if test_db_url().is_none() { return; }
+        let app = build_test_app().await;
+        let token = get_jwt(&app, TEST_ADMIN_KEY).await;
+        let (status, _) = get_json(&app, &token, "/api/msds/jobs").await;
+        assert_eq!(status, axum::http::StatusCode::SERVICE_UNAVAILABLE);
+    }
+
+    #[tokio::test]
+    async fn msds_unfinished_lists_only_running_jobs() {
+        if test_db_url().is_none() { return; }
+        let store = JobStore::connect(&test_db_url().unwrap()).await.unwrap();
+        store.migrate().await.unwrap();
+        let job = JobCreated { job_id: Uuid::new_v4(), pdf_key: "jobs/x/source.pdf".into(), file_name: "x.pdf".into(), sha256: "0".into() };
+        assert!(store.create(&job, None).await.unwrap());
+        assert!(!store.create(&job, None).await.unwrap(), "같은 작업을 두 번 만들지 않음");
+        store.set_status(job.job_id, JobStatus::Processing, Some("작업 1개")).await.unwrap();
+        store.save_state(job.job_id, &serde_json::json!({ "routing_attempts": 1 })).await.unwrap();
+
+        let found = store.unfinished().await.unwrap().into_iter().find(|u| u.created.job_id == job.job_id).expect("진행 중 작업");
+        assert_eq!(found.status, JobStatus::Processing);
+        assert_eq!(found.state.unwrap()["routing_attempts"], 1);
+
+        store.set_status(job.job_id, JobStatus::PendingReview, None).await.unwrap();
+        assert!(!store.unfinished().await.unwrap().iter().any(|u| u.created.job_id == job.job_id));
     }
 }

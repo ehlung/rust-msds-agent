@@ -16,10 +16,12 @@ pekko-agent-security = { path = "../../crates/pekko-agent-security", features = 
 pekko-agent-observability = { path = "../../crates/pekko-agent-observability" }
 pekko-agent-cache    = { path = "../../crates/pekko-agent-cache" }
 pekko-agent-webhooks = { path = "../../crates/pekko-agent-webhooks" }
+pekko-agent-msds    = { path = "../../crates/pekko-agent-msds" }
+pekko-agent-msds-io = { path = "../../crates/pekko-agent-msds-io" }
 tokio.workspace = true
 serde.workspace = true
 serde_json.workspace = true
-axum.workspace = true
+axum = { workspace = true, features = ["multipart"] }
 tower.workspace = true
 tower-http.workspace = true
 uuid.workspace = true
@@ -34,6 +36,7 @@ futures.workspace = true
 tonic.workspace = true
 prost.workspace = true
 tokio-stream = "0.1"
+sha2 = "0.10"
 utoipa = { version = "4", features = ["uuid", "chrono"] }
 utoipa-swagger-ui = { version = "7", features = ["axum"] }
 

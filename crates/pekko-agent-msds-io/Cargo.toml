@@ -4,7 +4,7 @@ version.workspace = true
 edition.workspace = true
 authors.workspace = true
 license.workspace = true
-description = "MSDS 서비스의 Kafka 연결, 파일 저장소, Claude 호출"
+description = "MSDS 서비스의 Kafka 연결, 파일 저장소, Claude 호출, 작업 상태 저장소"
 
 [dependencies]
 pekko-agent-msds = { path = "../pekko-agent-msds" }
@@ -17,3 +17,5 @@ tracing = { workspace = true }
 uuid = { workspace = true }
 pekko-agent-llm = { path = "../pekko-agent-llm" }
 sha2 = "0.10"
+sqlx = { workspace = true }
+chrono = { workspace = true }

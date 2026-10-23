@@ -17,7 +17,7 @@ use pekko_agent_msds::message::{AgentKind, Effort, IngestDone, JobCreated, JobSt
 use pekko_agent_msds::{topics, Envelope};
 use pekko_agent_msds_io::bus::{commit, decode};
 use pekko_agent_msds_io::storage::job_pdf_key;
-use pekko_agent_msds_io::{Bus, LocalStorage, MsdsLlm};
+use pekko_agent_msds_io::{Bus, JobStore, LocalStorage, MsdsLlm};
 use rdkafka::Message;
 use sha2::{Digest, Sha256};
 use tracing::{error, info, warn};
@@ -64,16 +64,21 @@ fn config_from_env() -> anyhow::Result<Config> {
 }
 
 async fn serve(bus: Bus, storage: LocalStorage) -> anyhow::Result<()> {
-    let llm = Arc::new(MsdsLlm::from_env(storage.clone())?);
+    let llm = Arc::new(MsdsLlm::from_env(storage)?);
     let cfg = config_from_env()?;
+    let store = JobStore::connect(&std::env::var("DATABASE_URL").context("DATABASE_URL이 필요함")?).await?;
+    store.migrate().await?;
     info!(mode = ?llm.mode(), agents = ?cfg.enabled, "msds-orchestrator 시작");
 
     let consumer = bus.consumer(SERVICE, &[topics::JOB_CREATED, topics::INGEST_DONE, topics::TASK_RESULT])?;
     let system = ActorSystem::new("msds-orchestrator");
     let orch = system
-        .spawn(Orchestrator::new(bus.clone(), storage, llm, cfg), "orchestrator")
+        .spawn(Orchestrator::new(bus.clone(), store, llm, cfg), "orchestrator")
         .await
         .map_err(|e| anyhow::anyhow!("액터 시작 실패: {e}"))?;
+    // 메시지를 받기 전에, 지난번에 끝나지 않은 작업부터 이어서 처리한다
+    let recovered = orch.ask_with_timeout(OrchMsg::Recover, Duration::from_secs(120)).await.map_err(|e| anyhow::anyhow!("복구 실패: {e}"))?;
+    info!(recovered, "끝나지 않은 작업 불러옴");
 
     loop {
         let msg = tokio::select! {
@@ -153,7 +158,7 @@ async fn submit(bus: &Bus, storage: &LocalStorage, args: &[String]) -> anyhow::R
         println!("{:?}{}", s.status, s.detail.map(|d| format!(" — {d}")).unwrap_or_default());
         match s.status {
             JobStatus::PendingReview => {
-                println!("결과: {}", storage.path(&format!("jobs/{job_id}/result.json"))?.display());
+                println!("결과: DB msds_results (job_id={job_id}), API GET /api/msds/jobs/{job_id}/result");
                 return Ok(());
             }
             JobStatus::Failed => bail!("작업 실패"),

@@ -65,6 +65,8 @@ dependencies = [
  "pekko-agent-events",
  "pekko-agent-llm",
  "pekko-agent-memory",
+ "pekko-agent-msds",
+ "pekko-agent-msds-io",
  "pekko-agent-observability",
  "pekko-agent-orchestrator",
  "pekko-agent-security",
@@ -73,6 +75,7 @@ dependencies = [
  "prost 0.13.5",
  "serde",
  "serde_json",
+ "sha2 0.10.9",
  "sqlx",
  "tokio",
  "tokio-stream",
@@ -185,6 +188,7 @@ dependencies = [
  "matchit",
  "memchr",
  "mime",
+ "multer",
  "percent-encoding",
  "pin-project-lite",
  "rustversion",
@@ -1840,6 +1844,23 @@ dependencies = [
 ]
 
 [[package]]
+name = "multer"
+version = "3.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "83e87776546dc87511aa5ee218730c92b666d7264ab6ed41f9d215af9cd5224b"
+dependencies = [
+ "bytes",
+ "encoding_rs",
+ "futures-util",
+ "http",
+ "httparse",
+ "memchr",
+ "mime",
+ "spin",
+ "version_check",
+]
+
+[[package]]
 name = "multimap"
 version = "0.10.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2273,12 +2294,14 @@ name = "pekko-agent-msds-io"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "chrono",
  "pekko-agent-llm",
  "pekko-agent-msds",
  "rdkafka",
  "serde",
  "serde_json",
  "sha2 0.10.9",
+ "sqlx",
  "tokio",
  "tracing",
  "uuid",

@@ -32,6 +32,8 @@ impl Bus {
             .set("message.max.bytes", "4000000")
             // lz4는 librdkafka에 기본으로 들어 있다(zstd는 별도 빌드 기능이 필요)
             .set("compression.type", "lz4")
+            // 브로커가 없을 때 보내기가 기본 5분 동안 붙잡혀 있지 않게 한다
+            .set("message.timeout.ms", "30000")
             .create()
             .context("Kafka producer 생성 실패")?;
         Ok(Self { brokers: brokers.to_string(), service: service.to_string(), producer })
