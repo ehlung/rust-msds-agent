@@ -18,6 +18,8 @@ members = [
     "crates/pekko-agent-msds",
     "crates/pekko-agent-msds-io",
     "services/msds-ingest",
+    "services/msds-orchestrator",
+    "services/msds-composition-agent",
 ]
 exclude = [
     "frontend/web-chat",

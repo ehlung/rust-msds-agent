@@ -1779,6 +1779,26 @@ dependencies = [
 ]
 
 [[package]]
+name = "msds-composition-agent"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "base64 0.22.1",
+ "dotenvy",
+ "pekko-actor",
+ "pekko-agent-llm",
+ "pekko-agent-msds",
+ "pekko-agent-msds-io",
+ "serde",
+ "serde_json",
+ "tokio",
+ "tracing",
+ "tracing-subscriber",
+ "uuid",
+]
+
+[[package]]
 name = "msds-ingest"
 version = "0.1.0"
 dependencies = [
@@ -1792,6 +1812,27 @@ dependencies = [
  "rdkafka",
  "regex",
  "serde_json",
+ "tokio",
+ "tracing",
+ "tracing-subscriber",
+ "uuid",
+]
+
+[[package]]
+name = "msds-orchestrator"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "dotenvy",
+ "pekko-actor",
+ "pekko-agent-llm",
+ "pekko-agent-msds",
+ "pekko-agent-msds-io",
+ "rdkafka",
+ "serde",
+ "serde_json",
+ "sha2 0.10.9",
  "tokio",
  "tracing",
  "tracing-subscriber",
@@ -2232,10 +2273,12 @@ name = "pekko-agent-msds-io"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "pekko-agent-llm",
  "pekko-agent-msds",
  "rdkafka",
  "serde",
  "serde_json",
+ "sha2 0.10.9",
  "tokio",
  "tracing",
  "uuid",

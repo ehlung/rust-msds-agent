@@ -60,7 +60,7 @@ pub struct Product {
     pub sections: Vec<TranslatedSection>,
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Default, Serialize, Deserialize, PartialEq)]
 pub struct Identification {
     pub product_name: Option<String>,
     pub product_code: Option<String>,
@@ -78,7 +78,7 @@ pub struct Manufacturer {
     pub emergency_phone: Option<String>,
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Default, Serialize, Deserialize, PartialEq)]
 pub struct Hazards {
     pub classifications: Vec<Text>,
     pub signal_word: Option<Text>,
@@ -152,7 +152,7 @@ pub struct HazardousSubstance {
     pub reasons: Vec<Text>,
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Default, Serialize, Deserialize, PartialEq)]
 pub struct Handling {
     pub precautions: Vec<Text>,
     pub storage: Vec<Text>,

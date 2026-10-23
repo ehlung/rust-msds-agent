@@ -1,0 +1,24 @@
+[package]
+name = "msds-orchestrator"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+description = "MSDS 오케스트레이터: 경로 판단(에이전트), 작업 상태, 결과 합치기"
+
+[dependencies]
+pekko-actor = { workspace = true }
+pekko-agent-llm = { path = "../../crates/pekko-agent-llm" }
+pekko-agent-msds = { path = "../../crates/pekko-agent-msds" }
+pekko-agent-msds-io = { path = "../../crates/pekko-agent-msds-io" }
+rdkafka = { workspace = true }
+tokio = { workspace = true }
+async-trait = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+uuid = { workspace = true }
+anyhow = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+dotenvy = { workspace = true }
+sha2 = "0.10"

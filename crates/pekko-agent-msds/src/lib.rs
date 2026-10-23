@@ -6,6 +6,7 @@
 pub mod cas;
 pub mod envelope;
 pub mod message;
+pub mod output;
 pub mod profile;
 pub mod result;
 pub mod section;
