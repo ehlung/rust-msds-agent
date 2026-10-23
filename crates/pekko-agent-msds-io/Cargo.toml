@@ -1,0 +1,17 @@
+[package]
+name = "pekko-agent-msds-io"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+description = "MSDS 서비스의 Kafka 연결과 파일 저장소"
+
+[dependencies]
+pekko-agent-msds = { path = "../pekko-agent-msds" }
+rdkafka = { workspace = true }
+tokio = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+anyhow = { workspace = true }
+tracing = { workspace = true }
+uuid = { workspace = true }

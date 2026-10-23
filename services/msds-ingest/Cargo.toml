@@ -1,0 +1,23 @@
+[package]
+name = "msds-ingest"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+description = "MSDS 문서 판정: 텍스트·섹션·제품 경계·그림 후보 (LLM 없음)"
+
+[dependencies]
+pekko-agent-msds = { path = "../../crates/pekko-agent-msds" }
+pekko-agent-msds-io = { path = "../../crates/pekko-agent-msds-io" }
+pdfium-render = { workspace = true }
+image = { workspace = true }
+rdkafka = { workspace = true }
+tokio = { workspace = true }
+serde_json = { workspace = true }
+uuid = { workspace = true }
+anyhow = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+dotenvy = { workspace = true }
+regex = "1"
+encoding_rs = "0.8"

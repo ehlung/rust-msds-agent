@@ -16,6 +16,8 @@ members = [
     "services/ehs-compliance-agent",
     "crates/pekko-agent-observability",
     "crates/pekko-agent-msds",
+    "crates/pekko-agent-msds-io",
+    "services/msds-ingest",
 ]
 exclude = [
     "frontend/web-chat",
@@ -57,8 +59,12 @@ prost = "0.13"
 # PostgreSQL (EHS 시스템 데이터 조회용)
 sqlx = { version = "0.8", features = ["runtime-tokio", "postgres", "uuid", "chrono", "json"] }
 
-# Kafka — replaced by pekko-event-bus (embedded, no external Kafka required)
-# rdkafka = { version = "0.36" }
+# Kafka — MSDS 서비스 간 메시지. pekko-event-bus·events crate는 한 프로세스 안에서만 동작한다.
+rdkafka = { version = "0.39" }
+
+# PDF (msds-ingest) — 실행 시 pdfium 바이너리(PDFIUM_LIB_DIR)를 불러온다
+pdfium-render = "0.9.4"
+image = { version = "0.25", default-features = false, features = ["png"] }
 
 # Redis (response cache)
 redis = { version = "0.27", features = ["tokio-comp", "connection-manager", "aio"] }
