@@ -21,6 +21,11 @@ jobs:
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
 
+      - name: Install protoc (required by pekko-persistence build.rs)
+        uses: arduino/setup-protoc@v3
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Cache cargo registry & build artefacts
         uses: Swatinem/rust-cache@v2
         with:
