@@ -30,6 +30,23 @@ pub fn check(cas: &str) -> CasCheck {
     }
 }
 
+/// 한 성분 칸에 CAS 번호가 여러 개 적힌 경우(예: ATL `"64742-54-7, 64742-65-0"`)까지 검사한다.
+/// 쉼표·세미콜론·슬래시로 나눠 하나씩 검사하고, 모두 맞아야 `Valid`다.
+pub fn check_list(cas: &str) -> CasCheck {
+    let parts: Vec<&str> = cas.split([',', ';', '/']).map(str::trim).filter(|p| !p.is_empty()).collect();
+    if parts.len() <= 1 {
+        return check(cas);
+    }
+    let results: Vec<CasCheck> = parts.iter().map(|p| check(p)).collect();
+    if results.iter().all(|r| *r == CasCheck::Valid) {
+        CasCheck::Valid
+    } else if results.contains(&CasCheck::Malformed) {
+        CasCheck::Malformed
+    } else {
+        CasCheck::ChecksumFailed
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -45,6 +62,14 @@ mod tests {
     #[test]
     fn wrong_check_digit() {
         assert_eq!(check("108-88-4"), CasCheck::ChecksumFailed);
+    }
+
+    #[test]
+    fn several_numbers_in_one_cell() {
+        assert_eq!(check_list("64742-54-7, 64742-65-0"), CasCheck::Valid);
+        assert_eq!(check_list("64742-54-7; 108-88-4"), CasCheck::ChecksumFailed);
+        assert_eq!(check_list("64742-54-7, 1964-02-08"), CasCheck::Malformed);
+        assert_eq!(check_list("108-88-3"), CasCheck::Valid);
     }
 
     #[test]

@@ -14,7 +14,7 @@ use pekko_agent_msds::result::{
 use serde::Deserialize;
 use serde_json::{json, Value};
 
-pub const PROMPT_VERSION: &str = "composition/1";
+pub const PROMPT_VERSION: &str = "composition/2";
 const SYSTEM_PROMPT: &str = include_str!("../prompts/composition.md");
 
 /// 구조화 출력 스키마. 모든 객체에 `additionalProperties: false`, 모든 필드는 필수다.
@@ -306,7 +306,7 @@ pub fn convert(value: Value, path_prefix: &str) -> anyhow::Result<(CompositionOu
         .map(|(n, c)| {
             let cas_no = opt(c.cas_no);
             let cas_check = match &cas_no {
-                Some(no) => cas::check(no),
+                Some(no) => cas::check_list(no),
                 None if c.cas_withheld => CasCheck::Withheld,
                 None => CasCheck::Absent,
             };

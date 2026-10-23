@@ -491,7 +491,7 @@ pub fn build_task(job_id: Uuid, planned: &PlannedTask, profile: &DocumentProfile
 /// 에이전트별 프롬프트 버전. 각 에이전트 서비스의 `PROMPT_VERSION`과 같아야 한다(다르면 에이전트가 경고를 남긴다).
 pub fn prompt_version(agent: AgentKind) -> &'static str {
     match agent {
-        AgentKind::Composition => "composition/1",
+        AgentKind::Composition => "composition/2",
         AgentKind::Translate => "translate/1",
         AgentKind::Handling => "handling/1",
     }
