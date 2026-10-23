@@ -2045,6 +2045,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "pekko-agent-msds"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "serde",
+ "serde_json",
+ "uuid",
+]
+
+[[package]]
 name = "pekko-agent-observability"
 version = "0.1.0"
 dependencies = [

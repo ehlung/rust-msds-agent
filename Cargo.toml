@@ -15,6 +15,7 @@ members = [
     "services/ehs-inspection-agent",
     "services/ehs-compliance-agent",
     "crates/pekko-agent-observability",
+    "crates/pekko-agent-msds",
 ]
 exclude = [
     "frontend/web-chat",
