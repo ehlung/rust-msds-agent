@@ -39,6 +39,7 @@ jobs:
             -p pekko-agent-security \
             -p pekko-agent-memory \
             -p pekko-agent-tools \
+            -p pekko-agent-llm \
             -p pekko-agent-msds \
             -p pekko-agent-msds-io \
             -p msds-ingest \
