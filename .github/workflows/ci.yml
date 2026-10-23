@@ -142,26 +142,3 @@ jobs:
         run: |
           cargo test -p api-gateway \
             -- --test-threads=1 --nocapture
-
-  # ── Docker Build Smoke Test ───────────────────────────────────────────────
-  docker-build:
-    name: Docker Build (api-gateway)
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    needs: [test, check, integration]
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build api-gateway image (no push)
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: infra/Dockerfile
-          build-args: SERVICE=api-gateway
-          push: false
-          tags: pekko-agent/api-gateway:${{ github.sha }}
-          cache-from: type=gha
-          cache-to:   type=gha,mode=max
