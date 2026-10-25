@@ -1,9 +1,9 @@
 //! 합치기: 에이전트 결과를 결과 스키마(`msds-result/1`) 하나로 모은다. LLM 없이 코드로 한다.
 
 use pekko_agent_msds::message::{AgentKind, AgentTask, JobCreated, TaskOutcome, TaskResult};
-use pekko_agent_msds::output::CompositionOutput;
+use pekko_agent_msds::output::{CompositionOutput, TranslateOutput};
 use pekko_agent_msds::profile::{DocumentProfile, Language};
-use pekko_agent_msds::result::{DocumentInfo, MsdsResult, Product, Provenance, Severity, Warning, SCHEMA};
+use pekko_agent_msds::result::{DocumentInfo, MsdsResult, Product, Provenance, Severity, Text, TranslatedSection, Warning, SCHEMA};
 
 /// 작업 하나와 그 결과(최종 시도). 결과가 없으면 응답이 오지 않은 채 끝난 작업이다.
 pub struct Finished<'a> {
@@ -77,8 +77,36 @@ pub fn merge(job: &JobCreated, profile: &DocumentProfile, tasks: &[Finished<'_>]
                     path: Some(path),
                 }),
             },
-            // 번역·취급 에이전트는 아직 없다
-            AgentKind::Translate | AgentKind::Handling => {}
+            AgentKind::Translate => match serde_json::from_value::<TranslateOutput>(output.clone()) {
+                Ok(t) => product.sections = t.sections,
+                Err(e) => warnings.push(Warning {
+                    code: "output_unreadable".into(),
+                    severity: Severity::Error,
+                    message: format!("번역 결과를 읽지 못함: {e}"),
+                    path: Some(path),
+                }),
+            },
+            // 취급 에이전트는 아직 없다
+            AgentKind::Handling => {}
+        }
+    }
+
+    // 한글 문서는 번역하지 않는다 → 원문을 그대로 한국어 칸에 넣는다(설계 5-1 원칙 1)
+    if profile.language == Language::Ko {
+        for (product, pp) in products.iter_mut().zip(&profile.products) {
+            if product.sections.is_empty() {
+                product.sections = pp
+                    .sections
+                    .iter()
+                    .map(|s| TranslatedSection {
+                        kind: s.kind,
+                        number: s.number,
+                        title: Text { src: s.title.clone(), ko: s.kind.title_ko().into() },
+                        body: Text { src: s.text.clone(), ko: s.text.clone() },
+                        pages: s.pages.clone(),
+                    })
+                    .collect();
+            }
         }
     }
 

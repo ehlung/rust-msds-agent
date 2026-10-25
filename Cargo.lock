@@ -1790,7 +1790,6 @@ dependencies = [
  "async-trait",
  "base64 0.22.1",
  "dotenvy",
- "pekko-actor",
  "pekko-agent-llm",
  "pekko-agent-msds",
  "pekko-agent-msds-io",
@@ -1799,7 +1798,6 @@ dependencies = [
  "tokio",
  "tracing",
  "tracing-subscriber",
- "uuid",
 ]
 
 [[package]]
@@ -1841,6 +1839,24 @@ dependencies = [
  "tracing",
  "tracing-subscriber",
  "uuid",
+]
+
+[[package]]
+name = "msds-translate-agent"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "dotenvy",
+ "futures",
+ "pekko-agent-llm",
+ "pekko-agent-msds",
+ "pekko-agent-msds-io",
+ "serde",
+ "serde_json",
+ "tokio",
+ "tracing",
+ "tracing-subscriber",
 ]
 
 [[package]]
@@ -2294,7 +2310,9 @@ name = "pekko-agent-msds-io"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "async-trait",
  "chrono",
+ "pekko-actor",
  "pekko-agent-llm",
  "pekko-agent-msds",
  "rdkafka",

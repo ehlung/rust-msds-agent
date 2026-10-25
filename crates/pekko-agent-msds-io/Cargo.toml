@@ -18,4 +18,6 @@ uuid = { workspace = true }
 pekko-agent-llm = { path = "../pekko-agent-llm" }
 sha2 = "0.10"
 sqlx = { workspace = true }
+pekko-actor = { workspace = true }
+async-trait = { workspace = true }
 chrono = { workspace = true }
