@@ -45,6 +45,7 @@ jobs:
             -p msds-ingest \
             -p msds-orchestrator \
             -p msds-composition-agent \
+            -p msds-translate-agent \
             -- --test-threads=4
 
   # ── Workspace Compile Check ───────────────────────────────────────────────
@@ -113,6 +114,7 @@ jobs:
             -p msds-ingest \
             -p msds-orchestrator \
             -p msds-composition-agent \
+            -p msds-translate-agent \
             -- -W clippy::all -A clippy::too_many_arguments
 
   # ── Integration Tests ─────────────────────────────────────────────────────
