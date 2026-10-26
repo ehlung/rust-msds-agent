@@ -16,7 +16,7 @@ use async_trait::async_trait;
 use pekko_actor::{Actor, ActorContext, ReplyTo};
 use pekko_agent_msds::message::{
     AgentKind, AgentTask, IngestDone, IngestOutcome, IngestRequest, JobCreated, JobStatus, JobStatusChanged, LlmUsage,
-    ModelSpec, PlannedTask, RoutingPlan, SkippedTask, TaskLimits, TaskOutcome, TaskResult, Verdict,
+    ModelSpec, PlannedTask, RoutingPlan, SkippedTask, TaskFigure, TaskLimits, TaskOutcome, TaskResult, Verdict,
 };
 use pekko_agent_msds::profile::DocumentProfile;
 use pekko_agent_msds::result::{Severity, Warning};
@@ -472,6 +472,21 @@ pub fn build_task(job_id: Uuid, planned: &PlannedTask, profile: &DocumentProfile
         .cloned()
         .collect();
     let page_images = profile.page_images.iter().filter(|i| planned.page_images.contains(&i.page)).cloned().collect();
+    // 그림 후보는 취급 작업에만, 그 제품의 쪽에 있는 것만 넣는다. 고르는 일은 취급 에이전트가 한다.
+    let figures = if planned.agent == AgentKind::Handling {
+        profile
+            .figures
+            .iter()
+            .enumerate()
+            .filter(|(_, f)| (product.pages[0]..=product.pages[1]).contains(&f.page))
+            .filter_map(|(i, f)| {
+                let page_image = profile.page_images.iter().find(|p| p.page == f.page)?.clone();
+                Some(TaskFigure { id: format!("fig-{i}"), figure: f.clone(), page_image })
+            })
+            .collect()
+    } else {
+        Vec::new()
+    };
     AgentTask {
         task_id: Uuid::new_v4(),
         job_id,
@@ -483,6 +498,7 @@ pub fn build_task(job_id: Uuid, planned: &PlannedTask, profile: &DocumentProfile
         language: profile.language,
         sections,
         page_images,
+        figures,
         note: planned.note.clone(),
         limits: TaskLimits { max_tokens: 16000, max_tool_rounds: 0 },
     }
@@ -525,6 +541,7 @@ mod tests {
             language: Language::En,
             sections: vec![],
             page_images: vec![],
+            figures: vec![],
             note: String::new(),
             limits: TaskLimits { max_tokens: 1, max_tool_rounds: 0 },
         };
@@ -556,5 +573,30 @@ mod tests {
         assert_eq!(back.tasks[0].task.attempt, 2);
         assert!(back.tasks[0].done);
         assert_eq!(back.routing[0].plan.summary, "s");
+    }
+
+    #[test]
+    fn handling_task_gets_figures_of_its_product_only() {
+        use pekko_agent_msds::profile::{DocFormat, Figure, FigureSource, PageImage, ProductProfile};
+        let product = |index, pages| ProductProfile { index, name_guess: None, pages, format: DocFormat::Ghs, cas_found: 0, sections: vec![] };
+        let figure = |page| Figure { page, bbox_pt: [0.0, 0.0, 10.0, 10.0], source: FigureSource::ImageObject, near_text: None };
+        let profile = DocumentProfile {
+            pages: 4,
+            language: Language::En,
+            text_layer: TextLayer::Ok,
+            products: vec![product(0, [1, 2]), product(1, [3, 4])],
+            figures: vec![figure(1), figure(3), figure(4)],
+            page_images: (1..=4).map(|page| PageImage { page, key: format!("jobs/x/pages/{page}.png"), dpi: 150.0 }).collect(),
+        };
+        let model = ModelSpec { name: "m".into(), effort: Effort::High };
+        let planned = |agent| PlannedTask { agent, product_index: 1, sections: vec![], page_images: vec![], note: String::new() };
+
+        let task = build_task(Uuid::new_v4(), &planned(AgentKind::Handling), &profile, &model);
+        let got: Vec<(&str, u32, &str)> = task.figures.iter().map(|f| (f.id.as_str(), f.figure.page, f.page_image.key.as_str())).collect();
+        assert_eq!(got, [("fig-1", 3, "jobs/x/pages/3.png"), ("fig-2", 4, "jobs/x/pages/4.png")]);
+        // 그림을 자르려고 쓰는 페이지 이미지는 Claude에게 보내는 페이지 이미지와 따로다
+        assert!(task.page_images.is_empty());
+
+        assert!(build_task(Uuid::new_v4(), &planned(AgentKind::Composition), &profile, &model).figures.is_empty());
     }
 }

@@ -81,7 +81,19 @@ impl MsdsLlm {
 
     /// 구조화 출력으로 호출한다. `request.output_schema`가 있어야 한다.
     /// 모델·effort는 `model`로 덮어쓴다(오케스트레이터가 정한 값).
-    pub async fn call_json(&self, agent: &str, model: &ModelSpec, mut request: LlmRequest) -> anyhow::Result<JsonCall> {
+    pub async fn call_json(&self, agent: &str, model: &ModelSpec, request: LlmRequest) -> anyhow::Result<JsonCall> {
+        self.call_json_keep_if(agent, model, request, |_| true).await
+    }
+
+    /// `call_json`과 같지만, `keep`이 false인 응답은 기록하지 않는다.
+    /// 쓸 수 없는 응답(예: 모든 칸이 빈 응답)을 기록하면 다음 실행도 그 응답을 그대로 쓰게 되기 때문이다.
+    pub async fn call_json_keep_if(
+        &self,
+        agent: &str,
+        model: &ModelSpec,
+        mut request: LlmRequest,
+        keep: impl Fn(&serde_json::Value) -> bool,
+    ) -> anyhow::Result<JsonCall> {
         if request.output_schema.is_none() {
             bail!("output_schema가 없는 요청");
         }
@@ -122,8 +134,12 @@ impl MsdsLlm {
         );
         // 거절·잘림·JSON 오류는 기록하지 않는다 → 다시 시도하면 새로 호출한다
         let value: serde_json::Value = response.json().map_err(|e| anyhow!(e))?;
-        let rec = Recorded { model: model.name.clone(), stop_reason: response.stop_reason.clone(), text: response.text(), usage: usage.clone() };
-        self.storage.put(&key, &serde_json::to_vec_pretty(&rec)?).await?;
+        if keep(&value) {
+            let rec = Recorded { model: model.name.clone(), stop_reason: response.stop_reason.clone(), text: response.text(), usage: usage.clone() };
+            self.storage.put(&key, &serde_json::to_vec_pretty(&rec)?).await?;
+        } else {
+            info!(agent, key, "쓸 수 없는 응답이라 기록하지 않음");
+        }
         Ok(JsonCall { value, usage, cached: false })
     }
 }

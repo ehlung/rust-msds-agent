@@ -160,7 +160,7 @@ mod tests {
                 sections: vec![section(SectionKind::Identification, 1), section(SectionKind::Composition, 2)],
             }],
             figures: vec![],
-            page_images: (1..=4).map(|page| PageImage { page, key: format!("jobs/x/pages/{page}.png") }).collect(),
+            page_images: (1..=4).map(|page| PageImage { page, key: format!("jobs/x/pages/{page}.png"), dpi: 150.0 }).collect(),
         }
     }
 

@@ -1,7 +1,7 @@
 //! 합치기: 에이전트 결과를 결과 스키마(`msds-result/1`) 하나로 모은다. LLM 없이 코드로 한다.
 
 use pekko_agent_msds::message::{AgentKind, AgentTask, JobCreated, TaskOutcome, TaskResult};
-use pekko_agent_msds::output::{CompositionOutput, TranslateOutput};
+use pekko_agent_msds::output::{CompositionOutput, HandlingOutput, TranslateOutput};
 use pekko_agent_msds::profile::{DocumentProfile, Language};
 use pekko_agent_msds::result::{DocumentInfo, MsdsResult, Product, Provenance, Severity, Text, TranslatedSection, Warning, SCHEMA};
 
@@ -28,6 +28,8 @@ pub fn merge(job: &JobCreated, profile: &DocumentProfile, tasks: &[Finished<'_>]
         })
         .collect();
     let mut provenance = Vec::new();
+    let mut images = Vec::new();
+    let mut pictograms = Vec::new();
 
     for f in tasks {
         let t = f.task;
@@ -86,8 +88,26 @@ pub fn merge(job: &JobCreated, profile: &DocumentProfile, tasks: &[Finished<'_>]
                     path: Some(path),
                 }),
             },
-            // 취급 에이전트는 아직 없다
-            AgentKind::Handling => {}
+            AgentKind::Handling => match serde_json::from_value::<HandlingOutput>(output.clone()) {
+                Ok(h) => {
+                    product.handling = h.handling;
+                    images.extend(h.images);
+                    pictograms.push((t.product_index as usize, h.pictograms));
+                }
+                Err(e) => warnings.push(Warning {
+                    code: "output_unreadable".into(),
+                    severity: Severity::Error,
+                    message: format!("취급 결과를 읽지 못함: {e}"),
+                    path: Some(path),
+                }),
+            },
+        }
+    }
+
+    // 그림문자는 성분 결과의 hazards 안에 들어간다 → 성분 결과를 다 넣은 뒤에 채운다(작업 순서와 무관하게)
+    for (i, p) in pictograms {
+        if let Some(product) = products.get_mut(i) {
+            product.hazards.pictograms = p;
         }
     }
 
@@ -125,7 +145,7 @@ pub fn merge(job: &JobCreated, profile: &DocumentProfile, tasks: &[Finished<'_>]
             text_layer: profile.text_layer,
         },
         products,
-        images: Vec::new(),
+        images,
         warnings,
         provenance,
     }
@@ -196,5 +216,80 @@ mod tests {
         assert!(products.iter().all(|p| p.components[0].name.ko == "아세트산 n-뷰틸"));
         assert_eq!(warnings.len(), 1);
         assert_eq!(warnings[0].path.as_deref(), Some("products[1].components[0].name.ko"));
+    }
+
+    #[test]
+    fn handling_pictograms_survive_composition_arriving_later() {
+        use pekko_agent_msds::message::{Effort, ModelSpec, TaskLimits};
+        use pekko_agent_msds::profile::{Language, ProductProfile, TextLayer};
+        use pekko_agent_msds::result::{Basis, Handling, Hazards, Image, ImageKind, Pictogram};
+        use uuid::Uuid;
+
+        let job = JobCreated { job_id: Uuid::new_v4(), pdf_key: "k".into(), file_name: "a.pdf".into(), sha256: "s".into() };
+        let profile = DocumentProfile {
+            pages: 2,
+            language: Language::En,
+            text_layer: TextLayer::Ok,
+            products: vec![ProductProfile { index: 0, name_guess: None, pages: [1, 2], format: DocFormat::Ghs, cas_found: 0, sections: vec![] }],
+            figures: vec![],
+            page_images: vec![],
+        };
+        let pair = |agent, output: serde_json::Value| {
+            let task = AgentTask {
+                task_id: Uuid::new_v4(),
+                job_id: job.job_id,
+                agent,
+                attempt: 1,
+                model: ModelSpec { name: "m".into(), effort: Effort::High },
+                prompt_version: "v".into(),
+                product_index: 0,
+                language: Language::En,
+                sections: vec![],
+                page_images: vec![],
+                figures: vec![],
+                note: String::new(),
+                limits: TaskLimits { max_tokens: 1, max_tool_rounds: 0 },
+            };
+            let result = TaskResult {
+                task_id: task.task_id,
+                job_id: job.job_id,
+                agent,
+                attempt: 1,
+                outcome: TaskOutcome::Ok { output },
+                warnings: vec![],
+                usage: vec![],
+                duration_ms: 1,
+            };
+            (task, result)
+        };
+        let handling = HandlingOutput {
+            handling: Handling { precautions: vec![Text { src: "Keep away from heat.".into(), ko: "열을 피한다.".into() }], ..Default::default() },
+            pictograms: vec![Pictogram { ghs_code: "GHS02".into(), name_ko: "인화성(불꽃)".into(), image_id: Some("fig-0".into()), basis: Basis::Document }],
+            images: vec![Image {
+                id: "fig-0".into(),
+                kind: ImageKind::Pictogram,
+                page: 1,
+                bbox_pt: [0.0, 0.0, 10.0, 10.0],
+                key: "jobs/x/images/fig-0.png".into(),
+                ghs_code: Some("GHS02".into()),
+                basis: Basis::Document,
+            }],
+        };
+        let composition = CompositionOutput {
+            identification: Default::default(),
+            hazards: Hazards { classifications: vec![Text { src: "Flam. Liq. 2".into(), ko: "인화성 액체 구분 2".into() }], ..Default::default() },
+            components: vec![],
+            hazardous_substances: vec![],
+        };
+        // 취급 결과가 먼저 온다
+        let (ht, hr) = pair(AgentKind::Handling, serde_json::to_value(&handling).unwrap());
+        let (ct, cr) = pair(AgentKind::Composition, serde_json::to_value(&composition).unwrap());
+        let tasks = [Finished { task: &ht, result: Some(&hr) }, Finished { task: &ct, result: Some(&cr) }];
+        let r = merge(&job, &profile, &tasks, vec![]);
+        let p = &r.products[0];
+        assert_eq!(p.hazards.classifications.len(), 1);
+        assert_eq!(p.hazards.pictograms[0].ghs_code, "GHS02");
+        assert_eq!(p.handling.precautions[0].ko, "열을 피한다.");
+        assert_eq!(r.images.len(), 1);
     }
 }

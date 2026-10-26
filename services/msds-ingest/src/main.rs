@@ -51,7 +51,9 @@ fn build_profile(engine: &Engine, pdf_bytes: &[u8], job_id: Option<Uuid>, render
         }
     }
     let page_images = match job_id {
-        Some(id) if render => pages.iter().map(|p| PageImage { page: p.number, key: page_image_key(id, p.number) }).collect(),
+        Some(id) if render => {
+            pages.iter().map(|p| PageImage { page: p.number, key: page_image_key(id, p.number), dpi: engine.dpi }).collect()
+        }
         _ => Vec::new(),
     };
     let profile = DocumentProfile {

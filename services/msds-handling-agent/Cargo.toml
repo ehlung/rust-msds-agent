@@ -1,0 +1,22 @@
+[package]
+name = "msds-handling-agent"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+description = "MSDS 취급 에이전트: 취급·저장, 개인보호구, GHS 그림문자 고르기"
+
+[dependencies]
+pekko-agent-llm = { path = "../../crates/pekko-agent-llm" }
+pekko-agent-msds = { path = "../../crates/pekko-agent-msds" }
+pekko-agent-msds-io = { path = "../../crates/pekko-agent-msds-io" }
+tokio = { workspace = true }
+async-trait = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+anyhow = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+dotenvy = { workspace = true }
+image = { workspace = true }
+base64 = "0.22"

@@ -5,6 +5,7 @@
 
 pub mod cas;
 pub mod envelope;
+pub mod ghs;
 pub mod message;
 pub mod output;
 pub mod profile;

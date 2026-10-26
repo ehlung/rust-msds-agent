@@ -2,7 +2,7 @@
 
 use serde::{Deserialize, Serialize};
 
-use crate::result::{Component, HazardousSubstance, Hazards, Identification, TranslatedSection};
+use crate::result::{Component, Handling, HazardousSubstance, Hazards, Identification, Image, Pictogram, TranslatedSection};
 
 /// 성분 에이전트의 결과 (제품 하나). `hazards.pictograms`는 취급 에이전트 몫이라 비워 둔다.
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
@@ -17,4 +17,13 @@ pub struct CompositionOutput {
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
 pub struct TranslateOutput {
     pub sections: Vec<TranslatedSection>,
+}
+
+/// 취급 에이전트의 결과 (제품 하나). `pictograms`는 합칠 때 `hazards.pictograms`로 들어간다.
+/// `images`는 저장소에 저장한 그림(그림문자·취급 그림)이다.
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+pub struct HandlingOutput {
+    pub handling: Handling,
+    pub pictograms: Vec<Pictogram>,
+    pub images: Vec<Image>,
 }

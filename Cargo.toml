@@ -21,6 +21,7 @@ members = [
     "services/msds-orchestrator",
     "services/msds-composition-agent",
     "services/msds-translate-agent",
+    "services/msds-handling-agent",
 ]
 exclude = [
     "frontend/web-chat",

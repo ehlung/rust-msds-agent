@@ -53,6 +53,11 @@ pub fn page_image_key(job_id: Uuid, page: u32) -> String {
     format!("jobs/{job_id}/pages/{page}.png")
 }
 
+/// 취급 에이전트가 고른 그림. `id`는 그림 후보 번호(`fig-3`)다.
+pub fn figure_image_key(job_id: Uuid, id: &str) -> String {
+    format!("jobs/{job_id}/images/{id}.png")
+}
+
 fn validate_key(key: &str) -> anyhow::Result<()> {
     let ok = !key.is_empty()
         && key.len() <= 512

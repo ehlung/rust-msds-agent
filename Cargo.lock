@@ -1801,6 +1801,25 @@ dependencies = [
 ]
 
 [[package]]
+name = "msds-handling-agent"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "base64 0.22.1",
+ "dotenvy",
+ "image",
+ "pekko-agent-llm",
+ "pekko-agent-msds",
+ "pekko-agent-msds-io",
+ "serde",
+ "serde_json",
+ "tokio",
+ "tracing",
+ "tracing-subscriber",
+]
+
+[[package]]
 name = "msds-ingest"
 version = "0.1.0"
 dependencies = [

@@ -3,7 +3,7 @@
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-use crate::profile::{DocumentProfile, PageImage, SectionText};
+use crate::profile::{DocumentProfile, Figure, PageImage, SectionText};
 use crate::result::Warning;
 use crate::section::SectionKind;
 
@@ -117,8 +117,21 @@ pub struct AgentTask {
     pub language: crate::profile::Language,
     pub sections: Vec<SectionText>,
     pub page_images: Vec<PageImage>,
+    /// 그림 후보. 취급 작업에만 넣는다(그 제품의 쪽에 있는 후보 전부).
+    #[serde(default)]
+    pub figures: Vec<TaskFigure>,
     pub note: String,
     pub limits: TaskLimits,
+}
+
+/// 작업에 넣는 그림 후보. 에이전트가 페이지 이미지에서 이 영역을 잘라 본다.
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+pub struct TaskFigure {
+    /// 문서 안에서 유일한 번호(`fig-<프로필 figures의 순번>`). 고른 그림은 이 이름으로 저장한다.
+    pub id: String,
+    #[serde(flatten)]
+    pub figure: Figure,
+    pub page_image: PageImage,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]

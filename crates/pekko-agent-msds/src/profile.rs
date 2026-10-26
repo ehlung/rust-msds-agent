@@ -88,4 +88,12 @@ pub struct PageImage {
     pub page: u32,
     /// 파일 저장소 키. 예: `jobs/<job_id>/pages/1.png`
     pub key: String,
+    /// 렌더링 해상도. 그림 후보 좌표(pt)를 픽셀로 바꿀 때 쓴다(픽셀 = pt × dpi / 72).
+    /// 이 필드가 생기기 전 프로필은 기본값 150으로 렌더링했다.
+    #[serde(default = "default_dpi")]
+    pub dpi: f32,
+}
+
+fn default_dpi() -> f32 {
+    150.0
 }

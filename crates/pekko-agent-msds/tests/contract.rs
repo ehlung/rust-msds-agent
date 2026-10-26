@@ -33,7 +33,7 @@ fn document_profile() {
             "sections": [{ "kind": "composition", "number": 2, "title": "COMPOSITION/INFORMATION ON INGREDIENTS", "pages": [1], "text": "12  108-88-3  Toluene" }]
         }],
         "figures": [{ "page": 1, "bbox_pt": [72.0, 400.0, 56.0, 56.0], "source": "image_object", "near_text": "Hazard pictograms" }],
-        "page_images": [{ "page": 1, "key": "jobs/x/pages/1.png" }]
+        "page_images": [{ "page": 1, "key": "jobs/x/pages/1.png", "dpi": 150.0 }]
     }));
     assert_eq!(p.products[0].format, DocFormat::LegacyUs);
     assert_eq!(p.products[0].sections[0].kind, SectionKind::Composition);
@@ -74,12 +74,27 @@ fn agent_task_in_envelope() {
             "product_index": 0,
             "language": "en",
             "sections": [{ "kind": "composition", "number": 2, "title": "COMPOSITION/INFORMATION ON INGREDIENTS", "pages": [1], "text": "..." }],
-            "page_images": [{ "page": 1, "key": "jobs/x/pages/1.png" }],
+            "page_images": [{ "page": 1, "key": "jobs/x/pages/1.png", "dpi": 150.0 }],
+            "figures": [],
             "note": "15절 SARA 표의 CAS로 교차 확인",
             "limits": { "max_tokens": 16000, "max_tool_rounds": 5 }
         }
     }));
     assert_eq!(e.key(), JOB);
+}
+
+/// 취급 작업에만 들어가는 그림 후보 (설계 문서 4-6).
+#[test]
+fn task_figure() {
+    let f: TaskFigure = roundtrip(json!({
+        "id": "fig-1",
+        "page": 1,
+        "bbox_pt": [72.0, 400.0, 56.0, 56.0],
+        "source": "image_object",
+        "near_text": "Hazard pictograms",
+        "page_image": { "page": 1, "key": "jobs/x/pages/1.png", "dpi": 150.0 }
+    }));
+    assert_eq!(f.figure.source, FigureSource::ImageObject);
 }
 
 #[test]
@@ -168,7 +183,7 @@ fn whole_result() {
         "job_id": JOB,
         "document": { "file_name": "R99KY29, POLANE ® Reducer.pdf", "sha256": "abc", "pages": 4, "language": "en", "text_layer": "ok" },
         "products": [],
-        "images": [{ "id": "img-1", "kind": "pictogram", "page": 1, "bbox_pt": [72.0, 400.0, 56.0, 56.0], "key": "jobs/x/images/img-1.png", "ghs_code": "GHS02", "basis": "document" }],
+        "images": [{ "id": "fig-1", "kind": "pictogram", "page": 1, "bbox_pt": [72.0, 400.0, 56.0, 56.0], "key": "jobs/x/images/fig-1.png", "ghs_code": "GHS02", "basis": "document" }],
         "warnings": [],
         "provenance": [{ "agent": "composition", "model": "claude-sonnet-5-5", "effort": "high", "prompt_version": "composition/1", "attempts": 1 }]
     }));
