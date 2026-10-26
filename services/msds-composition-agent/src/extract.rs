@@ -4,7 +4,7 @@
 //! 빈 문자열로 받은 뒤 여기서 `None`으로 바꾼다. 함량 범위와 CAS 검사처럼 정확히 잴 수 있는 것은 코드가 한다.
 
 use pekko_agent_llm::{ClaudeMessage, ContentBlock, ImageSource, LlmRequest};
-use pekko_agent_msds::cas;
+use pekko_agent_msds::{cas, checks};
 use pekko_agent_msds::ghs::HazardClass;
 use pekko_agent_msds::message::AgentTask;
 use pekko_agent_msds::output::CompositionOutput;
@@ -352,19 +352,7 @@ pub fn convert(value: Value, path_prefix: &str) -> anyhow::Result<(CompositionOu
                 None if c.cas_withheld => CasCheck::Withheld,
                 None => CasCheck::Absent,
             };
-            let code = match cas_check {
-                CasCheck::ChecksumFailed => Some(("cas_checksum_failed", "CAS 체크 디지트가 맞지 않음")),
-                CasCheck::Malformed => Some(("cas_malformed", "CAS 번호 형식이 아님")),
-                _ => None,
-            };
-            if let Some((code, message)) = code {
-                warnings.push(Warning {
-                    code: code.into(),
-                    severity: Severity::Warn,
-                    message: format!("{message}: {}", cas_no.as_deref().unwrap_or_default()),
-                    path: Some(format!("{path_prefix}.components[{n}].cas_no")),
-                });
-            }
+            warnings.extend(checks::cas_warning(cas_no.as_deref(), cas_check, format!("{path_prefix}.components[{n}].cas_no")));
             Component {
                 name: text(c.name),
                 cas_no,

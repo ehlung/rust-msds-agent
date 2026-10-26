@@ -27,6 +27,10 @@ pub struct JobRow {
     pub created_by: Option<String>,
     pub created_at: DateTime<Utc>,
     pub updated_at: DateTime<Utc>,
+    /// 확인완료한 결과 버전. 게시는 최신 버전이 아니라 이 버전을 쓴다.
+    pub approved_version: Option<i32>,
+    pub approved_by: Option<String>,
+    pub approved_at: Option<DateTime<Utc>>,
 }
 
 /// 재시작할 때 이어서 처리할 작업.
@@ -90,6 +94,10 @@ impl JobStore {
                 updated_at  TIMESTAMPTZ NOT NULL DEFAULT now()
             )"#,
             "CREATE INDEX IF NOT EXISTS msds_jobs_status_idx ON msds_jobs (status)",
+            // 확인완료(2026-10-26 추가). 이미 만든 테이블에도 붙도록 따로 더한다
+            "ALTER TABLE msds_jobs ADD COLUMN IF NOT EXISTS approved_version INT",
+            "ALTER TABLE msds_jobs ADD COLUMN IF NOT EXISTS approved_by TEXT",
+            "ALTER TABLE msds_jobs ADD COLUMN IF NOT EXISTS approved_at TIMESTAMPTZ",
             r#"CREATE TABLE IF NOT EXISTS msds_results (
                 job_id      UUID NOT NULL REFERENCES msds_jobs (job_id),
                 version     INT NOT NULL,
@@ -184,7 +192,8 @@ impl JobStore {
 
     pub async fn get(&self, job_id: Uuid) -> anyhow::Result<Option<JobRow>> {
         let row = sqlx::query(
-            "SELECT job_id, file_name, sha256, status, detail, created_by, created_at, updated_at
+            "SELECT job_id, file_name, sha256, status, detail, created_by, created_at, updated_at,
+                    approved_version, approved_by, approved_at
              FROM msds_jobs WHERE job_id = $1",
         )
         .bind(job_id)
@@ -196,7 +205,8 @@ impl JobStore {
     /// 최근 작업부터.
     pub async fn list(&self, limit: i64) -> anyhow::Result<Vec<JobRow>> {
         let rows = sqlx::query(
-            "SELECT job_id, file_name, sha256, status, detail, created_by, created_at, updated_at
+            "SELECT job_id, file_name, sha256, status, detail, created_by, created_at, updated_at,
+                    approved_version, approved_by, approved_at
              FROM msds_jobs ORDER BY created_at DESC LIMIT $1",
         )
         .bind(limit)
@@ -218,6 +228,59 @@ impl JobStore {
         .execute(&self.pool)
         .await?;
         Ok(())
+    }
+
+    /// 검토자가 고친 결과를 `base` 다음 버전으로 저장한다(설계 5-5).
+    /// 검토 대기 중이고 `base`가 지금 최신 버전일 때만 저장하고 `true`를 돌려준다.
+    /// 그 사이 다른 사람이 먼저 저장했거나 확인완료됐으면 저장하지 않고 `false`.
+    pub async fn save_review(&self, job_id: Uuid, base: i32, result: &serde_json::Value, created_by: &str) -> anyhow::Result<bool> {
+        let r = sqlx::query(
+            "INSERT INTO msds_results (job_id, version, result, created_by)
+             SELECT $1, $2 + 1, $3, $4
+             WHERE EXISTS (SELECT 1 FROM msds_jobs WHERE job_id = $1 AND status = $5)
+               AND (SELECT max(version) FROM msds_results WHERE job_id = $1) = $2
+             ON CONFLICT (job_id, version) DO NOTHING",
+        )
+        .bind(job_id)
+        .bind(base)
+        .bind(result)
+        .bind(created_by)
+        .bind(status_str(JobStatus::PendingReview))
+        .execute(&self.pool)
+        .await?;
+        Ok(r.rows_affected() == 1)
+    }
+
+    /// 확인완료. 검토 대기 중이고 `version`이 최신 버전일 때만 바꾸고 `true`를 돌려준다.
+    /// 화면에 보이던 버전과 확인한 버전이 같다는 것을 보장하려고 버전을 받는다.
+    pub async fn approve(&self, job_id: Uuid, version: i32, approved_by: &str) -> anyhow::Result<bool> {
+        let r = sqlx::query(
+            "UPDATE msds_jobs SET status = $4, detail = NULL, approved_version = $2, approved_by = $3,
+                    approved_at = now(), updated_at = now()
+             WHERE job_id = $1 AND status = $5
+               AND (SELECT max(version) FROM msds_results WHERE job_id = $1) = $2",
+        )
+        .bind(job_id)
+        .bind(version)
+        .bind(approved_by)
+        .bind(status_str(JobStatus::Approved))
+        .bind(status_str(JobStatus::PendingReview))
+        .execute(&self.pool)
+        .await?;
+        Ok(r.rows_affected() == 1)
+    }
+
+    /// 정해진 버전의 결과. 처음 버전(에이전트 결과)과 비교할 때 쓴다.
+    pub async fn result_version(&self, job_id: Uuid, version: i32) -> anyhow::Result<Option<serde_json::Value>> {
+        let row = sqlx::query("SELECT result FROM msds_results WHERE job_id = $1 AND version = $2")
+            .bind(job_id)
+            .bind(version)
+            .fetch_optional(&self.pool)
+            .await?;
+        Ok(match row {
+            Some(r) => Some(r.try_get("result")?),
+            None => None,
+        })
     }
 
     /// 가장 최근 버전의 결과.
@@ -282,6 +345,9 @@ fn job_row(r: &sqlx::postgres::PgRow) -> anyhow::Result<JobRow> {
         created_by: r.try_get("created_by")?,
         created_at: r.try_get("created_at")?,
         updated_at: r.try_get("updated_at")?,
+        approved_version: r.try_get("approved_version")?,
+        approved_by: r.try_get("approved_by")?,
+        approved_at: r.try_get("approved_at")?,
     })
 }
 

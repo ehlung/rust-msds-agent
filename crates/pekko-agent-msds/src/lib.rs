@@ -4,6 +4,7 @@
 //! 이 crate는 타입만 정의하고 I/O를 하지 않는다.
 
 pub mod cas;
+pub mod checks;
 pub mod envelope;
 pub mod ghs;
 pub mod message;

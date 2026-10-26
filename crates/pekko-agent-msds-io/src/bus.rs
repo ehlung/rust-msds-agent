@@ -11,7 +11,7 @@ use rdkafka::types::RDKafkaErrorCode;
 use rdkafka::{ClientConfig, Message};
 use serde::de::DeserializeOwned;
 use serde::Serialize;
-use tracing::info;
+use tracing::{info, warn};
 
 /// 서비스 하나가 쓰는 Kafka 연결. 보내기는 공유하고, 받기는 [`Bus::consumer`]로 만든다.
 #[derive(Clone)]
@@ -87,6 +87,47 @@ impl Bus {
             .context("Kafka consumer 생성 실패")?;
         c.subscribe(topics)?;
         Ok(c)
+    }
+
+    /// 지금부터 오는 메시지만 받는다. 인스턴스마다 새 그룹이라 모든 인스턴스가 같은 메시지를 다 받는다.
+    /// 나눠 처리하지 않고 모두 받아야 하는 곳(화면에 진행 상태를 밀어 주는 gateway)에 쓴다. 커밋하지 않는다.
+    pub fn live_consumer(&self, topics: &[&str]) -> anyhow::Result<StreamConsumer> {
+        let c: StreamConsumer = ClientConfig::new()
+            .set("bootstrap.servers", &self.brokers)
+            .set("group.id", format!("{}-live-{}", self.service, uuid::Uuid::new_v4()))
+            .set("client.id", &self.service)
+            .set("auto.offset.reset", "latest")
+            .set("enable.auto.commit", "false")
+            .set("fetch.message.max.bytes", "4000000")
+            .create()
+            .context("Kafka consumer 생성 실패")?;
+        c.subscribe(topics)?;
+        Ok(c)
+    }
+
+    /// `topic`의 메시지를 지금부터 받아 내용(`payload`)을 `tx`로 계속 넘긴다. 받는 쪽이 없어도 계속 돈다.
+    pub fn forward_live<T>(&self, topic: &str, tx: tokio::sync::broadcast::Sender<T>) -> anyhow::Result<()>
+    where
+        T: DeserializeOwned + Send + 'static,
+    {
+        let consumer = self.live_consumer(&[topic])?;
+        tokio::spawn(async move {
+            loop {
+                match consumer.recv().await {
+                    Ok(msg) => match decode::<T>(&msg) {
+                        Ok(env) => {
+                            let _ = tx.send(env.payload);
+                        }
+                        Err(e) => warn!(error = %e, "메시지를 읽지 못해 건너뜀"),
+                    },
+                    Err(e) => {
+                        warn!(error = %e, "Kafka에서 받기 실패 — 1초 뒤 다시");
+                        tokio::time::sleep(Duration::from_secs(1)).await;
+                    }
+                }
+            }
+        });
+        Ok(())
     }
 }
 

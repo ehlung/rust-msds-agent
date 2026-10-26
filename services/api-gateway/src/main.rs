@@ -1963,7 +1963,8 @@ pub(crate) fn build_router(state: AppState) -> axum::Router {
         .route("/api/workflows/stream",              post(stream_workflow))
         .route("/api/sagas/:saga_id/stream",         post(stream_saga))
         .route("/api/agents/collaborate/stream",     post(stream_collaborate_agents))
-        .route("/api/events/stream",                 get(stream_events));
+        .route("/api/events/stream",                 get(stream_events))
+        .merge(msds::stream_routes());
 
     Router::new()
         .merge(public_routes)
@@ -2759,18 +2760,23 @@ mod tests {
 
     // ── MSDS jobs ────────────────────────────────────────────────────────────
 
-    use pekko_agent_msds::message::{JobCreated, JobStatus};
+    use pekko_agent_msds::message::{JobCreated, JobStatus, JobStatusChanged};
     use pekko_agent_msds::Envelope;
     use pekko_agent_msds_io::{JobStore, LocalStorage};
 
     /// Kafka 대신 보낸 메시지를 기록만 한다.
     #[derive(Default)]
-    struct RecordingPublisher(std::sync::Mutex<Vec<Envelope<JobCreated>>>);
+    struct RecordingPublisher(std::sync::Mutex<Vec<Envelope<JobCreated>>>, std::sync::Mutex<Vec<JobStatusChanged>>);
 
     #[async_trait]
     impl msds::JobPublisher for RecordingPublisher {
         async fn job_created(&self, envelope: &Envelope<JobCreated>) -> anyhow::Result<()> {
             self.0.lock().unwrap().push(envelope.clone());
+            Ok(())
+        }
+
+        async fn status_changed(&self, envelope: &Envelope<JobStatusChanged>) -> anyhow::Result<()> {
+            self.1.lock().unwrap().push(envelope.payload.clone());
             Ok(())
         }
     }
@@ -2782,19 +2788,33 @@ mod tests {
         async fn job_created(&self, _: &Envelope<JobCreated>) -> anyhow::Result<()> {
             anyhow::bail!("broker down")
         }
+
+        async fn status_changed(&self, _: &Envelope<JobStatusChanged>) -> anyhow::Result<()> {
+            anyhow::bail!("broker down")
+        }
     }
 
     async fn build_msds_app(publisher: Arc<dyn msds::JobPublisher>) -> (axum::Router, JobStore, std::path::PathBuf) {
+        let (app, store, dir, _) = build_msds_app_with_statuses(publisher).await;
+        (app, store, dir)
+    }
+
+    /// 진행 상태 SSE를 시험할 때는 Kafka 대신 이 채널에 상태를 직접 넣는다.
+    async fn build_msds_app_with_statuses(
+        publisher: Arc<dyn msds::JobPublisher>,
+    ) -> (axum::Router, JobStore, std::path::PathBuf, tokio::sync::broadcast::Sender<JobStatusChanged>) {
         let mut state = build_test_state().await;
         let store = JobStore::connect(&test_db_url().unwrap()).await.unwrap();
         store.migrate().await.unwrap();
         let dir = std::env::temp_dir().join(format!("msds-gw-test-{}", Uuid::new_v4()));
+        let (statuses, _) = tokio::sync::broadcast::channel(16);
         state.msds = Some(Arc::new(msds::MsdsApi {
             store: store.clone(),
             storage: LocalStorage::new(&dir).unwrap(),
             publisher,
+            statuses: statuses.clone(),
         }));
-        (build_router(state), store, dir)
+        (build_router(state), store, dir, statuses)
     }
 
     async fn upload(app: &axum::Router, token: &str, file_name: &str, bytes: &[u8]) -> axum::response::Response {
@@ -2921,6 +2941,217 @@ mod tests {
         let token = get_jwt(&app, TEST_ADMIN_KEY).await;
         let (status, _) = get_json(&app, &token, "/api/msds/jobs").await;
         assert_eq!(status, axum::http::StatusCode::SERVICE_UNAVAILABLE);
+    }
+
+    async fn send_json(app: &axum::Router, token: &str, method: &str, uri: &str, body: serde_json::Value) -> (axum::http::StatusCode, serde_json::Value) {
+        let resp = app
+            .clone()
+            .oneshot(
+                Request::builder()
+                    .method(method)
+                    .uri(uri)
+                    .header("authorization", format!("Bearer {token}"))
+                    .header("content-type", "application/json")
+                    .body(Body::from(serde_json::to_vec(&body).unwrap()))
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+        let status = resp.status();
+        let bytes = axum::body::to_bytes(resp.into_body(), usize::MAX).await.unwrap();
+        (status, serde_json::from_slice(&bytes).unwrap_or(serde_json::Value::Null))
+    }
+
+    /// 검토 시험용 결과. 제품 하나, H225와 그림문자 GHS02, CAS가 맞는 성분 하나.
+    fn sample_result(job_id: Uuid) -> serde_json::Value {
+        use pekko_agent_msds::profile::{DocFormat, Language, TextLayer};
+        use pekko_agent_msds::result::{
+            Basis, CasCheck, CodedText, Component, DocumentInfo, Hazards, MsdsResult, Pictogram, Product, Severity, Text, Warning, SCHEMA,
+        };
+        let product = Product {
+            index: 0,
+            pages: [1, 1],
+            format: DocFormat::Ghs,
+            identification: Default::default(),
+            hazards: Hazards {
+                h_statements: vec![CodedText { code: "H225".into(), src: "Highly flammable liquid and vapour.".into(), ko: "고인화성 액체 및 증기".into() }],
+                pictograms: vec![Pictogram { ghs_code: "GHS02".into(), name_ko: "인화성(불꽃)".into(), image_id: None, basis: Basis::Document }],
+                ..Default::default()
+            },
+            components: vec![Component {
+                name: Text { src: "Toluene".into(), ko: "톨루엔".into() },
+                cas_no: Some("108-88-3".into()),
+                cas_check: CasCheck::Valid,
+                concentration: None,
+                exposure_limits: vec![],
+                regulatory_marks: vec![],
+                pages: vec![1],
+            }],
+            hazardous_substances: vec![],
+            handling: Default::default(),
+            sections: vec![],
+        };
+        serde_json::to_value(MsdsResult {
+            schema: SCHEMA.into(),
+            job_id,
+            document: DocumentInfo { file_name: "review.pdf".into(), sha256: "0".into(), pages: 1, language: Language::En, text_layer: TextLayer::Ok },
+            products: vec![product],
+            images: vec![],
+            warnings: vec![Warning { code: "agent:note".into(), severity: Severity::Info, message: "메모".into(), path: None }],
+            provenance: vec![],
+        })
+        .unwrap()
+    }
+
+    async fn create_job(store: &JobStore, status: JobStatus) -> Uuid {
+        let job = JobCreated { job_id: Uuid::new_v4(), pdf_key: "k".into(), file_name: "review.pdf".into(), sha256: "0".into() };
+        store.create(&job, None).await.unwrap();
+        store.set_status(job.job_id, status, None).await.unwrap();
+        job.job_id
+    }
+
+    #[tokio::test]
+    async fn msds_review_saves_versions_and_approves() {
+        use axum::http::StatusCode;
+        use serde_json::json;
+        if test_db_url().is_none() { return; }
+        let publisher = Arc::new(RecordingPublisher::default());
+        let (app, store, dir) = build_msds_app(publisher.clone()).await;
+        let token = get_jwt(&app, TEST_ADMIN_KEY).await;
+        let job_id = create_job(&store, JobStatus::Processing).await;
+        let v1 = sample_result(job_id);
+        store.save_result(job_id, 1, &v1, "agent").await.unwrap();
+        let uri = format!("/api/msds/jobs/{job_id}/result");
+        let approve = format!("/api/msds/jobs/{job_id}/approve");
+
+        // 검토 대기가 아니면 저장도 확인완료도 안 된다
+        let (status, _) = send_json(&app, &token, "PUT", &uri, json!({ "base_version": 1, "result": v1 })).await;
+        assert_eq!(status, StatusCode::CONFLICT);
+        let (status, _) = send_json(&app, &token, "POST", &approve, json!({ "version": 1 })).await;
+        assert_eq!(status, StatusCode::CONFLICT);
+        store.set_status(job_id, JobStatus::PendingReview, None).await.unwrap();
+
+        // 검토자가 H 코드와 CAS를 고친다 → 코드 검사가 다시 돌아 경고가 바뀐다. 에이전트 메모는 남는다
+        let mut edited = v1.clone();
+        edited["products"][0]["hazards"]["h_statements"][0]["code"] = json!("H301");
+        edited["products"][0]["components"][0]["cas_no"] = json!("108-88-4");
+        let (status, saved) = send_json(&app, &token, "PUT", &uri, json!({ "base_version": 1, "result": edited })).await;
+        assert_eq!(status, StatusCode::OK, "{saved}");
+        assert_eq!(saved["version"], 2);
+        assert_eq!(saved["result"]["products"][0]["components"][0]["cas_check"], "checksum_failed");
+        let codes: Vec<&str> = saved["result"]["warnings"].as_array().unwrap().iter().map(|w| w["code"].as_str().unwrap()).collect();
+        assert_eq!(codes, ["agent:note", "cas_checksum_failed", "pictogram_missing", "pictogram_without_h"]);
+
+        // 같은 버전에서 고친 두 번째 저장은 409. 처음 버전(에이전트 결과)은 그대로 남는다
+        let (status, _) = send_json(&app, &token, "PUT", &uri, json!({ "base_version": 1, "result": v1 })).await;
+        assert_eq!(status, StatusCode::CONFLICT);
+        let (_, first) = get_json(&app, &token, &format!("{uri}?version=1")).await;
+        assert_eq!(first["result"], v1);
+        let (_, latest) = get_json(&app, &token, &uri).await;
+        assert_eq!(latest["version"], 2);
+
+        // 다른 작업의 결과, 표에 없는 그림문자는 400
+        let mut other = saved["result"].clone();
+        other["job_id"] = json!(Uuid::new_v4());
+        let (status, _) = send_json(&app, &token, "PUT", &uri, json!({ "base_version": 2, "result": other })).await;
+        assert_eq!(status, StatusCode::BAD_REQUEST);
+        let mut unknown = saved["result"].clone();
+        unknown["products"][0]["hazards"]["pictograms"][0]["ghs_code"] = json!("GHS10");
+        let (status, _) = send_json(&app, &token, "PUT", &uri, json!({ "base_version": 2, "result": unknown })).await;
+        assert_eq!(status, StatusCode::BAD_REQUEST);
+
+        // 확인완료는 화면에 보이던 버전이 최신일 때만
+        let (status, _) = send_json(&app, &token, "POST", &approve, json!({ "version": 1 })).await;
+        assert_eq!(status, StatusCode::CONFLICT);
+        let (status, row) = send_json(&app, &token, "POST", &approve, json!({ "version": 2 })).await;
+        assert_eq!(status, StatusCode::OK, "{row}");
+        assert_eq!(row["status"], "approved");
+        assert_eq!(row["approved_version"], 2);
+        assert_eq!(row["approved_by"], "test-admin");
+        let sent: Vec<JobStatus> = publisher.1.lock().unwrap().iter().map(|s| s.status).collect();
+        assert_eq!(sent, [JobStatus::Approved]);
+
+        // 확인완료 뒤에는 고칠 수 없다
+        let (status, _) = send_json(&app, &token, "PUT", &uri, json!({ "base_version": 2, "result": saved["result"] })).await;
+        assert_eq!(status, StatusCode::CONFLICT);
+        std::fs::remove_dir_all(dir).ok();
+    }
+
+    #[tokio::test]
+    async fn msds_files_serve_only_job_images() {
+        use axum::http::StatusCode;
+        if test_db_url().is_none() { return; }
+        let (app, _, dir) = build_msds_app(Arc::new(RecordingPublisher::default())).await;
+        let token = get_jwt(&app, TEST_ADMIN_KEY).await;
+        let job_id = Uuid::new_v4();
+        std::fs::create_dir_all(dir.join(format!("jobs/{job_id}/pages"))).unwrap();
+        std::fs::write(dir.join(format!("jobs/{job_id}/pages/1.png")), b"png").unwrap();
+        std::fs::write(dir.join(format!("jobs/{job_id}/state.json")), b"{}").unwrap();
+
+        let get = |path: String| {
+            let app = app.clone();
+            let token = token.clone();
+            async move {
+                let resp = app
+                    .oneshot(Request::builder().uri(path).header("authorization", format!("Bearer {token}")).body(Body::empty()).unwrap())
+                    .await
+                    .unwrap();
+                let status = resp.status();
+                let ct = resp.headers().get("content-type").map(|v| v.to_str().unwrap().to_string());
+                (status, ct, axum::body::to_bytes(resp.into_body(), usize::MAX).await.unwrap())
+            }
+        };
+        let (status, ct, bytes) = get(format!("/api/msds/jobs/{job_id}/files/pages/1.png")).await;
+        assert_eq!(status, StatusCode::OK);
+        assert_eq!(ct.as_deref(), Some("image/png"));
+        assert_eq!(&bytes[..], b"png");
+        // 없는 파일, 내주지 않는 파일
+        assert_eq!(get(format!("/api/msds/jobs/{job_id}/files/pages/2.png")).await.0, StatusCode::NOT_FOUND);
+        assert_eq!(get(format!("/api/msds/jobs/{job_id}/files/state.json")).await.0, StatusCode::NOT_FOUND);
+        std::fs::remove_dir_all(dir).ok();
+    }
+
+    #[tokio::test]
+    async fn msds_events_stream_current_status_then_changes() {
+        use axum::http::StatusCode;
+        use futures::StreamExt;
+        if test_db_url().is_none() { return; }
+        let (app, store, dir, statuses) = build_msds_app_with_statuses(Arc::new(RecordingPublisher::default())).await;
+        let token = get_jwt(&app, TEST_ADMIN_KEY).await;
+        let job_id = create_job(&store, JobStatus::Processing).await;
+        store.set_status(job_id, JobStatus::Processing, Some("작업 3개")).await.unwrap();
+
+        let resp = app
+            .clone()
+            .oneshot(
+                Request::builder()
+                    .uri(format!("/api/msds/jobs/{job_id}/events"))
+                    .header("authorization", format!("Bearer {token}"))
+                    .body(Body::empty())
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+        assert_eq!(resp.status(), StatusCode::OK);
+        assert!(resp.headers()["content-type"].to_str().unwrap().starts_with("text/event-stream"));
+        let mut body = resp.into_body().into_data_stream();
+        async fn next(body: &mut axum::body::BodyDataStream) -> String {
+            let chunk = tokio::time::timeout(Duration::from_secs(5), body.next()).await.expect("이벤트가 와야 함");
+            String::from_utf8(chunk.unwrap().unwrap().to_vec()).unwrap()
+        }
+
+        // 처음에 지금 상태
+        let first = next(&mut body).await;
+        assert!(first.contains("event: status") && first.contains("\"processing\"") && first.contains("작업 3개"), "{first}");
+        // 다른 작업의 상태는 거르고 이 작업의 상태만 보낸다
+        statuses.send(JobStatusChanged { job_id: Uuid::new_v4(), status: JobStatus::Failed, detail: None }).unwrap();
+        statuses.send(JobStatusChanged { job_id, status: JobStatus::PendingReview, detail: None }).unwrap();
+        let second = next(&mut body).await;
+        assert!(second.contains("\"pending_review\"") && !second.contains("failed"), "{second}");
+
+        let (status, _) = get_json(&app, &token, &format!("/api/msds/jobs/{}/events", Uuid::new_v4())).await;
+        assert_eq!(status, StatusCode::NOT_FOUND);
+        std::fs::remove_dir_all(dir).ok();
     }
 
     #[tokio::test]
