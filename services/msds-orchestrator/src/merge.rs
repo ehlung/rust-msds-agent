@@ -1,6 +1,7 @@
 //! 합치기: 에이전트 결과를 결과 스키마(`msds-result/1`) 하나로 모은다. LLM 없이 코드로 한다.
 
 use pekko_agent_msds::message::{AgentKind, AgentTask, JobCreated, TaskOutcome, TaskResult};
+use pekko_agent_msds::ghs;
 use pekko_agent_msds::output::{CompositionOutput, HandlingOutput, TranslateOutput};
 use pekko_agent_msds::profile::{DocumentProfile, Language};
 use pekko_agent_msds::result::{DocumentInfo, MsdsResult, Product, Provenance, Severity, Text, TranslatedSection, Warning, SCHEMA};
@@ -133,6 +134,7 @@ pub fn merge(job: &JobCreated, profile: &DocumentProfile, tasks: &[Finished<'_>]
     if profile.language == Language::En {
         unify_names(&mut products, &mut warnings);
     }
+    check_pictograms(&products, &mut warnings);
 
     MsdsResult {
         schema: SCHEMA.into(),
@@ -148,6 +150,49 @@ pub fn merge(job: &JobCreated, profile: &DocumentProfile, tasks: &[Finished<'_>]
         images,
         warnings,
         provenance,
+    }
+}
+
+/// 성분 에이전트가 뽑은 H 코드와 취급 에이전트가 고른 그림문자가 맞는지 코드로 비교한다(설계 5-5).
+/// 고치지 않고 경고만 남긴다. 문서 자체가 기준과 다를 수도 있어서 판단은 검토하는 사람이 한다.
+/// H 코드가 없는 제품(옛 형식 등)은 비교할 근거가 없어 건너뛴다.
+fn check_pictograms(products: &[Product], warnings: &mut Vec<Warning>) {
+    for (pi, p) in products.iter().enumerate() {
+        let h: Vec<u16> = p.hazards.h_statements.iter().flat_map(|s| s.code.split('+')).filter_map(ghs::h_number).collect();
+        if h.is_empty() {
+            continue;
+        }
+        let expected = ghs::expected(&h);
+        let got: Vec<&str> = p.hazards.pictograms.iter().map(|x| x.ghs_code.as_str()).collect();
+        let path = Some(format!("products[{pi}].hazards.pictograms"));
+        let name = |c: &str| ghs::name_ko(c).unwrap_or("");
+        // 해당하는 그림문자가 4개를 넘으면 4개만 표시할 수 있다 → 그때 빠진 것은 안내로만 남긴다
+        let capped = expected.required.len() > ghs::MAX_SHOWN && got.len() >= ghs::MAX_SHOWN;
+        for (code, sources) in &expected.required {
+            if !got.contains(code) {
+                let hs: Vec<String> = sources.iter().map(|h| format!("H{h}")).collect();
+                let mut message = format!("{} 때문에 {code} {}가 필요한데 그림문자에 없음", hs.join("·"), name(code));
+                if capped {
+                    message.push_str(&format!(" (해당 그림문자가 {}개라 {}개만 표시했을 수 있음)", expected.required.len(), ghs::MAX_SHOWN));
+                }
+                warnings.push(Warning {
+                    code: "pictogram_missing".into(),
+                    severity: if capped { Severity::Info } else { Severity::Warn },
+                    message,
+                    path: path.clone(),
+                });
+            }
+        }
+        for code in &got {
+            if expected.required.contains_key(code) {
+                continue;
+            }
+            let (code_name, severity, message) = match expected.suppressed.get(code) {
+                Some(reason) => ("pictogram_precedence", Severity::Info, format!("{code} {}: {reason} (문서에 표시되어 있음)", name(code))),
+                None => ("pictogram_without_h", Severity::Warn, format!("{code} {}의 근거가 되는 H 코드가 없음", name(code))),
+            };
+            warnings.push(Warning { code: code_name.into(), severity, message, path: path.clone() });
+        }
     }
 }
 
@@ -216,6 +261,46 @@ mod tests {
         assert!(products.iter().all(|p| p.components[0].name.ko == "아세트산 n-뷰틸"));
         assert_eq!(warnings.len(), 1);
         assert_eq!(warnings[0].path.as_deref(), Some("products[1].components[0].name.ko"));
+    }
+
+    #[test]
+    fn pictograms_checked_against_h_codes() {
+        use pekko_agent_msds::result::{Basis, CodedText, Pictogram};
+        let mut p = product("x");
+        let h = |code: &str| CodedText { code: code.into(), src: String::new(), ko: String::new() };
+        let pic = |code: &str| Pictogram { ghs_code: code.into(), name_ko: String::new(), image_id: None, basis: Basis::Document };
+        // HF: H310(급성 독성)이 있는데 GHS07도 표시, GHS08(H372)은 빠짐, GHS09는 근거 없음
+        p.hazards.h_statements = vec![h("H290"), h("H310"), h("H314"), h("H317"), h("H372")];
+        p.hazards.pictograms = vec![pic("GHS05"), pic("GHS06"), pic("GHS07"), pic("GHS09")];
+        let mut warnings = vec![];
+        check_pictograms(&[p.clone()], &mut warnings);
+        let codes: Vec<&str> = warnings.iter().map(|w| w.code.as_str()).collect();
+        assert_eq!(codes, ["pictogram_missing", "pictogram_precedence", "pictogram_without_h"]);
+        assert!(warnings[0].message.contains("GHS08") && warnings[0].message.contains("H372"));
+        assert!(warnings[1].message.contains("GHS07"));
+        assert!(warnings[2].message.contains("GHS09"));
+
+        // 합쳐진 코드(H300+H310)도 나눠 본다. 맞으면 경고 없음
+        p.hazards.h_statements = vec![h("H300+H310"), h("H412")];
+        p.hazards.pictograms = vec![pic("GHS06")];
+        let mut warnings = vec![];
+        check_pictograms(&[p.clone()], &mut warnings);
+        assert!(warnings.is_empty(), "{warnings:?}");
+
+        // 5개가 해당하는데 4개만 표시했으면 빠진 것은 안내(info)
+        p.hazards.h_statements = vec![h("H225"), h("H290"), h("H301"), h("H351"), h("H410")];
+        p.hazards.pictograms = vec![pic("GHS02"), pic("GHS05"), pic("GHS06"), pic("GHS08")];
+        let mut warnings = vec![];
+        check_pictograms(&[p.clone()], &mut warnings);
+        assert_eq!(warnings.len(), 1);
+        assert_eq!(warnings[0].severity, Severity::Info);
+        assert!(warnings[0].message.contains("GHS09") && warnings[0].message.contains("4개만"));
+
+        // H 코드가 없으면 비교하지 않는다
+        p.hazards.h_statements = vec![];
+        let mut warnings = vec![];
+        check_pictograms(&[p], &mut warnings);
+        assert!(warnings.is_empty());
     }
 
     #[test]
