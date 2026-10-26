@@ -3,6 +3,7 @@
 //! gateway는 추론하지 않는다. PDF를 저장하고 작업을 DB에 만든 뒤 `msds.job.created`를 보내면 끝이고,
 //! 이후 단계는 msds-orchestrator가 이끈다. 상태와 결과는 DB(`msds_jobs`, `msds_results`)에서 읽는다.
 //! 검토자가 고친 결과는 오케스트레이터와 같은 코드 검사(`checks::recheck`)를 거쳐 새 버전으로 저장한다(설계 3-3).
+//! 확인완료한 버전은 고객 형식(사전조사서 CSV)으로 내려받을 수 있다(설계 5-8).
 
 use std::sync::Arc;
 
@@ -22,6 +23,7 @@ use pekko_agent_msds::checks;
 use pekko_agent_msds::message::{JobCreated, JobStatus, JobStatusChanged};
 use pekko_agent_msds::result::{MsdsResult, SCHEMA};
 use pekko_agent_msds::{topics, Envelope};
+use pekko_agent_msds_format::{pre_survey, table::UTF8_BOM, Approval, NotChecked};
 use pekko_agent_msds_io::job_store::{status_str, JobRow, UsageSummary};
 use pekko_agent_msds_io::storage::job_pdf_key;
 use pekko_agent_msds_io::{Bus, JobStore, LocalStorage};
@@ -30,6 +32,7 @@ use sha2::{Digest, Sha256};
 use sqlx::PgPool;
 use tokio::sync::broadcast;
 use tracing::{info, warn};
+use unicode_normalization::UnicodeNormalization;
 use uuid::Uuid;
 
 use crate::{make_error, require_permission, service_unavailable, AppState, AuthUser, ErrorResponse};
@@ -99,6 +102,7 @@ pub(crate) fn routes() -> Router<AppState> {
         .route("/api/msds/jobs/:job_id/result", get(get_result).put(save_result).layer(DefaultBodyLimit::max(MAX_RESULT_BYTES)))
         .route("/api/msds/jobs/:job_id/approve", post(approve))
         .route("/api/msds/jobs/:job_id/files/*path", get(get_file))
+        .route("/api/msds/jobs/:job_id/export/pre-survey.csv", get(export_pre_survey))
 }
 
 /// 오래 열려 있는 연결이라 요청 시간 제한이 없는 쪽에 붙인다.
@@ -134,7 +138,8 @@ async fn upload_job(auth: AuthUser, State(state): State<AppState>, mut form: Mul
     let mut file: Option<(String, Vec<u8>)> = None;
     while let Some(field) = form.next_field().await.map_err(|e| bad_request(format!("업로드를 읽지 못함: {e}")))? {
         if field.name() == Some("file") {
-            let name = field.file_name().unwrap_or("upload.pdf").chars().take(255).collect::<String>();
+            // macOS에서 올리면 한글이 자모로 풀린(NFD) 이름이 온다. Windows 엑셀·탐색기에서 깨져 보이지 않게 완성형(NFC)으로 저장한다
+            let name = field.file_name().unwrap_or("upload.pdf").nfc().take(255).collect::<String>();
             let bytes = field.bytes().await.map_err(|e| bad_request(format!("파일을 읽지 못함: {e}")))?;
             file = Some((name, bytes.to_vec()));
         }
@@ -315,6 +320,37 @@ fn file_type(path: &str) -> Option<&'static str> {
     }
 }
 
+/// GET /api/msds/jobs/:job_id/export/pre-survey.csv — 사전조사서(성분 하나가 한 행, 엑셀용 BOM이 붙은 UTF-8 CSV).
+/// 게시와 같이 최신 버전이 아니라 확인완료한 버전으로 만든다. 확인완료 전이면 409.
+/// 국내 법규 해당 여부는 공식 목록을 붙이기 전이라 "미대조"로 나간다.
+async fn export_pre_survey(auth: AuthUser, State(state): State<AppState>, Path(job_id): Path<Uuid>) -> Result<Response, ApiError> {
+    require_permission(&state, &auth.0, PERMISSION).await?;
+    let api = api(&state)?;
+    let job = api.store.get(job_id).await.map_err(db_error)?.ok_or_else(|| not_found(format!("작업 {job_id}가 없음")))?;
+    let (Some(version), Some(by), Some(at)) = (job.approved_version, job.approved_by, job.approved_at) else {
+        return Err(conflict(format!("확인완료 전에는 내보낼 수 없음: {}", status_str(job.status))));
+    };
+    let value = api.store.result_version(job_id, version).await.map_err(db_error)?.ok_or_else(|| not_found(format!("작업 {job_id}의 결과 버전 {version}이 없음")))?;
+    let result: MsdsResult = serde_json::from_value(value).map_err(|e| crate::internal_error(format!("저장된 결과를 읽지 못함: {e}")))?;
+    let approval = Approval { version, by, at: at.to_rfc3339_opts(chrono::SecondsFormat::Secs, true) };
+    let csv = format!("{UTF8_BOM}{}", pre_survey(&result, &approval, &NotChecked).to_csv());
+    let stem = job.file_name.strip_suffix(".pdf").or_else(|| job.file_name.strip_suffix(".PDF")).unwrap_or(&job.file_name);
+    let disposition = attachment(&format!("{stem}_사전조사서_v{version}.csv"), "pre-survey.csv");
+    Ok(([(header::CONTENT_TYPE, "text/csv; charset=utf-8".to_string()), (header::CONTENT_DISPOSITION, disposition)], csv).into_response())
+}
+
+/// 한글 파일 이름은 `filename*`(RFC 6266·5987)로, 이를 모르는 프로그램용으로 ASCII `filename`도 같이 준다.
+/// 업로드 때 NFC로 맞추기 전(10-26)에 저장된 이름도 있어 여기서도 NFC로 맞춘다.
+fn attachment(name: &str, ascii_fallback: &str) -> String {
+    let encoded: String = name
+        .nfc()
+        .collect::<String>()
+        .bytes()
+        .map(|b| if b.is_ascii_alphanumeric() || b"-._~".contains(&b) { (b as char).to_string() } else { format!("%{b:02X}") })
+        .collect();
+    format!("attachment; filename=\"{ascii_fallback}\"; filename*=UTF-8''{encoded}")
+}
+
 /// GET /api/msds/jobs/:job_id/events — 진행 상태(SSE `status` 이벤트). 처음에 지금 상태를 한 번 보내고, 바뀔 때마다 보낸다.
 /// 브라우저의 EventSource는 Authorization 헤더를 붙이지 못해서, 화면은 fetch 스트림으로 받는다.
 async fn job_events(
@@ -354,5 +390,17 @@ mod tests {
         for p in ["", "state.json", "pages/a.png", "pages/.png", "pages/1.jpg", "images/../source.pdf", "images/fig_3.png", "x/pages/1.png", "pages/1.png/x"] {
             assert_eq!(file_type(p), None, "{p:?}");
         }
+    }
+
+    #[test]
+    fn attachment_encodes_korean_name() {
+        assert_eq!(
+            attachment("SR-100_사전조사서 v1.csv", "pre-survey.csv"),
+            "attachment; filename=\"pre-survey.csv\"; filename*=UTF-8''SR-100_%EC%82%AC%EC%A0%84%EC%A1%B0%EC%82%AC%EC%84%9C%20v1.csv"
+        );
+        // 따옴표·세미콜론이 든 이름도 헤더를 깨지 못한다
+        assert!(attachment("a\";b.csv", "x.csv").ends_with("a%22%3Bb.csv"));
+        // 자모로 풀린 "영문"(NFD, macOS 파일 이름)도 완성형으로 나간다
+        assert!(attachment("\u{110B}\u{1167}\u{11BC}\u{1106}\u{116E}\u{11AB}.csv", "x.csv").ends_with("''%EC%98%81%EB%AC%B8.csv"));
     }
 }

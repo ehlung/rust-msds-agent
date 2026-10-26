@@ -42,6 +42,7 @@ jobs:
             -p pekko-agent-llm \
             -p pekko-agent-msds \
             -p pekko-agent-msds-io \
+            -p pekko-agent-msds-format \
             -p msds-ingest \
             -p msds-orchestrator \
             -p msds-composition-agent \
@@ -88,6 +89,8 @@ jobs:
 
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
 
       - name: Install protoc (required by api-gateway gRPC build.rs)
         uses: arduino/setup-protoc@v3
@@ -101,6 +104,10 @@ jobs:
 
       - name: cargo check (entire workspace)
         run: cargo check --workspace
+
+      # 공개 페이지(Workers)가 같은 변환기를 wasm32로 쓴다. 변환기에 I/O·tokio 같은 의존이 들어오면 여기서 깨진다
+      - name: Format converter builds for wasm32
+        run: cargo build --target wasm32-unknown-unknown -p pekko-agent-msds-format
 
   # ── Clippy Lint ───────────────────────────────────────────────────────────
   clippy:
@@ -133,6 +140,7 @@ jobs:
             -p pekko-agent-tools \
             -p pekko-agent-msds \
             -p pekko-agent-msds-io \
+            -p pekko-agent-msds-format \
             -- -W clippy::all
 
       - name: Run clippy (service binaries)

@@ -74,6 +74,23 @@ export async function fileUrl(id: string, path: string): Promise<string> {
   return URL.createObjectURL(await res.blob());
 }
 
+/** 확인완료한 버전의 사전조사서(CSV)를 내려받는다. 링크로는 Authorization 헤더를 못 붙여 fetch로 받는다. */
+export async function downloadPreSurvey(id: string): Promise<void> {
+  const res = await fetch(`/api/msds/jobs/${id}/export/pre-survey.csv`, { headers: { authorization: `Bearer ${getToken() ?? ""}` } });
+  if (!res.ok) {
+    const body = await res.json().catch(() => null);
+    throw new ApiError(res.status, body?.error ?? `사전조사서를 받지 못함 (${res.status})`);
+  }
+  // 서버가 정한 한글 파일 이름(filename*)을 그대로 쓴다
+  const encoded = /filename\*=UTF-8''([^;]+)/.exec(res.headers.get("content-disposition") ?? "")?.[1];
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(await res.blob());
+  a.download = encoded ? decodeURIComponent(encoded) : "pre-survey.csv";
+  a.click();
+  // 내려받기가 시작된 뒤에 놓아준다
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
 export function uploadPdf(file: File): Promise<JobRow> {
   const form = new FormData();
   form.append("file", file, file.name);

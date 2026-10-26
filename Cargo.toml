@@ -17,6 +17,7 @@ members = [
     "crates/pekko-agent-observability",
     "crates/pekko-agent-msds",
     "crates/pekko-agent-msds-io",
+    "crates/pekko-agent-msds-format",
     "services/msds-ingest",
     "services/msds-orchestrator",
     "services/msds-composition-agent",

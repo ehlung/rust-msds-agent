@@ -18,6 +18,9 @@ pekko-agent-cache    = { path = "../../crates/pekko-agent-cache" }
 pekko-agent-webhooks = { path = "../../crates/pekko-agent-webhooks" }
 pekko-agent-msds    = { path = "../../crates/pekko-agent-msds" }
 pekko-agent-msds-io = { path = "../../crates/pekko-agent-msds-io" }
+pekko-agent-msds-format = { path = "../../crates/pekko-agent-msds-format" }
+# macOS 브라우저는 한글 파일 이름을 자모로 풀어(NFD) 보낸다. 완성형(NFC)으로 맞춰 저장한다
+unicode-normalization = "0.1"
 tokio.workspace = true
 serde.workspace = true
 serde_json.workspace = true

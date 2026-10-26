@@ -13,6 +13,11 @@ uuid = { workspace = true }
 chrono = { workspace = true }
 ts-rs = { version = "10", optional = true, features = ["uuid-impl", "chrono-impl", "no-serde-warnings"] }
 
+# 공개 페이지(Cloudflare Workers)는 wasm32에서 이 타입을 쓴다. `Envelope::new`의 Uuid::new_v4가 쓸 난수를
+# JS(crypto.getRandomValues)에서 받는다. 서버 빌드에는 영향이 없다
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+uuid = { workspace = true, features = ["js"] }
+
 [features]
 # 화면(frontend/msds-web)용 TypeScript 타입 생성. scripts/gen-ts.sh가 켠다
 ts = ["dep:ts-rs"]

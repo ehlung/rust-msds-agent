@@ -1,0 +1,13 @@
+[package]
+name = "pekko-agent-msds-format"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+description = "확인완료된 MSDS 결과를 고객 형식(사전조사서 등)의 표로 바꾸는 변환기. I/O 없음, wasm32에서도 빌드된다"
+
+[dependencies]
+pekko-agent-msds = { path = "../pekko-agent-msds" }
+
+[dev-dependencies]
+uuid = { workspace = true }

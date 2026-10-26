@@ -66,6 +66,7 @@ dependencies = [
  "pekko-agent-llm",
  "pekko-agent-memory",
  "pekko-agent-msds",
+ "pekko-agent-msds-format",
  "pekko-agent-msds-io",
  "pekko-agent-observability",
  "pekko-agent-orchestrator",
@@ -85,6 +86,7 @@ dependencies = [
  "tower-http 0.5.2",
  "tracing",
  "tracing-subscriber",
+ "unicode-normalization",
  "utoipa",
  "utoipa-swagger-ui",
  "uuid",
@@ -2322,6 +2324,14 @@ dependencies = [
  "serde",
  "serde_json",
  "ts-rs",
+ "uuid",
+]
+
+[[package]]
+name = "pekko-agent-msds-format"
+version = "0.1.0"
+dependencies = [
+ "pekko-agent-msds",
  "uuid",
 ]
 

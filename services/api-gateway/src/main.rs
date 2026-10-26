@@ -2921,6 +2921,19 @@ mod tests {
     }
 
     #[tokio::test]
+    async fn msds_upload_stores_nfc_file_name() {
+        if test_db_url().is_none() { return; }
+        let (app, _, dir) = build_msds_app(Arc::new(RecordingPublisher::default())).await;
+        let token = get_jwt(&app, TEST_ADMIN_KEY).await;
+        // macOS 브라우저가 보내는 모양: "영문"이 자모로 풀려 있다(NFD)
+        let resp = upload(&app, &token, "NYCOTE88(\u{110B}\u{1167}\u{11BC}\u{1106}\u{116E}\u{11AB}).pdf", b"%PDF-1.4").await;
+        assert_eq!(resp.status(), axum::http::StatusCode::ACCEPTED);
+        let body: serde_json::Value = serde_json::from_slice(&axum::body::to_bytes(resp.into_body(), usize::MAX).await.unwrap()).unwrap();
+        assert_eq!(body["file_name"], "NYCOTE88(영문).pdf");
+        std::fs::remove_dir_all(dir).ok();
+    }
+
+    #[tokio::test]
     async fn msds_publish_failure_marks_job_failed() {
         if test_db_url().is_none() { return; }
         let (app, store, dir) = build_msds_app(Arc::new(FailingPublisher)).await;
@@ -3074,6 +3087,54 @@ mod tests {
         // 확인완료 뒤에는 고칠 수 없다
         let (status, _) = send_json(&app, &token, "PUT", &uri, json!({ "base_version": 2, "result": saved["result"] })).await;
         assert_eq!(status, StatusCode::CONFLICT);
+        std::fs::remove_dir_all(dir).ok();
+    }
+
+    #[tokio::test]
+    async fn msds_pre_survey_export_needs_approval() {
+        use axum::http::StatusCode;
+        use serde_json::json;
+        if test_db_url().is_none() { return; }
+        let (app, store, dir) = build_msds_app(Arc::new(RecordingPublisher::default())).await;
+        let token = get_jwt(&app, TEST_ADMIN_KEY).await;
+        let job_id = create_job(&store, JobStatus::PendingReview).await;
+        store.save_result(job_id, 1, &sample_result(job_id), "agent").await.unwrap();
+        let uri = format!("/api/msds/jobs/{job_id}/export/pre-survey.csv");
+        let get = || {
+            let (app, token, uri) = (app.clone(), token.clone(), uri.clone());
+            async move {
+                let resp = app
+                    .oneshot(Request::builder().uri(uri).header("authorization", format!("Bearer {token}")).body(Body::empty()).unwrap())
+                    .await
+                    .unwrap();
+                let status = resp.status();
+                let header = |h| resp.headers().get(h).map(|v: &axum::http::HeaderValue| v.to_str().unwrap().to_string()).unwrap_or_default();
+                let (ct, cd) = (header("content-type"), header("content-disposition"));
+                let body = axum::body::to_bytes(resp.into_body(), usize::MAX).await.unwrap().to_vec();
+                (status, ct, cd, body)
+            }
+        };
+
+        // 확인완료 전에는 내보내지 않는다
+        let (status, ..) = get().await;
+        assert_eq!(status, StatusCode::CONFLICT);
+
+        let (status, _) = send_json(&app, &token, "POST", &format!("/api/msds/jobs/{job_id}/approve"), json!({ "version": 1 })).await;
+        assert_eq!(status, StatusCode::OK);
+        let (status, ct, cd, body) = get().await;
+        assert_eq!(status, StatusCode::OK);
+        assert_eq!(ct, "text/csv; charset=utf-8");
+        assert!(cd.contains("filename*=UTF-8''review_%EC%82%AC%EC%A0%84%EC%A1%B0%EC%82%AC%EC%84%9C_v1.csv"), "{cd}");
+        // 엑셀이 UTF-8로 읽게 BOM으로 시작한다
+        assert!(body.starts_with(&[0xEF, 0xBB, 0xBF]));
+        let csv = String::from_utf8(body).unwrap();
+        let lines: Vec<&str> = csv.trim_start_matches('\u{feff}').split("\r\n").collect();
+        assert_eq!(lines.len(), 3, "머리글 + 성분 1행 + 끝 줄바꿈");
+        assert!(lines[0].starts_with("원본 파일,제품 번호,제품명,"), "{}", lines[0]);
+        assert!(lines[1].starts_with("review.pdf,1,"), "{}", lines[1]);
+        assert!(lines[1].contains(",톨루엔,Toluene,108-88-3,정상,"), "{}", lines[1]);
+        assert!(lines[1].contains(",미대조,"), "{}", lines[1]);
+        assert!(lines[1].contains(",1,test-admin,"), "확인한 버전과 사람: {}", lines[1]);
         std::fs::remove_dir_all(dir).ok();
     }
 

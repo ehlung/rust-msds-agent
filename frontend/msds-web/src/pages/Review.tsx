@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from "react";
-import { ApiError, approve, fileUrl, getJob, getResult, saveResult } from "../api";
+import { ApiError, approve, downloadPreSurvey, fileUrl, getJob, getResult, saveResult } from "../api";
 import { STATUS_KO } from "../status";
 import type { JobDetail, MsdsResult } from "../types";
 import type { Product } from "../types/generated/Product";
@@ -94,7 +94,14 @@ export function Review({ jobId, back }: { jobId: string; back: () => void }) {
             </button>
           </>
         )}
-        {job?.status === "approved" && <span className="muted">확인완료: {job.approved_by} · 버전 {job.approved_version}</span>}
+        {job?.status === "approved" && (
+          <>
+            <span className="muted">확인완료: {job.approved_by} · 버전 {job.approved_version}</span>
+            <button disabled={busy} onClick={() => run(() => downloadPreSurvey(jobId))}>
+              사전조사서 내려받기
+            </button>
+          </>
+        )}
       </div>
       {message && <p className={message.error ? "error" : "ok"}>{message.text}</p>}
 
