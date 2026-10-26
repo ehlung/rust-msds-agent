@@ -23,6 +23,10 @@
 6. 제품 정보
    - 날짜(`revision_date`)는 `YYYY-MM-DD`로 쓴다. 읽을 수 없으면 `""`.
    - 긴급 전화(`emergency_phone`)는 문서에 적힌 번호를 모두, 원문의 용도 표기와 함께 `; `로 이어 쓴다(예: `Medical Emergency (216) 566-2917; Transportation Emergency (800) 424-9300`). 하나만 고르지 않는다.
-7. H·P 문구의 `code`는 `"H225"`처럼, 여러 코드가 합쳐진 문구는 `"P303+P361+P353"`처럼 쓴다.
-8. GHS 이전 등급(HMIS, NFPA 등)은 `other_ratings`에 넣는다.
-9. 판단이 애매하거나 문서에 이상한 점이 있으면 `issues`에 남긴다. 예: 성분 함량 합계가 100%를 넘음, 표의 열이 어긋나 확신이 없음. `path`에는 해당 값의 위치(예: `components[2].cas_no`)를 쓰고, 없으면 `""`.
+7. 유해성 분류(`classifications`)는 문서의 분류 목록에서 항목마다 하나씩 넣고, `class`와 `category`에 정해진 값을 함께 넣는다.
+   - `class`: 그 분류의 유해성 항목. 급성 독성은 노출 경로별(`acute_toxicity_oral`·`_dermal`·`_inhalation`), 수생환경은 급성·만성(`aquatic_acute`·`aquatic_chronic`)으로 고른다. 맞는 항목이 없으면 `unknown`.
+   - `category`: 구분. `1`, `1A`, `2B`처럼 숫자와 알파벳으로 쓴다. 형식은 `A`~`G`, 폭발성 등급은 `1.1`~`1.6`(불안정한 폭발성 물질은 `unstable`), 고압가스는 `compressed`·`liquefied`·`refrigerated`·`dissolved`, 자연발화성 가스는 `pyrophoric`, 수유 독성은 `lactation`. 구분이 적혀 있지 않으면 `""`.
+   - 분류 문구에서만 정한다. H 문구에서 거꾸로 추측하지 않는다(둘이 맞는지는 코드가 대조한다).
+8. H·P 문구의 `code`는 `"H225"`처럼, 여러 코드가 합쳐진 문구는 `"P303+P361+P353"`처럼 쓴다.
+9. GHS 이전 등급(HMIS, NFPA 등)은 `other_ratings`에 넣는다.
+10. 판단이 애매하거나 문서에 이상한 점이 있으면 `issues`에 남긴다. 예: 성분 함량 합계가 100%를 넘음, 표의 열이 어긋나 확신이 없음. `path`에는 해당 값의 위치(예: `components[2].cas_no`)를 쓰고, 없으면 `""`.

@@ -144,7 +144,7 @@ fn polane_product() {
             "pages": [1]
         },
         "hazards": {
-            "classifications": [], "signal_word": null, "h_statements": [], "p_statements": [], "pictograms": [],
+            "classifications": [], "ghs_classes": [], "signal_word": null, "h_statements": [], "p_statements": [], "pictograms": [],
             "other_ratings": [{ "system": "HMIS", "values": { "flammability": "3", "health": "2*", "reactivity": "0" } }],
             "pages": [1, 2]
         },

@@ -81,6 +81,10 @@ pub struct Manufacturer {
 #[derive(Clone, Debug, Default, Serialize, Deserialize, PartialEq)]
 pub struct Hazards {
     pub classifications: Vec<Text>,
+    /// 분류를 정해진 값(유해성 항목·구분)으로 정리한 것. 성분 에이전트가 원문 분류 문구에서 정한다.
+    /// 코드가 이것을 H 코드로 바꿔 그림문자와 대조한다(H 문구가 없는 문서도 대조할 수 있게).
+    #[serde(default)]
+    pub ghs_classes: Vec<GhsClass>,
     pub signal_word: Option<Text>,
     pub h_statements: Vec<CodedText>,
     pub p_statements: Vec<CodedText>,
@@ -88,6 +92,13 @@ pub struct Hazards {
     /// GHS 이전 등급(HMIS, NFPA 등).
     pub other_ratings: Vec<Rating>,
     pub pages: Vec<u32>,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+pub struct GhsClass {
+    pub class: crate::ghs::HazardClass,
+    /// 구분. 예: `"1B"`, `"2"`, `"A"`, `"1.4"`
+    pub category: String,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]

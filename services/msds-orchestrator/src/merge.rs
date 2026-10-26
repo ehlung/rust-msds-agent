@@ -153,12 +153,33 @@ pub fn merge(job: &JobCreated, profile: &DocumentProfile, tasks: &[Finished<'_>]
     }
 }
 
-/// 성분 에이전트가 뽑은 H 코드와 취급 에이전트가 고른 그림문자가 맞는지 코드로 비교한다(설계 5-5).
+/// 성분 에이전트가 뽑은 유해성 정보와 취급 에이전트가 고른 그림문자가 맞는지 코드로 비교한다(설계 5-5).
+/// 근거는 문서의 H 문구와, 분류(`ghs_classes`)를 지침 표로 바꾼 H 코드 둘을 합친 것이다.
+/// H 문구 없이 분류만 적은 문서(예: LOCTITE)도 대조하기 위해서다.
 /// 고치지 않고 경고만 남긴다. 문서 자체가 기준과 다를 수도 있어서 판단은 검토하는 사람이 한다.
-/// H 코드가 없는 제품(옛 형식 등)은 비교할 근거가 없어 건너뛴다.
+/// 근거가 둘 다 없는 제품(옛 형식 등)은 건너뛴다.
 fn check_pictograms(products: &[Product], warnings: &mut Vec<Warning>) {
     for (pi, p) in products.iter().enumerate() {
-        let h: Vec<u16> = p.hazards.h_statements.iter().flat_map(|s| s.code.split('+')).filter_map(ghs::h_number).collect();
+        let stated: Vec<u16> = p.hazards.h_statements.iter().flat_map(|s| s.code.split('+')).filter_map(ghs::h_number).collect();
+        let from_classes: Vec<u16> = p.hazards.ghs_classes.iter().filter_map(|c| c.class.h_code(&c.category)).collect();
+        // 분류에는 있는데 H 문구에는 없는 것(예: ARALDITE 경화제의 H318) — 문서 안의 불일치라 안내로 남긴다.
+        // 그림문자 대조가 목적이라 그림문자가 있는 코드만 본다(H402처럼 그림문자 없는 코드는 빼는 문서가 많다)
+        if !stated.is_empty() {
+            let missing: Vec<String> = from_classes
+                .iter()
+                .filter(|h| !stated.contains(h) && !ghs::pictograms_for_h(**h).is_empty())
+                .map(|h| format!("H{h}"))
+                .collect();
+            if !missing.is_empty() {
+                warnings.push(Warning {
+                    code: "classification_h_mismatch".into(),
+                    severity: Severity::Info,
+                    message: format!("분류에는 해당하는데 H 문구에 없음: {}", missing.join(", ")),
+                    path: Some(format!("products[{pi}].hazards.h_statements")),
+                });
+            }
+        }
+        let h: Vec<u16> = stated.iter().chain(&from_classes).copied().collect();
         if h.is_empty() {
             continue;
         }
@@ -296,7 +317,33 @@ mod tests {
         assert_eq!(warnings[0].severity, Severity::Info);
         assert!(warnings[0].message.contains("GHS09") && warnings[0].message.contains("4개만"));
 
-        // H 코드가 없으면 비교하지 않는다
+        // H 문구 없이 분류만 있어도 대조한다(LOCTITE)
+        use pekko_agent_msds::ghs::HazardClass;
+        use pekko_agent_msds::result::GhsClass;
+        let class = |class, category: &str| GhsClass { class, category: category.into() };
+        p.hazards.h_statements = vec![];
+        p.hazards.ghs_classes = vec![
+            class(HazardClass::SkinCorrosionIrritation, "1B"),
+            class(HazardClass::SeriousEyeDamageIrritation, "1"),
+            class(HazardClass::SkinSensitization, "1"),
+        ];
+        p.hazards.pictograms = vec![pic("GHS05")];
+        let mut warnings = vec![];
+        check_pictograms(&[p.clone()], &mut warnings);
+        assert_eq!(warnings.len(), 1);
+        assert!(warnings[0].code == "pictogram_missing" && warnings[0].message.contains("GHS07") && warnings[0].message.contains("H317"));
+
+        // 분류에는 있는데 H 문구에 없으면 안내(ARALDITE 경화제: 분류 H318, H 문구 H314·H317)
+        p.hazards.h_statements = vec![h("H314"), h("H317")];
+        p.hazards.pictograms = vec![pic("GHS05"), pic("GHS07")];
+        let mut warnings = vec![];
+        check_pictograms(&[p.clone()], &mut warnings);
+        let codes: Vec<&str> = warnings.iter().map(|w| w.code.as_str()).collect();
+        assert_eq!(codes, ["classification_h_mismatch"]);
+        assert!(warnings[0].message.contains("H318"));
+
+        // 근거가 둘 다 없으면 비교하지 않는다
+        p.hazards.ghs_classes = vec![];
         p.hazards.h_statements = vec![];
         let mut warnings = vec![];
         check_pictograms(&[p], &mut warnings);

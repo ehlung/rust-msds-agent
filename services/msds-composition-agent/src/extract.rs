@@ -5,16 +5,17 @@
 
 use pekko_agent_llm::{ClaudeMessage, ContentBlock, ImageSource, LlmRequest};
 use pekko_agent_msds::cas;
+use pekko_agent_msds::ghs::HazardClass;
 use pekko_agent_msds::message::AgentTask;
 use pekko_agent_msds::output::CompositionOutput;
 use pekko_agent_msds::result::{
-    CasCheck, CodedText, Component, Concentration, HazardousSubstance, Hazards, Identification, Manufacturer, Rating,
-    Severity, Text, Warning,
+    CasCheck, CodedText, Component, Concentration, GhsClass, HazardousSubstance, Hazards, Identification, Manufacturer,
+    Rating, Severity, Text, Warning,
 };
 use serde::Deserialize;
 use serde_json::{json, Value};
 
-pub const PROMPT_VERSION: &str = "composition/2";
+pub const PROMPT_VERSION: &str = "composition/3";
 const SYSTEM_PROMPT: &str = include_str!("../prompts/composition.md");
 
 /// 구조화 출력 스키마. 모든 객체에 `additionalProperties: false`, 모든 필드는 필수다.
@@ -27,6 +28,9 @@ pub fn schema() -> Value {
     let coded = json!({ "type": "array", "items": { "$ref": "#/$defs/coded" } });
     let pages = json!({ "type": "array", "items": { "type": "integer" } });
     let s = json!({ "type": "string" });
+    // 유해성 항목 + 맞는 항목이 없을 때 쓰는 "unknown"
+    let mut classes: Vec<Value> = HazardClass::ALL.iter().map(|c| serde_json::to_value(c).unwrap()).collect();
+    classes.push(json!("unknown"));
     json!({
         "type": "object",
         "properties": {
@@ -44,7 +48,7 @@ pub fn schema() -> Value {
             "hazards": {
                 "type": "object",
                 "properties": {
-                    "classifications": texts, "signal_word": text,
+                    "classifications": { "type": "array", "items": { "$ref": "#/$defs/classification" } }, "signal_word": text,
                     "h_statements": coded, "p_statements": coded,
                     "other_ratings": {
                         "type": "array",
@@ -117,6 +121,15 @@ pub fn schema() -> Value {
                 "type": "object",
                 "properties": { "code": { "type": "string" }, "src": { "type": "string" }, "ko": { "type": "string" } },
                 "required": ["code", "src", "ko"],
+                "additionalProperties": false
+            },
+            "classification": {
+                "type": "object",
+                "properties": {
+                    "src": { "type": "string" }, "ko": { "type": "string" },
+                    "class": { "type": "string", "enum": classes }, "category": { "type": "string" }
+                },
+                "required": ["src", "ko", "class", "category"],
                 "additionalProperties": false
             }
         }
@@ -210,7 +223,7 @@ struct RawRatingValue {
 
 #[derive(Deserialize)]
 struct RawHazards {
-    classifications: Vec<RawText>,
+    classifications: Vec<RawClassification>,
     signal_word: RawText,
     h_statements: Vec<RawCoded>,
     p_statements: Vec<RawCoded>,
@@ -234,6 +247,15 @@ struct RawComponent {
 struct RawHazardous {
     component_index: i64,
     reasons: Vec<RawText>,
+}
+
+#[derive(Deserialize)]
+struct RawClassification {
+    src: String,
+    ko: String,
+    /// 유해성 항목 이름 또는 "unknown"
+    class: String,
+    category: String,
 }
 
 #[derive(Deserialize)]
@@ -285,8 +307,28 @@ pub fn convert(value: Value, path_prefix: &str) -> anyhow::Result<(CompositionOu
     };
 
     let h = raw.hazards;
+    let mut ghs_classes = Vec::new();
+    let mut classifications = Vec::new();
+    for (n, c) in h.classifications.into_iter().enumerate() {
+        if c.src.trim().is_empty() {
+            continue;
+        }
+        // 항목·구분이 표(지침 별표 2)에 있는 조합일 때만 대조에 쓴다
+        match serde_json::from_value::<HazardClass>(Value::String(c.class.clone())) {
+            Ok(class) if class.h_code(&c.category).is_some() => ghs_classes.push(GhsClass { class, category: c.category.trim().into() }),
+            Ok(_) => warnings.push(Warning {
+                code: "ghs_category_unknown".into(),
+                severity: Severity::Info,
+                message: format!("분류의 구분을 표에서 찾지 못함: {} {:?} ({})", c.class, c.category, c.src),
+                path: Some(format!("{path_prefix}.hazards.classifications[{n}]")),
+            }),
+            Err(_) => {}
+        }
+        classifications.push(Text { src: c.src, ko: c.ko });
+    }
     let hazards = Hazards {
-        classifications: texts(h.classifications),
+        classifications,
+        ghs_classes,
         signal_word: opt_text(h.signal_word),
         h_statements: coded(h.h_statements),
         p_statements: coded(h.p_statements),
@@ -454,7 +496,12 @@ mod tests {
                 "recommended_use": { "src": "", "ko": "" }, "revision_date": "2015-11-29", "pages": [1]
             },
             "hazards": {
-                "classifications": [], "signal_word": { "src": "", "ko": "" },
+                "classifications": [
+                    { "src": "Flam. Liq. 2", "ko": "인화성 액체 구분 2", "class": "flammable_liquids", "category": "2" },
+                    { "src": "Odd 9", "ko": "이상한 분류", "class": "flammable_liquids", "category": "9" },
+                    { "src": "Not GHS", "ko": "GHS 아님", "class": "unknown", "category": "" }
+                ],
+                "signal_word": { "src": "", "ko": "" },
                 "h_statements": [], "p_statements": [],
                 "other_ratings": [ { "system": "HMIS", "values": [ { "name": "health", "value": "2*" } ] } ],
                 "pages": [1]
@@ -485,8 +532,10 @@ mod tests {
         assert_eq!(out.components[1].concentration, None);
         assert_eq!(out.hazardous_substances.len(), 1);
         let codes: Vec<&str> = warnings.iter().map(|w| w.code.as_str()).collect();
-        assert_eq!(codes, ["cas_checksum_failed", "hazardous_index_out_of_range", "agent:column_shift"]);
-        assert_eq!(warnings[0].path.as_deref(), Some("products[0].components[1].cas_no"));
-        assert_eq!(warnings[2].path.as_deref(), Some("products[0].components[1]"));
+        assert_eq!(codes, ["ghs_category_unknown", "cas_checksum_failed", "hazardous_index_out_of_range", "agent:column_shift"]);
+        assert_eq!(out.hazards.classifications.len(), 3);
+        assert_eq!(out.hazards.ghs_classes, [GhsClass { class: HazardClass::FlammableLiquids, category: "2".into() }]);
+        assert_eq!(warnings[1].path.as_deref(), Some("products[0].components[1].cas_no"));
+        assert_eq!(warnings[3].path.as_deref(), Some("products[0].components[1]"));
     }
 }
