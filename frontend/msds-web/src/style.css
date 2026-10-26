@@ -159,6 +159,164 @@ tr.clickable:hover {
   color: var(--err);
 }
 
+.ok {
+  color: var(--ok);
+}
+
+button.secondary {
+  background: var(--line);
+  color: var(--text);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+main:has(.review) {
+  max-width: 1400px;
+}
+
+.review {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .review {
+    grid-template-columns: 1fr;
+  }
+}
+
+.page-view {
+  position: sticky;
+  top: 8px;
+}
+
+.page-view img {
+  width: 100%;
+  margin-top: 8px;
+  border: 1px solid var(--line);
+}
+
+.fields h3 {
+  margin-top: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.fields h4 {
+  margin: 12px 0 4px;
+}
+
+.page-link {
+  font-size: 0.8em;
+  font-weight: normal;
+}
+
+.field {
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.field span {
+  width: 60px;
+  flex-shrink: 0;
+  color: var(--muted);
+}
+
+.fields input,
+.fields select,
+.fields textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 4px 6px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font: inherit;
+}
+
+.fields input.wide {
+  margin-bottom: 4px;
+}
+
+.fields input:disabled,
+.fields textarea:disabled {
+  background: var(--bg);
+  color: var(--text);
+}
+
+td.code {
+  width: 9em;
+}
+
+.pictograms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.pictograms select {
+  width: auto;
+}
+
+.pictogram {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+img.figure {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.warnings {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.warnings li.error {
+  color: var(--err);
+}
+
+.warnings li.warn {
+  color: var(--warn);
+}
+
+.badge.checksum_failed,
+.badge.malformed {
+  background: #fee2e2;
+  color: var(--err);
+  margin-left: 4px;
+}
+
+details summary {
+  cursor: pointer;
+  padding: 4px 0;
+}
+
 .muted {
   color: var(--muted);
   font-size: 0.9em;

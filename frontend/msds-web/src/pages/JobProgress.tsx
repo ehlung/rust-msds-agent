@@ -4,7 +4,7 @@ import { STATUS_KO, STEPS } from "../status";
 import type { JobDetail, JobStatusChanged } from "../types";
 
 // 작업 하나의 진행 상태. SSE로 상태가 바뀔 때마다 상세(사용량 등)를 다시 읽는다
-export function JobProgress({ jobId, back }: { jobId: string; back: () => void }) {
+export function JobProgress({ jobId, back, review }: { jobId: string; back: () => void; review: () => void }) {
   const [job, setJob] = useState<JobDetail | null>(null);
   const [live, setLive] = useState<JobStatusChanged | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -39,7 +39,9 @@ export function JobProgress({ jobId, back }: { jobId: string; back: () => void }
       </ol>
       {status === "failed" && <p className="error">실패: {live?.detail ?? job?.detail}</p>}
       {status !== "failed" && live?.detail && <p>{live.detail}</p>}
-      {status === "pending_review" && <p>분석이 끝났습니다. 검토 화면은 다음 단계에서 붙입니다.</p>}
+      {(status === "pending_review" || status === "approved" || status === "published") && (
+        <button onClick={review}>{status === "pending_review" ? "검토하기" : "결과 보기"}</button>
+      )}
       {job && (
         <p className="muted">
           Claude 호출 {job.usage.calls}번(기록 사용 {job.usage.cached_calls}번) · 입력 {job.usage.input_tokens.toLocaleString()} / 출력{" "}

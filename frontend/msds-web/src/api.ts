@@ -1,5 +1,5 @@
 // gateway 호출. 토큰은 탭을 닫으면 사라지게 sessionStorage에 둔다.
-import type { JobDetail, JobRow, JobStatusChanged } from "./types";
+import type { JobDetail, JobRow, JobStatusChanged, MsdsResult, ResultResponse } from "./types";
 
 const TOKEN_KEY = "msds-token";
 
@@ -50,6 +50,29 @@ export async function login(apiKey: string): Promise<void> {
 
 export const listJobs = () => request<JobRow[]>("/api/msds/jobs?limit=100");
 export const getJob = (id: string) => request<JobDetail>(`/api/msds/jobs/${id}`);
+
+export const getResult = (id: string) => request<ResultResponse>(`/api/msds/jobs/${id}/result`);
+
+export const saveResult = (id: string, baseVersion: number, result: MsdsResult) =>
+  request<ResultResponse>(`/api/msds/jobs/${id}/result`, {
+    method: "PUT",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ base_version: baseVersion, result }),
+  });
+
+export const approve = (id: string, version: number) =>
+  request<JobRow>(`/api/msds/jobs/${id}/approve`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ version }),
+  });
+
+/** 작업 파일(페이지 이미지·그림)을 받아 blob URL로. `<img src>`는 Authorization 헤더를 못 붙인다(설계 3-3). */
+export async function fileUrl(id: string, path: string): Promise<string> {
+  const res = await fetch(`/api/msds/jobs/${id}/files/${path}`, { headers: { authorization: `Bearer ${getToken() ?? ""}` } });
+  if (!res.ok) throw new ApiError(res.status, `파일을 받지 못함: ${path}`);
+  return URL.createObjectURL(await res.blob());
+}
 
 export function uploadPdf(file: File): Promise<JobRow> {
   const form = new FormData();
