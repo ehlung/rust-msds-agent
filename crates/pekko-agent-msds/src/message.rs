@@ -39,6 +39,7 @@ pub enum IngestOutcome {
 }
 
 #[derive(Clone, Copy, Debug, Serialize, Deserialize, PartialEq, Eq, Hash)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 #[serde(rename_all = "snake_case")]
 pub enum AgentKind {
     Translate,
@@ -57,6 +58,7 @@ impl AgentKind {
 }
 
 #[derive(Clone, Copy, Debug, Serialize, Deserialize, PartialEq, Eq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 #[serde(rename_all = "snake_case")]
 pub enum Effort {
     Medium,
@@ -182,6 +184,7 @@ pub struct ErrorInfo {
 
 /// `msds.job.status` (orchestrator → gateway)
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 pub struct JobStatusChanged {
     pub job_id: Uuid,
     pub status: JobStatus,
@@ -189,6 +192,7 @@ pub struct JobStatusChanged {
 }
 
 #[derive(Clone, Copy, Debug, Serialize, Deserialize, PartialEq, Eq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 #[serde(rename_all = "snake_case")]
 pub enum JobStatus {
     Received,

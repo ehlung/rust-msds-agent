@@ -5,6 +5,7 @@ use serde::{Deserialize, Serialize};
 use crate::section::SectionKind;
 
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 pub struct DocumentProfile {
     pub pages: u32,
     pub language: Language,
@@ -15,6 +16,7 @@ pub struct DocumentProfile {
 }
 
 #[derive(Clone, Copy, Debug, Serialize, Deserialize, PartialEq, Eq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 #[serde(rename_all = "snake_case")]
 pub enum Language {
     En,
@@ -23,6 +25,7 @@ pub enum Language {
 
 /// 텍스트 레이어 상태.
 #[derive(Clone, Copy, Debug, Serialize, Deserialize, PartialEq, Eq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 #[serde(rename_all = "snake_case")]
 pub enum TextLayer {
     /// 텍스트가 정상으로 읽힌다.
@@ -35,6 +38,7 @@ pub enum TextLayer {
 
 /// 섹션 순서 형식.
 #[derive(Clone, Copy, Debug, Serialize, Deserialize, PartialEq, Eq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 #[serde(rename_all = "snake_case")]
 pub enum DocFormat {
     /// 2절 유해성, 3절 성분.
@@ -44,6 +48,7 @@ pub enum DocFormat {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 pub struct ProductProfile {
     pub index: u32,
     pub name_guess: Option<String>,
@@ -56,6 +61,7 @@ pub struct ProductProfile {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 pub struct SectionText {
     pub kind: SectionKind,
     /// 문서에 적힌 섹션 번호.
@@ -67,6 +73,7 @@ pub struct SectionText {
 
 /// 그림 후보. 고르는 일은 취급 에이전트가 한다.
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 pub struct Figure {
     pub page: u32,
     /// PDF 좌표(pt)로 [왼쪽, 위, 너비, 높이]. 위는 페이지 위쪽에서 잰 거리.
@@ -76,6 +83,7 @@ pub struct Figure {
 }
 
 #[derive(Clone, Copy, Debug, Serialize, Deserialize, PartialEq, Eq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 #[serde(rename_all = "snake_case")]
 pub enum FigureSource {
     ImageObject,
@@ -84,6 +92,7 @@ pub enum FigureSource {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 pub struct PageImage {
     pub page: u32,
     /// 파일 저장소 키. 예: `jobs/<job_id>/pages/1.png`

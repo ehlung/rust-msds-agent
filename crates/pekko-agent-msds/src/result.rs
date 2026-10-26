@@ -12,6 +12,7 @@ use crate::section::SectionKind;
 pub const SCHEMA: &str = "msds-result/1";
 
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 pub struct MsdsResult {
     pub schema: String,
     pub job_id: Uuid,
@@ -23,6 +24,7 @@ pub struct MsdsResult {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 pub struct DocumentInfo {
     pub file_name: String,
     pub sha256: String,
@@ -33,12 +35,14 @@ pub struct DocumentInfo {
 
 /// 원문과 한국어. 한글 문서는 둘이 같다.
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 pub struct Text {
     pub src: String,
     pub ko: String,
 }
 
 #[derive(Clone, Copy, Debug, Serialize, Deserialize, PartialEq, Eq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 #[serde(rename_all = "snake_case")]
 pub enum Basis {
     /// 문서에 적혀 있다.
@@ -48,6 +52,7 @@ pub enum Basis {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 pub struct Product {
     pub index: u32,
     pub pages: [u32; 2],
@@ -61,6 +66,7 @@ pub struct Product {
 }
 
 #[derive(Clone, Debug, Default, Serialize, Deserialize, PartialEq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 pub struct Identification {
     pub product_name: Option<String>,
     pub product_code: Option<String>,
@@ -72,6 +78,7 @@ pub struct Identification {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 pub struct Manufacturer {
     pub name: String,
     pub address: Option<String>,
@@ -79,6 +86,7 @@ pub struct Manufacturer {
 }
 
 #[derive(Clone, Debug, Default, Serialize, Deserialize, PartialEq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 pub struct Hazards {
     pub classifications: Vec<Text>,
     /// 분류를 정해진 값(유해성 항목·구분)으로 정리한 것. 성분 에이전트가 원문 분류 문구에서 정한다.
@@ -95,6 +103,7 @@ pub struct Hazards {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 pub struct GhsClass {
     pub class: crate::ghs::HazardClass,
     /// 구분. 예: `"1B"`, `"2"`, `"A"`, `"1.4"`
@@ -102,6 +111,7 @@ pub struct GhsClass {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 pub struct CodedText {
     pub code: String,
     pub src: String,
@@ -109,6 +119,7 @@ pub struct CodedText {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 pub struct Pictogram {
     /// `GHS01` ~ `GHS09`
     pub ghs_code: String,
@@ -118,12 +129,14 @@ pub struct Pictogram {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 pub struct Rating {
     pub system: String,
     pub values: std::collections::BTreeMap<String, String>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 pub struct Component {
     pub name: Text,
     pub cas_no: Option<String>,
@@ -135,6 +148,7 @@ pub struct Component {
 }
 
 #[derive(Clone, Copy, Debug, Serialize, Deserialize, PartialEq, Eq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 #[serde(rename_all = "snake_case")]
 pub enum CasCheck {
     Valid,
@@ -149,6 +163,7 @@ pub enum CasCheck {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 pub struct Concentration {
     /// 원문 그대로 (예: `"10 ~ 12"`, `"< 1"`).
     pub raw: String,
@@ -158,12 +173,14 @@ pub struct Concentration {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 pub struct HazardousSubstance {
     pub component_index: u32,
     pub reasons: Vec<Text>,
 }
 
 #[derive(Clone, Debug, Default, Serialize, Deserialize, PartialEq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 pub struct Handling {
     pub precautions: Vec<Text>,
     pub storage: Vec<Text>,
@@ -173,6 +190,7 @@ pub struct Handling {
 }
 
 #[derive(Clone, Debug, Default, Serialize, Deserialize, PartialEq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 pub struct Ppe {
     pub respiratory: Option<Text>,
     pub hand: Option<Text>,
@@ -181,6 +199,7 @@ pub struct Ppe {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 pub struct TranslatedSection {
     pub kind: SectionKind,
     pub number: u32,
@@ -190,6 +209,7 @@ pub struct TranslatedSection {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 pub struct Image {
     pub id: String,
     pub kind: ImageKind,
@@ -202,6 +222,7 @@ pub struct Image {
 }
 
 #[derive(Clone, Copy, Debug, Serialize, Deserialize, PartialEq, Eq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 #[serde(rename_all = "snake_case")]
 pub enum ImageKind {
     Pictogram,
@@ -210,6 +231,7 @@ pub enum ImageKind {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 pub struct Warning {
     pub code: String,
     pub severity: Severity,
@@ -219,6 +241,7 @@ pub struct Warning {
 }
 
 #[derive(Clone, Copy, Debug, Serialize, Deserialize, PartialEq, Eq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 #[serde(rename_all = "snake_case")]
 pub enum Severity {
     Info,
@@ -227,6 +250,7 @@ pub enum Severity {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 pub struct Provenance {
     pub agent: crate::message::AgentKind,
     pub model: String,

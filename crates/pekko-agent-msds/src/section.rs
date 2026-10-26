@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 
 /// MSDS 섹션 종류. 섹션 번호는 형식마다 뜻이 달라(옛 미국 형식은 2절이 성분) 번호 대신 종류로 묶는다.
 #[derive(Clone, Copy, Debug, Serialize, Deserialize, PartialEq, Eq, Hash)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 #[serde(rename_all = "snake_case")]
 pub enum SectionKind {
     Identification,

@@ -28,6 +28,7 @@ pub fn name_ko(code: &str) -> Option<&'static str> {
 
 /// 유해성 항목(GHS 유해성 분류). 지침 4장 (1)의 항목이고, 급성 독성은 노출 경로별, 과민성은 호흡기·피부, 수생환경은 급성·만성으로 나눴다.
 #[derive(Clone, Copy, Debug, Serialize, Deserialize, PartialEq, Eq, Hash)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 #[serde(rename_all = "snake_case")]
 pub enum HazardClass {
     Explosives,

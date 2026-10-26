@@ -18,6 +18,7 @@ pub struct JobStore {
 
 /// 화면·API에 보여 줄 작업 한 줄.
 #[derive(Clone, Debug, Serialize)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 pub struct JobRow {
     pub job_id: Uuid,
     pub file_name: String,
@@ -42,10 +43,15 @@ pub struct Unfinished {
 
 /// 작업 하나의 Claude 사용량 합계.
 #[derive(Clone, Debug, Default, Serialize)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
 pub struct UsageSummary {
+    #[cfg_attr(feature = "ts", ts(type = "number"))]
     pub calls: i64,
+    #[cfg_attr(feature = "ts", ts(type = "number"))]
     pub cached_calls: i64,
+    #[cfg_attr(feature = "ts", ts(type = "number"))]
     pub input_tokens: i64,
+    #[cfg_attr(feature = "ts", ts(type = "number"))]
     pub output_tokens: i64,
 }
 

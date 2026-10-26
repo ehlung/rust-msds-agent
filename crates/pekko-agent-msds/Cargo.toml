@@ -11,3 +11,8 @@ serde = { workspace = true }
 serde_json = { workspace = true }
 uuid = { workspace = true }
 chrono = { workspace = true }
+ts-rs = { version = "10", optional = true, features = ["uuid-impl", "chrono-impl", "no-serde-warnings"] }
+
+[features]
+# 화면(frontend/msds-web)용 TypeScript 타입 생성. scripts/gen-ts.sh가 켠다
+ts = ["dep:ts-rs"]
