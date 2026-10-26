@@ -1,0 +1,2907 @@
+# 국내 규제 목록 — 사전조사서의 법규 해당 여부 대조용(설계 5-8). 직접 고치지 않는다.
+# 만든 방법: cargo run -p pekko-agent-msds-format --example build_kr_lists -- <작업 폴더>
+# 법령·고시는 저작권 보호 대상이 아니다(저작권법 제7조). 대조는 CAS로만 하고, 이름은 참고값이다.
+# 허가물질은 지정 고시를 찾지 못해 목록이 없다(대조하지 않음).
+@source	kr_acute_toxic,kr_chronic_toxic,kr_eco_toxic	화평법 제2조제6호·제6의2호·제6의3호, 제20조 — 인체급성유해성물질, 인체만성유해성물질 및 생태유해성물질의 지정고시(화학물질안전원고시 제2026-5호, 시행 2026-07-01) 별표 첨부	https://www.law.go.kr/LSW/flDownload.do?flSeq=162837753	sha256=a79fef57b5c935d5bd25b64d8b41d5eba0dcb4e44b473bd0892e9ba3e5cd7585
+@source	kr_acute_toxic,kr_chronic_toxic,kr_eco_toxic	같은 고시 화학물질안전원고시 제2026-16호(고시 2026-09-18, 시행 2026-12-19) 별표 첨부 — 2026-5호에 새로 더해진 것만 시행일을 붙인다	https://www.law.go.kr/LSW/flDownload.do?flSeq=169398093	sha256=fca1310dd4e6503a0c5c10e64fc6e12d4e3b6fa4ad5e7d91b7cc3958225e22e8
+@source	kr_restricted	화평법 제27조 — 제한물질·금지물질의 지정(기후에너지환경부고시 제2025-28호, 시행 2026-01-01) 별표 2 제한물질	https://www.law.go.kr/LSW/flDownload.do?flSeq=158305577	sha256=75bef57f6d3addd38a925f286105161c5672c27b66e174b4057ddb4d13e5dad7
+@source	kr_restricted	같은 고시 별표 3 총칭으로 지정된 제한물질의 구체적 목록	https://www.law.go.kr/LSW/flDownload.do?flSeq=158305589	sha256=58d52a158a5db1eee18ee7b0888e9e0daa38866cd6698eba6a55c59eaab0af8f
+@source	kr_prohibited	같은 고시 별표 4 금지물질	https://www.law.go.kr/LSW/flDownload.do?flSeq=158305599	sha256=7b647791373e7dc0855aa71b1442653a18eff4fb239efcf268c141dd2abcf9dc
+@source	kr_prohibited	같은 고시 별표 5 총칭으로 지정된 금지물질의 구체적 목록	https://www.law.go.kr/LSW/flDownload.do?flSeq=158305607	sha256=3794c8f8c660ce06aea5c3c66eb761cdb24d65ec7102a209e7d8d2d9539e8162
+@source	kr_accident_precaution	화관법 제2조제6호, 제39조 — 사고대비물질의 지정(화학물질안전원고시 제2026-2호, 시행 2026-03-10) 별표 1	https://www.law.go.kr/LSW/flDownload.do?flSeq=162231931	sha256=f467d62d1c37d7e8ebbff4e0083682d5863712d26520202934ba261847d7725d
+@source	kr_managed_hazardous	산업안전보건기준에 관한 규칙 별표 12 관리대상 유해물질의 종류(개정 2022-10-18, 규칙 시행 2026-03-02 판)	https://www.law.go.kr/LSW/flDownload.do?flSeq=164209729	sha256=6b9d9c48bd391271b42483953af126e65c89f46c4ecd200edd960d129ca55de2
+@source	kr_work_env_measurement	산업안전보건법 시행규칙 별표 21 작업환경측정 대상 유해인자(규칙 시행 2026-08-01 판)	https://www.law.go.kr/LSW/flDownload.do?flSeq=167463135	sha256=9a66bf45d3a7ac3e836497fe312506817adfff8dafbc7150508a49f79bf2bd8f
+@source	kr_special_health_exam	산업안전보건법 시행규칙 별표 22 특수건강진단 대상 유해인자(개정 2021-11-19, 규칙 시행 2026-08-01 판)	https://www.law.go.kr/LSW/flDownload.do?flSeq=167463161	sha256=b0020dc5d49d0036201f7e1bb713bb2524372d9add98f807424ae39430c2534e
+list	cas	from	name
+kr_accident_precaution	100-42-5		
+kr_accident_precaution	100-44-7		
+kr_accident_precaution	100-97-0		
+kr_accident_precaution	10025-78-2		
+kr_accident_precaution	10025-87-3		
+kr_accident_precaution	10026-04-7		
+kr_accident_precaution	10049-04-4		
+kr_accident_precaution	10102-43-9		
+kr_accident_precaution	10294-34-5		
+kr_accident_precaution	106-42-3		
+kr_accident_precaution	106-99-0		
+kr_accident_precaution	107-02-8		
+kr_accident_precaution	107-05-1		
+kr_accident_precaution	107-13-1		
+kr_accident_precaution	107-15-3		
+kr_accident_precaution	107-18-6		
+kr_accident_precaution	107-44-8		
+kr_accident_precaution	107-46-0		
+kr_accident_precaution	108-38-3		
+kr_accident_precaution	108-39-4		
+kr_accident_precaution	108-88-3		
+kr_accident_precaution	108-95-2		
+kr_accident_precaution	109-73-9		
+kr_accident_precaution	109-92-2		
+kr_accident_precaution	115-21-9		
+kr_accident_precaution	116-14-3		
+kr_accident_precaution	121-44-8		
+kr_accident_precaution	1314-84-7		
+kr_accident_precaution	1330-20-7		
+kr_accident_precaution	1338-23-4		
+kr_accident_precaution	13463-39-3		
+kr_accident_precaution	13463-40-6		
+kr_accident_precaution	141-78-6		
+kr_accident_precaution	143-33-9		
+kr_accident_precaution	151-56-4		
+kr_accident_precaution	1590-87-0		
+kr_accident_precaution	19287-45-7		
+kr_accident_precaution	3811-04-9		
+kr_accident_precaution	4098-71-9		
+kr_accident_precaution	4109-96-0		
+kr_accident_precaution	50-00-0		
+kr_accident_precaution	506-77-4		
+kr_accident_precaution	584-84-9		
+kr_accident_precaution	60-34-4		
+kr_accident_precaution	630-08-0		
+kr_accident_precaution	64-18-6		
+kr_accident_precaution	6484-52-2		
+kr_accident_precaution	67-56-1		
+kr_accident_precaution	685-63-2		
+kr_accident_precaution	71-43-2		
+kr_accident_precaution	74-87-3		
+kr_accident_precaution	74-89-5		
+kr_accident_precaution	74-90-8		
+kr_accident_precaution	7440-23-5		
+kr_accident_precaution	75-01-4		
+kr_accident_precaution	75-15-0		
+kr_accident_precaution	75-21-8		
+kr_accident_precaution	75-35-4		
+kr_accident_precaution	75-44-5		
+kr_accident_precaution	75-50-3		
+kr_accident_precaution	75-52-5		
+kr_accident_precaution	75-54-7		
+kr_accident_precaution	75-56-9		
+kr_accident_precaution	75-76-3		
+kr_accident_precaution	75-79-6		
+kr_accident_precaution	75-94-5		
+kr_accident_precaution	7550-45-0		
+kr_accident_precaution	76-06-2		
+kr_accident_precaution	7631-99-4		
+kr_accident_precaution	7637-07-2		
+kr_accident_precaution	7647-01-0		
+kr_accident_precaution	7664-39-3		
+kr_accident_precaution	7664-41-7		
+kr_accident_precaution	7664-93-9		
+kr_accident_precaution	7697-37-2		
+kr_accident_precaution	7719-09-7		
+kr_accident_precaution	7719-12-2		
+kr_accident_precaution	7722-64-7		
+kr_accident_precaution	7722-84-1		
+kr_accident_precaution	7726-95-6		
+kr_accident_precaution	7757-79-1		
+kr_accident_precaution	7775-09-9		
+kr_accident_precaution	7778-74-7		
+kr_accident_precaution	7782-41-4		
+kr_accident_precaution	7782-50-5		
+kr_accident_precaution	7782-65-2		
+kr_accident_precaution	7783-06-4		
+kr_accident_precaution	7783-07-5		
+kr_accident_precaution	7783-61-1		
+kr_accident_precaution	7784-42-1		
+kr_accident_precaution	7789-30-2		
+kr_accident_precaution	7790-94-5		
+kr_accident_precaution	78-79-5		
+kr_accident_precaution	78-93-3		
+kr_accident_precaution	78-94-4		
+kr_accident_precaution	7803-51-2		
+kr_accident_precaution	7803-62-5		
+kr_accident_precaution	79-10-7		
+kr_accident_precaution	814-68-6		
+kr_accident_precaution	95-47-6		
+kr_accident_precaution	96-33-3		
+kr_accident_precaution	98-95-3		
+kr_accident_precaution	99-99-0		
+kr_acute_toxic	100-20-9		테레프탈로일 클로라이드; 이염화 테레프탈로일
+kr_acute_toxic	100-43-6		4-비닐피리딘
+kr_acute_toxic	100-44-7		벤질 클로라이드; 염화벤질
+kr_acute_toxic	100-57-2		수산화 페닐수은
+kr_acute_toxic	100-63-0		페닐히드라진
+kr_acute_toxic	100-69-6		2-비닐피리딘
+kr_acute_toxic	100124-06-9		B-4-디벤조푸라닐붕산
+kr_acute_toxic	10022-31-8	2026-12-19	질산 바륨
+kr_acute_toxic	10025-67-9		염화 황
+kr_acute_toxic	10025-78-2		트리클로로실란
+kr_acute_toxic	10025-87-3		옥시염화 인
+kr_acute_toxic	10026-04-7		테트라클로로 실리콘
+kr_acute_toxic	10026-13-8		오염화 인
+kr_acute_toxic	10028-18-9		플루오르화 니켈; 불화니켈
+kr_acute_toxic	10034-85-2		요오드화 수소
+kr_acute_toxic	10035-10-6		브롬화 수소; 브롬산
+kr_acute_toxic	10049-04-4		이산화 염소
+kr_acute_toxic	101-68-8		메틸렌 디페닐 디이소시아네이트; 메틸렌 디페닐 디이소시안산; 엠디아이(MDI)
+kr_acute_toxic	101-77-9		4,4'-메틸렌디아닐린
+kr_acute_toxic	101-83-7		디사이클로헥실아민
+kr_acute_toxic	101-90-6		2,2'-[1,3-페닐렌비스(옥시메틸렌)]비스[옥시란]
+kr_acute_toxic	10102-43-9		산화질소
+kr_acute_toxic	10102-45-1		질산 탈륨
+kr_acute_toxic	1011514-41-2		N,N'-디에틸-N,N'-디메틸실란디아민
+kr_acute_toxic	102-06-7		1,3-디페닐구아니딘
+kr_acute_toxic	102-82-9		트리부틸아민
+kr_acute_toxic	1022939-88-3		트리페닐술포늄과 2,2-디플루오로-2-술포아세트산 1-(트리사이클로[3.3.1.13,7]데실메틸)의 염 (1:1)
+kr_acute_toxic	10265-92-6		메타아미도포스
+kr_acute_toxic	102767-76-0		펜타키스(트리메틸실일) 트리포스페이트
+kr_acute_toxic	10294-26-5		황산은
+kr_acute_toxic	10294-34-5		트리클로로붕소
+kr_acute_toxic	10294-40-3		크롬산 바륨
+kr_acute_toxic	1031-47-6		트리아미포스
+kr_acute_toxic	10311-84-9		다이알리포스
+kr_acute_toxic	10361-37-2	2026-12-19	염화 바륨
+kr_acute_toxic	104-15-4		p-톨루엔술폰산
+kr_acute_toxic	104-40-5		노닐페놀류
+kr_acute_toxic	104-49-4		1,4-디이소시아나토벤젠
+kr_acute_toxic	105-33-9		4-클로로-3-히드록시부티로니트릴
+kr_acute_toxic	10563-26-5		N,N'-비스(3-아미노프로필)-1,2-에탄디아민
+kr_acute_toxic	105827-78-9		이미다클로프리드
+kr_acute_toxic	106-20-7		비스(2-에틸헥실)아민
+kr_acute_toxic	106-44-5		크레졸
+kr_acute_toxic	106-50-3		1,4-페닐렌디아민
+kr_acute_toxic	106-51-4		1,4-벤조퀴논
+kr_acute_toxic	106-89-8		에피클로로히드린; 2-(클로로메틸) 옥시란
+kr_acute_toxic	106-90-1		글리시딜 아크릴산
+kr_acute_toxic	106-93-4		1,2-디브로모에탄
+kr_acute_toxic	106-95-6		3-브로모-1-프로펜
+kr_acute_toxic	1066-35-9		클로로디메틸실란
+kr_acute_toxic	106870-78-4		카구로포스
+kr_acute_toxic	106917-52-6		플루술파미드
+kr_acute_toxic	107-02-8		아크롤레인
+kr_acute_toxic	107-04-0		1-브로모-2-클로로에탄
+kr_acute_toxic	107-05-1		알릴 클로라이드
+kr_acute_toxic	107-07-3		2-클로로에탄올
+kr_acute_toxic	107-12-0		프로피오노니트릴
+kr_acute_toxic	107-13-1		아크릴로니트릴
+kr_acute_toxic	107-15-3		에틸렌디아민
+kr_acute_toxic	107-18-6		알릴 알콜
+kr_acute_toxic	107-19-7		2-프로핀-1-올; 프로파길 알콜
+kr_acute_toxic	107-30-2		클로로메틸 메틸 에테르
+kr_acute_toxic	107-32-4		과포름산
+kr_acute_toxic	107-36-8	2026-12-19	2-히드록시에탄술폰산
+kr_acute_toxic	107-44-8		사린
+kr_acute_toxic	107-49-3		테트라에틸 피로포스페이트; 피로인산 테트라에틸
+kr_acute_toxic	1073-05-8		1,3,2-디옥사티안 2,2-디옥사이드
+kr_acute_toxic	107667-02-7		비스(2,4,4-트리메틸펜틸)포스피노디티오산
+kr_acute_toxic	108-18-9		디이소프로필아민; 디아이피에이(DIPA)
+kr_acute_toxic	108-24-7		무수아세트산
+kr_acute_toxic	108-31-6		무수 말레산; 2,5-퓨란디온
+kr_acute_toxic	108-34-9		피라족손
+kr_acute_toxic	108-35-0		피라조티온
+kr_acute_toxic	108-39-4		크레졸
+kr_acute_toxic	108-42-9		m-아미노클로로벤젠
+kr_acute_toxic	108-62-3		메타알데히드
+kr_acute_toxic	108-77-0		염화 시아누르산; 시아누릭 클로라이드
+kr_acute_toxic	108-91-8		시클로헥실아민
+kr_acute_toxic	108-94-1		사이클로헥사논
+kr_acute_toxic	108-95-2		페놀
+kr_acute_toxic	108-99-6	2026-12-19	3-메틸피리딘
+kr_acute_toxic	108173-90-6		구아자틴
+kr_acute_toxic	109-09-1		2-클로로피리딘
+kr_acute_toxic	109-55-7		3-아미노프로필디메틸아민
+kr_acute_toxic	109-61-5		n-프로필 클로로포메이트; 클로로포름산 n-프로필
+kr_acute_toxic	109-73-9		n-부틸아민
+kr_acute_toxic	109-74-0		부탄니트릴
+kr_acute_toxic	109-77-3		말로노니트릴
+kr_acute_toxic	109-83-1		2-(메틸아미노)에탄올
+kr_acute_toxic	110-57-6		(2E)-1,4-디클로로-2-부텐
+kr_acute_toxic	110-61-2		부탄디니트릴
+kr_acute_toxic	110-65-6		2-부틴-1,4-디올
+kr_acute_toxic	110-70-3		N1,N2-디메틸-1,2-에탄디아민
+kr_acute_toxic	110-85-0	2026-12-19	피페라진
+kr_acute_toxic	110429-36-2		(3S,4R)-3-[(1,3-벤조디옥솔-5-일옥시)메틸]-4-(4-플루오로페닐)-1-메틸피페리딘
+kr_acute_toxic	11066-49-2		노닐페놀류
+kr_acute_toxic	1109-15-5		트리스(2,3,4,5,6-펜타플루오로페닐)보란
+kr_acute_toxic	111-30-8		글루타르알데히드
+kr_acute_toxic	111-44-4		비스(2-클로로에틸)에테르
+kr_acute_toxic	111-64-8		옥타노일 클로라이드
+kr_acute_toxic	111-76-2	2026-12-19	2-부톡시에탄올
+kr_acute_toxic	111-92-2		디-n-부틸아민
+kr_acute_toxic	11113-75-0		황화니켈류
+kr_acute_toxic	1112983-16-0		(4-메틸페닐)디페닐술포늄과 2,2-디플루오로-2-술포아세트산 1-(헥사히드로-5-옥소-2,6-메타노푸로[3,2-b]푸란-3-일)의 염 (1:1)
+kr_acute_toxic	1113-02-6		오메토에이트
+kr_acute_toxic	11135-81-2		칼륨과 나트륨의 합금
+kr_acute_toxic	111872-58-3		할펜프록스
+kr_acute_toxic	112-18-5		N,N-디메틸-1-도데칸아민
+kr_acute_toxic	112-25-4	2026-12-19	에틸렌 글리콜 모노헥실 에테르
+kr_acute_toxic	112-69-6	2026-12-19	N,N-디메틸-1-헥사데칸아민
+kr_acute_toxic	1120-71-4		1,2-옥사티올란, 2,2-디옥사이드
+kr_acute_toxic	1121-31-9		오마딘
+kr_acute_toxic	112143-82-5		트리아자메이트
+kr_acute_toxic	114-26-1		프로폭서
+kr_acute_toxic	114435-02-8	2026-12-19	4-플루오로-1,3-디옥소란-2-온
+kr_acute_toxic	1146597-81-0		α,α-디플루오로트리사이클로[3.3.1.13,7]데칸-1-에탄술폰산 트리페닐술포늄 (1:1)
+kr_acute_toxic	115-21-9		트리클로로에틸실란
+kr_acute_toxic	115-26-4		디메폭스
+kr_acute_toxic	115-29-7		엔도술판
+kr_acute_toxic	115-78-6		염화 클로르포늄
+kr_acute_toxic	115-90-2		펜술포티온
+kr_acute_toxic	115-93-5		싸이티오산
+kr_acute_toxic	1158533-82-4		N3-[(3,4-디클로로페닐)메틸]-N1,N1-디에틸-1,3-프로판디아민의 염산염 (1:2)
+kr_acute_toxic	116-06-3		알디캅
+kr_acute_toxic	116340-05-7		N,N,N-트리메틸메탄아미늄과 6-아미노-4-히드록시-3-[[7-술포-4-[(4-술포페닐)아조]-1-나프탈렌일]아조]-2,7-나프탈렌디술폰산의 염(4:1)
+kr_acute_toxic	116735-74-1		N2-(4-아미노페닐)-2,5-피리딘디아민
+kr_acute_toxic	116808-67-4		트리플루오로메탄술폰산 (4-메톡시페닐)디페닐술포늄
+kr_acute_toxic	117-52-2		쿠마퍼릴
+kr_acute_toxic	118418-91-0		테트라에틸 규산 중합체
+kr_acute_toxic	1186651-99-9		(4-메틸페닐)디페닐술포늄과 운데칸산 2-[(2,2-디플루오로-2-술포아세틸)옥시]에틸의 염 (1:1)
+kr_acute_toxic	119-38-0		이솔란
+kr_acute_toxic	119-90-4		3,3'-디메톡시-[1,1-비페닐]-4,4'-디아민과 그 염산염
+kr_acute_toxic	119168-77-3		테브펜피라드
+kr_acute_toxic	1193-21-1		4,6-디클로로피리미딘
+kr_acute_toxic	119791-41-2		에마멕틴
+kr_acute_toxic	120-94-5		1-메틸피롤리딘
+kr_acute_toxic	120-98-9		5-아미노-4-히드록시-1,3-벤젠디술폰산
+kr_acute_toxic	120068-37-3		피프로닐
+kr_acute_toxic	12035-72-2		황화니켈류
+kr_acute_toxic	120441-92-1		(T-4)-[3-(디메틸아미노-κN)프로필-κC]디메틸인듐
+kr_acute_toxic	12078-25-0		디카르보닐(η5-2,4-사이클로펜타디엔-1-일)코발트
+kr_acute_toxic	120928-09-8		페나자퀸
+kr_acute_toxic	121-14-2		디니트로톨루엔
+kr_acute_toxic	121-44-8		트리에틸아민
+kr_acute_toxic	121-82-4		시클로니트
+kr_acute_toxic	121158-58-5	2026-12-19	가지형 도데실페놀
+kr_acute_toxic	12125-01-8		플루오르화 암모늄; 불화암모늄
+kr_acute_toxic	1217886-69-5		플루오르화 N-(디플루오로포스피닐) 술파모일의 리튬염 (1:1)
+kr_acute_toxic	12185-10-3		백린
+kr_acute_toxic	122-10-1		보밀
+kr_acute_toxic	122-14-5		페니트로티온
+kr_acute_toxic	122-15-6		디메탄
+kr_acute_toxic	122-39-4		디페닐아민; N-페닐벤젠아민
+kr_acute_toxic	1221522-53-7		(η5-2,4-사이클로펜타디엔-1-일)비스(N-메틸메탄아미나토)[2-메틸-2-프로판아미나토(2-)]니오븀
+kr_acute_toxic	122431-24-7		O,O-디에틸 O-1-페닐-3-트리플루오로메틸피라졸-5-일티오인산; O,O-디에틸 O-1-페닐-3-트리플루오로메틸피라졸-5-일 포스포로티오에이트
+kr_acute_toxic	122454-29-9		4-브로모-2-(4-클로로페닐)-5-(트리플루오로메틸)-1H-피롤-3-카르보니트릴
+kr_acute_toxic	1225193-85-0		1,1-디메틸에틸 N-[(2,5-디아미노페닐)메틸]카바메이트
+kr_acute_toxic	123-73-9		크로톤알데히드; 2-부텐알
+kr_acute_toxic	123-75-1		피롤리딘
+kr_acute_toxic	123-81-9		에틸렌 메르캅토아세테이트
+kr_acute_toxic	123-88-6		염화 2-메톡시에틸수은
+kr_acute_toxic	123215-04-3		트리플루오로트리스(퍼플루오로에틸)인산 칼륨 (1:1)
+kr_acute_toxic	1233844-88-6		트리스(4-메틸페닐)술포늄과 1-[(3-히드록시트리시클로[3.3.1.13,7]데실)메틸] 2,2-디플루오로-2-설포아세테이트 (1:1)의 염
+kr_acute_toxic	124-02-7		N-2-프로펜일-2-프로펜-1-아민; 디알릴아민
+kr_acute_toxic	124-07-2	2026-12-19	옥탄산
+kr_acute_toxic	124-09-4		헥사메틸렌디아민
+kr_acute_toxic	124-40-3		디메틸 아민
+kr_acute_toxic	124-41-4		메탄올레이트 나트륨
+kr_acute_toxic	124-43-6		과산화 우레아
+kr_acute_toxic	124-63-0		메탄술포닐클로라이드; 염화메탄술포닐
+kr_acute_toxic	124-70-9		디클로로에테닐메틸실란
+kr_acute_toxic	1240248-58-1		트리페닐술포늄과 2,2,2-트리플루오로-1-(술포메틸)-1-(트리플루오로메틸)에틸 트리사이클로[3.3.1.13,7]데칸-1-카르복실레이트 (1:1)의 염
+kr_acute_toxic	1245634-39-2		트리플루오로트리스(1,1,2,2,2-펜타플루오로에틸)인산 [4-(1-메틸에틸)페닐](4-메틸페닐)이오도늄 (1:1)
+kr_acute_toxic	1257085-86-1		2-프로펜산 부틸과 1,3-사이클로헥산디메탄아민의 중합체와 부틸 글리시딜 에테르의 반응생성물
+kr_acute_toxic	126-06-7	2026-12-19	할로겐화 히단토인
+kr_acute_toxic	126-97-6		(2-히드록시에틸)암모늄 메르캅토아세테이트; (2-히드록시에틸)암모늄 메르캅토아세트산
+kr_acute_toxic	126-98-7		메타아크릴로니트릴
+kr_acute_toxic	127913-44-4		4-클로로-3-히드록시부티로니트릴
+kr_acute_toxic	1300-71-6		자이레놀
+kr_acute_toxic	1302-42-7		이산화 알루미늄 나트륨
+kr_acute_toxic	1303-28-2		오산화비소
+kr_acute_toxic	13043-05-5		2,3,3,3-테트라플루오로-2-[1,1,2,3,3,3-헥사플루오로-2-(헵타플루오로프로폭시)프로폭시]프로판산 암모늄염
+kr_acute_toxic	1306-19-0		산화 카드뮴
+kr_acute_toxic	1306617-58-2		2-메틸-2-프로펜산 2-(디메틸아미노)에틸 중합체와 1-브로모테트라데칸 화합물
+kr_acute_toxic	1307-96-6		산화코발트
+kr_acute_toxic	13071-79-9		터브포스
+kr_acute_toxic	13080-86-9		4,4'-[이소프로필리덴비스(4,1-페닐렌옥시)]디아닐린
+kr_acute_toxic	131-89-5		디넥스
+kr_acute_toxic	1310-58-3		수산화 칼륨
+kr_acute_toxic	1310-65-2		수산화리튬
+kr_acute_toxic	1310-73-2		수산화 나트륨
+kr_acute_toxic	131013-81-5		트리테트라메틸암모늄 4,5-디히드로-5-옥소-1-(4-술포페닐)-4-[(4-술포페닐)아조]-1H-피라졸-3-카르복실산
+kr_acute_toxic	131013-83-7		N,N,N-트리메틸메탄아미늄과 3,3'-[[6-[(2-히드록시에틸)아미노]-1,3,5-트리아진-2,4-디일]비스[이미노(2-메틸-4,1-페닐렌)아조]]비스[1,5-나프탈렌디술폰산]의 염(4:1)
+kr_acute_toxic	13121-70-5		싸이헥사틴
+kr_acute_toxic	1313-60-6		과산화 나트륨
+kr_acute_toxic	13138-45-9		질산니켈
+kr_acute_toxic	1314-56-3		오산화 인
+kr_acute_toxic	1314-62-1	2026-12-19	오산화바나듐
+kr_acute_toxic	1314-80-3		오황화 인
+kr_acute_toxic	1314-84-7		인화 아연
+kr_acute_toxic	13159-52-9		메타아크릴산 3-클로로-2-히드록시프로필
+kr_acute_toxic	13171-21-6		포스파미돈
+kr_acute_toxic	1319-77-3		크레졸
+kr_acute_toxic	13194-48-4		에토프로포스
+kr_acute_toxic	1327-53-3		삼산화비소
+kr_acute_toxic	1328506-26-8		트리페닐술포늄과 1-[3-에틸-3-옥세타닐)메틸]2,2-디플루오로-2-술포아세테이트의 염 (1:1)
+kr_acute_toxic	13292-87-0		디메틸 설파이드 보란
+kr_acute_toxic	133-06-2		켑탄
+kr_acute_toxic	133-59-5		o-톨루엔술포닐 클로라이드; 염화 o-톨루엔술포닐
+kr_acute_toxic	1331747-26-2		12-에텐일-8-옥타데센디오산, N1-(2-아미노에틸)-1,2-에탄디아민, 8,12-에이코사디엔디오산과 피페라진의 중합체
+kr_acute_toxic	1333-82-0		무수 크롬산
+kr_acute_toxic	13356-08-6		산화 펜브타틴; 펜브타틴 옥사이드
+kr_acute_toxic	1336-36-3		피시비(치환된 염소수가 3개 미만인 것은 제외)
+kr_acute_toxic	13360-57-1		염화 디메틸술파모일; 디메틸술파모일 클로라이드
+kr_acute_toxic	13371-17-0		염화 부틸트리페닐포스포늄
+kr_acute_toxic	1338-23-4		과산화 2-부타논; 2-부타논 퍼옥사이드
+kr_acute_toxic	134098-61-6		펜피록시메이트
+kr_acute_toxic	1341-49-7		이플루오르화 암모늄; 이불화암모늄
+kr_acute_toxic	13453-75-3		플루오로황산 리튬; 리튬플로오르설페이트
+kr_acute_toxic	13463-39-3		니켈 카르보닐
+kr_acute_toxic	13463-40-6		펜타카르보닐철
+kr_acute_toxic	13463-41-7		피리치온 구리 및 피라치온 아연
+kr_acute_toxic	13516-27-3		구아자틴
+kr_acute_toxic	13531-52-7		N-(2-아미노에틸)-1,3-프로판디아민
+kr_acute_toxic	135410-20-7		(E)-N-[(6-클로로-3-피리딜)메틸]-N-시아노-N-메틸아세트아미딘
+kr_acute_toxic	1357171-37-9		2-메틸-1-프로판올과 1,5-디이소시아나토펜탄의 반응생성물
+kr_acute_toxic	13593-03-8		퀴날포스
+kr_acute_toxic	136-83-4		노닐페놀류
+kr_acute_toxic	136040-19-2		트리페닐메틸륨 테트라키스(펜타플루오로페닐)보레이트(1-)
+kr_acute_toxic	136122-15-1		1,4-디티안-2,5-디(메탄티올)
+kr_acute_toxic	13637-68-8		산화 (T-4)-염화몰리브데넘
+kr_acute_toxic	13641-96-8		2-프로펜산 2-이소시아나토에틸
+kr_acute_toxic	136426-54-5		플루퀸코나졸
+kr_acute_toxic	137-07-5		2-아미노티오페놀
+kr_acute_toxic	137-30-4		지람
+kr_acute_toxic	1373359-69-3		트리페닐술포늄과 트리사이클로[3.3.1.13,7]데칸-카복실산 2-[[(트리플루오로메틸)술포닐]아미노]에틸의 염 (1:1)
+kr_acute_toxic	13746-98-0		질산 탈륨
+kr_acute_toxic	13760-02-6		디이오도실란
+kr_acute_toxic	13763-19-4		데카클로로테트라실란
+kr_acute_toxic	13780-06-8		아질산칼슘
+kr_acute_toxic	1380168-52-4		O,O,O-트리에틸 S-[3-(트리메톡시실일)프로필] 티오실리케이트; 티오규산 O,O,O-트리에틸 S-[3-(트리메톡시실일)프로필]
+kr_acute_toxic	13814-96-5		테트라플루오르 붕산 납
+kr_acute_toxic	1381875-18-8		3-메틸-3-부텐-1-올 나트륨염(1:1)
+kr_acute_toxic	138261-41-3		이미다클로프리드
+kr_acute_toxic	13861-22-8		2-프로핀-1-일 2-메틸-2-프로펜산
+kr_acute_toxic	13862-16-3		트리실일아민
+kr_acute_toxic	139-84-4		노닐페놀류
+kr_acute_toxic	1391992-23-6		오염화인과 염화암모늄의 중합체, 산화
+kr_acute_toxic	13922-41-3		1-나프탈렌붕산
+kr_acute_toxic	13952-84-6		1-메틸프로필아민
+kr_acute_toxic	13965-73-6		1,1,2,2-테트라플루오로디보란(4)
+kr_acute_toxic	140-29-4		벤젠아세토니트릴
+kr_acute_toxic	140-88-5		아크릴산 에틸; 에틸 아크릴레이트
+kr_acute_toxic	1400865-07-7		[(1,2,3,4,5-η)-N-메틸-2,4-사이클로펜타디엔-1-에탄아미나토(2-)-κN]비스(N-메틸메탄아미나토)지르코늄
+kr_acute_toxic	1400865-78-2		[(1,2,3,4,5-η)-N-메틸-2,4-사이클로펜다디엔-1-에탄아미나토(2-)-κN]비스(N-메틸에탄아미나토)하프늄
+kr_acute_toxic	141-43-5		모노에탄올아민
+kr_acute_toxic	141-66-2		디크로토포스
+kr_acute_toxic	1420-07-1		디노텁
+kr_acute_toxic	14216-75-2		질산니켈
+kr_acute_toxic	1424752-15-7		트리플루오로트리스(1,1,2,2,2-펜타플루오로에틸)인산(1-), [4-[(4-아세틸페닐)티오]페닐]디페닐설포늄 (1:1)
+kr_acute_toxic	143-33-9		시안화나트륨; 청산가리
+kr_acute_toxic	143860-04-2		3-에틸-2-메틸-2-(3-메틸부틸)-1.3-옥사졸리딘
+kr_acute_toxic	144317-44-2		트리페닐술포늄과 1,2,2,3,3,4,4,4-노나플루오로-1-부탄술폰산의 염(1:1)
+kr_acute_toxic	145-73-3		엔도탈
+kr_acute_toxic	1454838-82-4		테트라히드로-1,3,4,6-테트라키스(2-옥시라닐메틸)이미다조[4,5-d]이미다졸-2,5(1H,3H)-디온
+kr_acute_toxic	1458-98-6		3-브로모-2-메틸-1-프로펜
+kr_acute_toxic	1461-22-9		염화 트리부틸주석; 트리부틸틴 클로라이드
+kr_acute_toxic	1461-25-2		사부틸주석
+kr_acute_toxic	14643-87-9	2026-12-19	아크릴산 아연
+kr_acute_toxic	146905-79-5		알루민옥세인, iso-부틸 메틸, 가지형, 고리형 및 선형
+kr_acute_toxic	147102-97-4		B-(4-클로로-1-나프탈렌)붕산
+kr_acute_toxic	14721-18-7		크롬산 니켈
+kr_acute_toxic	1477-55-0		1,3-비스(아미노메틸)벤젠
+kr_acute_toxic	1483-72-3		염화 디페틸이오도늄
+kr_acute_toxic	1484-13-5		9-에테닐-9H-카바졸
+kr_acute_toxic	148483-07-2		[(1,2,3,4,5-η)-N-메틸-1,3-시클로펜타디엔-1-프로판아미나토(2-)-N]비스(N-메틸메탄아미나토)지르코늄
+kr_acute_toxic	148788-55-0		N-데실-N,N-디메틸-1-데칸아미늄 카보네이트
+kr_acute_toxic	148812-65-1		N-데실-N,N-디메틸-1-데칸아미늄 카보네이트
+kr_acute_toxic	14915-37-8		피리치온 구리 및 피라치온 아연
+kr_acute_toxic	1493-13-6		트리플릭산
+kr_acute_toxic	151-50-8		시안화 칼륨
+kr_acute_toxic	151-56-4		에틸렌이민
+kr_acute_toxic	152-16-9		쉬라단
+kr_acute_toxic	1522-22-1		1,1,1,5,5,5-헥사플루오로-2,4-펜탄디온
+kr_acute_toxic	1523503-87-8		트리페닐술포늄과 4,7,7-트리메틸-3-옥소-2-옥사바이사이클로[2.2.1]헵탄-1-카복실산 2-술포에틸의 염 (1:1)
+kr_acute_toxic	1530-32-1		브롬화 에틸트리페닐 포스포늄
+kr_acute_toxic	153217-57-3	2026-12-19	비스(η5-2,4-사이클로펜타디엔-1-일)메틸[2-메틸-2-프로판아미나토(2-)]니오븀
+kr_acute_toxic	15396-00-6		(3-이소시아나토프로필)트리메톡시실란
+kr_acute_toxic	154279-60-4		4,4'-메틸렌비스[N-(1-메틸프로필)시클로헥산아민]
+kr_acute_toxic	15573-38-3		트리스(트리메틸실릴)포스핀
+kr_acute_toxic	1558-33-4		디클로로(클로로메틸)메틸실란
+kr_acute_toxic	156105-38-3		2-프로파논과 5-아미노-1,3,3-트리메틸시클로헥산메탄아민의 반응생성물
+kr_acute_toxic	1563-66-2		카보푸란
+kr_acute_toxic	1569262-17-4		테트라히드로-1,3,4,6-테트라키스(2-메르캅토에틸)이미다조[4,5-d]이미다졸-2,5(1H,3H)-디온
+kr_acute_toxic	1572-55-0		4-(아미노메틸)-1,8-옥탄디아민
+kr_acute_toxic	1576-35-8		p-톨루엔술포닐히드라지드
+kr_acute_toxic	1588442-20-9		폴리에틸렌폴리아민, N-[3-(알킬(C=12~14)옥시)-2-히드록시프로필] 유도체
+kr_acute_toxic	16024-58-1		2-[2-(2-메톡시에톡시)에톡시]아세트산
+kr_acute_toxic	16079-88-2		할로겐화 히단토인
+kr_acute_toxic	1609-86-5		이소시안산 tert-부틸; tert-부틸 이소시아네이트
+kr_acute_toxic	1612842-42-8		1-부틸-3-도데실-1H-이미다졸리움과 1,1,1-트리플루오로-N-[(트리플루오로메틸)술포닐]메탄술폰아미드의 염 (1:1)
+kr_acute_toxic	161453-44-7		4-메틸벤젠술폰산[4-(1,1-디메틸에톡시)페닐]디페닐술포늄
+kr_acute_toxic	16156-58-4		2-프로핀-1-올, 1-메탄술포네이트; 프로파르길 메탄술포네이트
+kr_acute_toxic	16222-66-5		황산 탈륨
+kr_acute_toxic	1631-25-0		1-사이클로헥실-1H-피롤-2,5-디온
+kr_acute_toxic	1631-26-1		1-(페닐메틸)-1H-피롤-2,5-디온
+kr_acute_toxic	163269-30-5		베톡사진
+kr_acute_toxic	1638216-03-1		트리페닐술포늄과 2,2,2-트리플루오로-1-(술포메틸)에틸트리사이클로[3.3.1.13,7]데칸-1-카르복실레이트 (1:1)의 염
+kr_acute_toxic	1639212-96-6		트리페닐술포늄과 α,α,β,β-테트라플루오로헥사하이드로스피로[4,7-메타노-1,3-벤조디옥솔-2,2'-트리사이클로[3.3.1.13,7]데센]-5-에탄술폰산 (1:1)의 염
+kr_acute_toxic	16415-09-1		2-플루오로-4-메틸-1,3,2-디옥사포스포란
+kr_acute_toxic	1643-20-5		N,N-디메틸-1-도데칸아민, N-옥사이드
+kr_acute_toxic	1644433-00-0		5-히드록시-1,3-벤젠디카복실산 메틸트리페닐포스포늄 (1:1)
+kr_acute_toxic	1646-88-4		알독시캅
+kr_acute_toxic	16499-88-0		3-부톡시프로필아민
+kr_acute_toxic	1651163-79-9		디메틸 포스포네이트와 2-부틸-2-에틸-1,3-프로판디올, 1,6-헥산디올의 중합체
+kr_acute_toxic	16721-80-5		황화수소나트륨
+kr_acute_toxic	1672739-33-1		인화 황화 인듐 아연
+kr_acute_toxic	16752-77-5		메토밀
+kr_acute_toxic	16753-62-1		에테닐디메톡시메틸실란
+kr_acute_toxic	16812-54-7		황화니켈류
+kr_acute_toxic	16858-01-8		트리스(2-피리딜메틸)아민
+kr_acute_toxic	1689-83-4		이옥시닐
+kr_acute_toxic	16961-83-4		헥사플루오로규산
+kr_acute_toxic	16962-31-5		(OC-6-11)-헥사플루오로망간(2-), 칼륨 (1:2)
+kr_acute_toxic	1702-42-7		요오드화 트리부틸메틸포스포늄
+kr_acute_toxic	1702310-11-9		1-데실피리디늄 비스(플루오로술포닐)이미드
+kr_acute_toxic	17040-19-6		디메톤-S-메틸술폰
+kr_acute_toxic	17109-49-8		에디펜포스
+kr_acute_toxic	171611-11-3		리튬 비스(플루오로술포닐)이미드
+kr_acute_toxic	1719-58-0		클로로에테닐디메틸실란
+kr_acute_toxic	172343-40-7		4-(2,4-디클로로-3-메틸벤조일)-1,3-디-디메틸-5-피라졸산 나트륨
+kr_acute_toxic	173584-44-6		인독사캅
+kr_acute_toxic	1752-30-3		아세톤 티오쎄미카르바존
+kr_acute_toxic	1754-58-1		다이아미다포스
+kr_acute_toxic	176022-82-5		α-[2-[비스(2-히드록시에틸)아미노]프로필]-ω-히드록시폴리[옥시(메틸-1,2-에탄디일)]과α-히드로-ω-히드록시폴리(옥시-1,2-에탄디일)의 에테르(1:2), 모노-C12-16-알킬에테르
+kr_acute_toxic	1761-71-3		4,4'-메틸렌비스시클로헥실아민
+kr_acute_toxic	177997-13-6		산화 리튬 니켈 코발트 알루미늄
+kr_acute_toxic	182442-95-1		산화 코발트 리튬 망간 니켈
+kr_acute_toxic	18836-52-7		(2E,4E)-N-(2-메틸프로필)-2,4-(데카디엔아마이드)
+kr_acute_toxic	18854-01-8		이속사티온
+kr_acute_toxic	1892-03-1		1,3,3,4,4,5,5-헵타플루오로시클로펜텐
+kr_acute_toxic	1897-45-6		클로로타로닐
+kr_acute_toxic	1912392-88-1		N,N,N-트리에틸에탄아미늄, (OC-6-11)-헥사히드록시백금산(2-) (2:1)
+kr_acute_toxic	19287-45-7		디보란
+kr_acute_toxic	19287-89-9		황산은
+kr_acute_toxic	1942-46-7		5-데신
+kr_acute_toxic	195212-13-6		(T-4)-테트라키스(N,N,N',N',N'',N''-헥사메틸포스포리미딕 트리아미다토-κN''') 인과 1,2,3-프로판트리올의 염(1:1)
+kr_acute_toxic	195384-27-1		N-메틸-1,3-사이클로펜타디엔-1-에탄아민
+kr_acute_toxic	197447-16-8		2,4,6-트리스(1-메틸에틸)벤젠술폰산 트리페닐술포늄; 트리페닐술포늄 2,4,6-트리스(1-메틸에틸)벤젠술폰산
+kr_acute_toxic	1976005-08-9		1,5-디이소시아나토펜탄 중합체, 2-에틸-1-헥산올-블록
+kr_acute_toxic	19782-68-4		N-메틸메탄아민 하프늄(4+) 염(4:1)
+kr_acute_toxic	20018-09-1		p-톨릴 디요오도메틸 술폰
+kr_acute_toxic	201419-80-9		2,4,8,10-테트라옥사-3,9-디티아스피로[5,5]언데칸, 3,3,9,9-테트라옥사이드
+kr_acute_toxic	2032-59-9		아미노캅
+kr_acute_toxic	2032-65-7		메티오캅
+kr_acute_toxic	20325-40-0		3,3'-디메톡시-[1,1-비페닐]-4,4'-디아민과 그 염산염
+kr_acute_toxic	2043356-12-1		N-트리사이클로[3.3.1.13,7]데실술팜산, [4-(1,1-디메틸에틸)페닐]디페닐술포늄 (1:1)
+kr_acute_toxic	2044770-20-7		1,1'-[[3-[비스[3-(디메틸아미노)프로필]아미노]프로필]이미노]비스-2-프로판올
+kr_acute_toxic	2053251-21-9		1-(2,3-디메틸-1H-벤조[b]사이클로펜타[d]티엔-1-일)-N-(1,1-디메틸에틸)-1,1-디메틸실란아민
+kr_acute_toxic	2064323-02-8		트리페닐술포늄과 2,3-비스(2,2,2-플루오로에틸) 5-술포비사이클로[2.2.1]헵탄-2,3-디카르복실레이트 (1:1)의 염
+kr_acute_toxic	20654-88-0		트리플루오로보란
+kr_acute_toxic	2067315-93-7		3-[3-(디에틸아미노)프로필]-N,N-디에틸-3,5,5-트리메톡시-2,4-디옥사-3,5-디실라옥탄-8-아민
+kr_acute_toxic	206760-59-0		1,1,2,2-테트라플루오로디보란(4)
+kr_acute_toxic	20816-12-0		사산화 오스뮴
+kr_acute_toxic	20859-73-8		인화 알루미늄
+kr_acute_toxic	20893-30-5		2-티에닐아세토니트릴
+kr_acute_toxic	2094-99-7		3-[(프롭-1-엔-2-일)페닐]프롭-2-일 이소시안산
+kr_acute_toxic	2097-19-0		1-페닐-2,8,9-트리옥사-5-아자-1-실라바이사이클로[3.3.3]언데칸
+kr_acute_toxic	2104-64-5		이피엔
+kr_acute_toxic	21041-93-0		수산화 코발트
+kr_acute_toxic	214534-44-8		디페닐 이오도늄과 7,7-디메틸-2-옥소비사이클로[2.2.1]헵탄-1-메탄술폰산의 염류(1:1)
+kr_acute_toxic	21548-32-3		포스티에탄
+kr_acute_toxic	21609-90-5		렙토포스
+kr_acute_toxic	21806-61-1		5H-1,2-옥사티올, 2,2-디옥시드
+kr_acute_toxic	2192174-63-1		트리스(N-메틸메탄아미나토)[(1,2,3,4,5-η)-1-프로필-2,4-사이클로펜타디엔-1-일]지르코늄
+kr_acute_toxic	21923-23-9		클로르티오포스
+kr_acute_toxic	22083-74-5		(R,S)-니코틴
+kr_acute_toxic	2219-82-1		2-(1,1-디메틸에틸)-6-메틸페놀
+kr_acute_toxic	22224-92-6		페나미포스
+kr_acute_toxic	22259-30-9		포메탄에이트
+kr_acute_toxic	223436-99-5		1-에틸-1-메틸피롤리디늄과 1,1,1-트리플루오로-N-[(트리플루오로메틸)술포닐]메탄술폰아미드의 염 (1:1)
+kr_acute_toxic	227199-92-0		7,7-디메틸-2-옥소비시클로[2.2.1]헵탄-1-메탄술폰산 트리페닐술포늄 (1:1); 트리페닐술포늄 7,7-디메틸-2-옥소비시클로[2.2.1]헵탄-1-메탄술폰산 (1:1)
+kr_acute_toxic	2274-67-1		디메틸빈포스
+kr_acute_toxic	2275-14-1		펜캅톤
+kr_acute_toxic	2275-18-5		프로토에이트
+kr_acute_toxic	2275-23-2		바미도티온
+kr_acute_toxic	22781-23-3		벤디오캅
+kr_acute_toxic	2310-17-0		포살론
+kr_acute_toxic	23103-98-2		피리미캅
+kr_acute_toxic	2312-35-8		프로파르지트
+kr_acute_toxic	23135-22-0		옥사밀
+kr_acute_toxic	232938-10-2		2-부타논 옥심과 디이소시안산이소포론의 중합체
+kr_acute_toxic	2346-99-8		세레진
+kr_acute_toxic	23505-41-1		피리미포스-에틸
+kr_acute_toxic	23560-59-0		헵테노포스
+kr_acute_toxic	236408-49-4		염화 [4-(1,1-디메틸에틸)페닐]트리페닐포스포늄
+kr_acute_toxic	2365-48-2		2-메르캅토아세트산 메틸
+kr_acute_toxic	2372-82-9		N1-(3-아미노프로필)-N1-도데실-1,3-프로판디아민
+kr_acute_toxic	2374904-81-9		tert-알킬(C=12~14)아민, 메틸 포스페이트
+kr_acute_toxic	2386-64-3		염화 에틸마그네슘
+kr_acute_toxic	24017-47-8		트리아조포스
+kr_acute_toxic	24124-40-1		1-아미노-4-[(3-아미노-2,4,6-트리메틸-5-술포페닐)아미노]-9,10-디히드로-9,10-디옥소-2-안트라센술폰산
+kr_acute_toxic	2425-66-3		1-클로로-2-니트로프로판
+kr_acute_toxic	2426-08-6		(부톡시메틸)옥시란
+kr_acute_toxic	2437-29-8		말라카이트 그린의 옥살산염
+kr_acute_toxic	24389-25-1		리튬 디플루오로포스페이트
+kr_acute_toxic	2439-35-2		디메틸아미노에틸 아크릴레이트; 디메틸아미노에틸 아크릴산; 아크릴산 디메틸아미노에틸
+kr_acute_toxic	24468-13-1		2-에틸헥실 클로로포메이트; 클로로포름산 2-에틸헥실
+kr_acute_toxic	2451-62-9		트리글리시딜 이소시아누레이트
+kr_acute_toxic	24636-31-5		2-메틸-2-프로펜산 3-(클로로디메틸실일)프로필
+kr_acute_toxic	2487-01-6		메디노텁 아세테이트; 메디노텁 아세트산; 아세트산 메디토텁
+kr_acute_toxic	24934-91-6		클로르메포스
+kr_acute_toxic	2501-94-2		tert-부틸포스핀
+kr_acute_toxic	25154-52-3		노닐페놀류
+kr_acute_toxic	25214-70-4		포름알데히드와 아닐린 의 반응생성물
+kr_acute_toxic	2527-66-4		2-메틸-1,2-벤즈이소티아졸린-3-온
+kr_acute_toxic	25307-17-9		2,2'-(9-옥타데세닐이미노)비스에탄올
+kr_acute_toxic	25311-71-1		이소펜포스
+kr_acute_toxic	25321-14-6		디니트로톨루엔
+kr_acute_toxic	25321-41-9		디메틸벤젠술폰산
+kr_acute_toxic	2536-05-2		메틸렌 디페닐 디이소시아네이트; 메틸렌 디페닐 디이소시안산; 엠디아이(MDI)
+kr_acute_toxic	2540-82-1		포르모티온
+kr_acute_toxic	2552-55-8		이보텐산
+kr_acute_toxic	25584-83-2		하이드록시프로필 아크릴산
+kr_acute_toxic	2579-20-6		1,3-사이클로헥산디메탄아민
+kr_acute_toxic	258872-05-8		[4-(1,1-디메틸에틸)페닐]디페닐술포늄과 1,1,2,2,3,3,4,4,4-노나플루오로-1-부탄술폰산의 염 (1:1)
+kr_acute_toxic	2595-54-2		메카밤
+kr_acute_toxic	25952-53-8		N3-(에틸카본이미도일)-N1,N1-디메틸-1,3-프로판디아민의 염산염 (1:1)
+kr_acute_toxic	2597-03-7		펜토에이트
+kr_acute_toxic	26087-47-8		이프로벤포스
+kr_acute_toxic	26134-62-3		질화리튬
+kr_acute_toxic	26172-55-4		5-클로로-2-메틸-4-이소티아졸린-3-온
+kr_acute_toxic	2622-14-2		트리사이클로헥실포스핀
+kr_acute_toxic	2631-37-0		프로메캅
+kr_acute_toxic	2634-33-5		1,2-벤즈이소티아졸-3-(2H)-온
+kr_acute_toxic	2636647-16-8		비스[(1,2,3,4,5-η)-1-에틸-2,4-사이클로펜타디엔-1-yl][N-에틸-N-메틸-N',N''-비스(1-메틸에틸)구아디나토-κN',κN'']이트륨
+kr_acute_toxic	26386-88-9		디페닐포스포릴 아자이드
+kr_acute_toxic	26447-40-5		메틸렌 디페닐 디이소시아네이트; 메틸렌 디페닐 디이소시안산; 엠디아이(MDI)
+kr_acute_toxic	26471-62-5		톨루엔 디이소시아네이트; 티디아이
+kr_acute_toxic	26530-20-1		2-옥틸-3(2H)-이소티아졸론
+kr_acute_toxic	26628-22-8		아지드화 나트륨
+kr_acute_toxic	26672-22-0		2-메톡시-4-(2-설페이토에틸설포닐)아닐린
+kr_acute_toxic	2674-91-1		옥시디프로포스
+kr_acute_toxic	2681338-34-9		[μ-(에텐술포나토-κO:κO')]비스[μ-(포스포로디플루오리다토-κO:κO')]이리튬산(1-), 수소와 N,N-디에틸에탄아민의 화합물 (1:1:1)
+kr_acute_toxic	2682-20-4		2-메틸-4-이소티아졸린-3-온
+kr_acute_toxic	2699-79-8		플루오르화 술퍼릴; 불화술퍼릴
+kr_acute_toxic	27083-27-8		폴리(헥사메틸렌비구아니드)의 염산염; 피에치엠비(PHMB)
+kr_acute_toxic	2713-34-0		3,5-디플루오로페놀
+kr_acute_toxic	27193-86-8	2026-12-19	도데실페놀
+kr_acute_toxic	27607-77-8		트리메틸실릴 트리플루오로메탄술포네이트; 트리플루오로메탄술폰산 트리메틸실릴
+kr_acute_toxic	2778-04-3		엔도티온
+kr_acute_toxic	27804-64-4		비스(디에틸아미노)실란
+kr_acute_toxic	2795-39-3		퍼플루오로옥탄술폰산 칼륨
+kr_acute_toxic	2813-95-8		디노셉 아세테이트; 아세트산 디노셉
+kr_acute_toxic	28178-42-9		2,6-디이소프로필페닐 이소시아네이트
+kr_acute_toxic	2841639-49-2		(OC-6-21)-펜타플루오로(3-플루오로피리딘-kN)니오븀
+kr_acute_toxic	284474-28-8		1,1,2,2,3,3,4,4,4-노나플루오로-1-부탄술폰산 (4-메틸페닐)디페닐술포늄 (1:1)
+kr_acute_toxic	2855-13-2		3-아미노메틸-3,5,5-트리메틸시클로헥실아민
+kr_acute_toxic	2857-97-8		브로모트리메틸실란
+kr_acute_toxic	28772-56-7		브로마디올론
+kr_acute_toxic	2893-78-9		트로클로센 나트륨
+kr_acute_toxic	28961-43-5	2026-12-19	α-히드로-ω-[(1-옥소-2-프로페닐)옥시]폴리(옥시-1,2-에탄디일)과 2-에틸-2-(히드록시메틸)-1,3-프로판디올의 에테르 (3:1)
+kr_acute_toxic	29103-75-1		N,N'-비스(4-아미노페닐)-N,N'-디메틸에틸렌디아민
+kr_acute_toxic	2921-88-2		클로르피리포스
+kr_acute_toxic	294847-79-3		9-(3-메틸페닐)아크리딘
+kr_acute_toxic	297-78-9		이소벤잔
+kr_acute_toxic	297-97-2		티오나진
+kr_acute_toxic	298-00-0		파라티온-메틸
+kr_acute_toxic	298-02-2		포레이트
+kr_acute_toxic	298-04-4		디술포톤
+kr_acute_toxic	29973-13-5		에티오펜캅
+kr_acute_toxic	300-76-5		날레드
+kr_acute_toxic	301-12-2		옥시디메톤-메틸
+kr_acute_toxic	302-01-2		히드라진
+kr_acute_toxic	30382-83-3		수산화 에틸트리메틸암모늄
+kr_acute_toxic	30525-89-4		포름알데히드(파라포름알데히드를 포함한다); 포르말린
+kr_acute_toxic	3078-97-5		디에스피(DSP)
+kr_acute_toxic	309-00-2		알드린
+kr_acute_toxic	30925-07-6		L-시스테인 염산염(1:2)
+kr_acute_toxic	31218-83-4		프로페탐포스
+kr_acute_toxic	315-18-4		멕사카베이트
+kr_acute_toxic	3153-26-2		옥소비스(펜탄-2,4-디오나토-O,O')바나듐
+kr_acute_toxic	319-86-8		헥사클로로시클로헥산
+kr_acute_toxic	32149-57-8		2-메틸-2-프로판올, 마그네슘 염(2:1)
+kr_acute_toxic	32289-58-0		폴리(헥사메틸렌비구아니드)의 염산염; 피에치엠비(PHMB)
+kr_acute_toxic	32316-92-0		2-나프탈렌붕산
+kr_acute_toxic	3251-23-8		질산 구리
+kr_acute_toxic	3252-43-5		2,2-디브로모아세토니트릴
+kr_acute_toxic	32609-65-7		퍼플루오로옥탄산 테트라메틸암모늄
+kr_acute_toxic	327-98-0		트리클로로나트
+kr_acute_toxic	3282-30-2		피발로일 클로라이드; 염화 피발로일
+kr_acute_toxic	328249-37-2		2-프로펜산 테트라히드로-2-옥소-3-퓨란일
+kr_acute_toxic	33027-66-6		2-에톡시-2,4,4,6,6-펜타플루오로-2λ5,4λ5,6λ5-1,3,5,2,4,6-트리아자트리포스포린
+kr_acute_toxic	3309-87-3		푸지티온
+kr_acute_toxic	332350-93-3		트리페닐(페닐메틸)포스포늄 1,1,2,2,3,3,4,4,4-노나플루오로-N-메틸-1-부탄술폰아미드(1:1)
+kr_acute_toxic	33271-88-4		(η5-2,4-시클로펜타디엔-1-일)트리스(N-메틸메탄아미나토)지르코늄
+kr_acute_toxic	333-41-5		다이아지논
+kr_acute_toxic	3347-22-6		디티아논
+kr_acute_toxic	3349-06-2		니켈 디포메이트
+kr_acute_toxic	33667-48-0	2026-12-19	수산화 트리스(2-히드록시에틸)메틸암모늄
+kr_acute_toxic	34079-31-7		(2S)-2-카바모일피롤리딘-1-카르복실산 벤질
+kr_acute_toxic	341-58-2		2,2'-비스(트리플루오로메틸)벤지딘
+kr_acute_toxic	3410-77-3		테트라이소시아나토실란
+kr_acute_toxic	34140-91-5		올레산과 (Z)-N-9-옥타데센일-1,3-프로판디아민의 화합물
+kr_acute_toxic	3425-61-4	2026-12-19	tert-아밀 히드로과산화물
+kr_acute_toxic	345580-99-6		2-히드록시벤조산 트리페닐술포늄 (1:1)
+kr_acute_toxic	34681-10-2		브토카르복심
+kr_acute_toxic	351-05-3		플루오로아세토-p-브로모아닐린
+kr_acute_toxic	35132-93-5		수산화 N1,N6-비스(2-히드록시프로필)-N1,N1,N6,N6-테트라메틸-1,6-헥산디아미늄(1:2)
+kr_acute_toxic	352-87-4		2-메틸-2-프로펜산 2,2,2-트리플루오로에틸
+kr_acute_toxic	354-32-5		염화 트리플루오로아세틸
+kr_acute_toxic	354-34-7		플루오르화 트리플루오로아세틸
+kr_acute_toxic	35400-43-2		술프로포스
+kr_acute_toxic	3542-36-7		이염화 이옥틸주석; 디옥틸틴 디클로라이드
+kr_acute_toxic	3570-55-6		2,2'-티오디에탄티올
+kr_acute_toxic	35718-08-2		2-프로핀일 클로로포메이트; 클로로포름산 2-프로핀일
+kr_acute_toxic	358-23-6		무수 트리플루오로메탄술폰산
+kr_acute_toxic	35963-20-3		(1R,4S)-7,7-디메틸-2-옥소비시클로[2,2,1]헵탄-1-메탄술폰산
+kr_acute_toxic	35996-61-3		테미빈포스
+kr_acute_toxic	3634-83-1		1,3-비스(이소시아나토메틸)벤젠
+kr_acute_toxic	3647-69-6		4-(2-클로로에틸)몰포린 염산염
+kr_acute_toxic	36614-38-7		이소티오에이트
+kr_acute_toxic	3670-93-7		2,4,8,10-테트라옥사-3,9-디티아스피로[5,5]언데칸 3,9-디옥사이드
+kr_acute_toxic	36727-29-4		3,5,5-트리메틸헥사노일 클로라이드; 염화 3,5,5-트리메틸헥사노일
+kr_acute_toxic	36768-62-4		2,2,6,6-테트라메틸-4-피페리딘아민
+kr_acute_toxic	3689-24-5		술포텝
+kr_acute_toxic	3691-35-8		클로로파시논
+kr_acute_toxic	37211-05-5		염화니켈
+kr_acute_toxic	3724-43-4		염화 N-(클로로메틸렌)-N-메틸메탄아미늄 (1:1)
+kr_acute_toxic	373-68-2		플루오르화 테트라메틸암모늄; 불화테트라메틸암모늄
+kr_acute_toxic	37300-23-5		피그먼트 옐로우 36
+kr_acute_toxic	3734-97-2		아미톤과 그 옥살산염
+kr_acute_toxic	3737-41-5		3,3,4,4-테트라클로로테트라히드로티오펜 1,1-디옥시드
+kr_acute_toxic	374572-91-5		2,2'-[1,2-에탄디일비스(옥시)]비스에탄아민과 구아니딘 염산염의 중합체
+kr_acute_toxic	3811-49-2		디옥사벤조포스
+kr_acute_toxic	3811-73-2		피리치온 나트륨
+kr_acute_toxic	38436-16-7	2026-12-19	디클로로메틸(3,3,4,4,5,5,6,6,6-노나플루오로헥실)실란
+kr_acute_toxic	38668-48-3		1,1'-(p-톨릴이미노)디프로판-2-올
+kr_acute_toxic	3913-71-1		2-데세날
+kr_acute_toxic	3913-81-3		(2E)-2-데세날
+kr_acute_toxic	39196-18-4		티오파녹스
+kr_acute_toxic	3926-62-3		모노클로로아세트산 나트륨
+kr_acute_toxic	393-36-2		4-브로모-α,α,α-트리플루오로-m-톨루이딘
+kr_acute_toxic	39300-45-3		디노캅
+kr_acute_toxic	393110-05-9		트리페틸술포늄과 트리스[(트리플루오로메틸)술포닐]메탄의 염 (1:1)
+kr_acute_toxic	39603-48-0		비스티오세미
+kr_acute_toxic	3964-18-9		2,3-디메틸-2,3-디니트로부탄
+kr_acute_toxic	3965-00-2		포스포로디플루오르산 에틸렌
+kr_acute_toxic	3978-81-2		4-tert-부틸피리딘
+kr_acute_toxic	39847-39-7		1,​1,​2,​2,​3,​3,​4,​4,​4-노나플루오로-N-​[(1,​1,​2,​2,​3,​3,​4,​4,​4-노나플루오로부틸)술포닐]-1-부탄술폰아미드
+kr_acute_toxic	40027-38-1		올레산과 (Z)-N-9-옥타데센일-1,3-프로판디아민의 화합물
+kr_acute_toxic	40043-73-0		(1R,4aS,10aR)-1,2,3,4,4a,9,10,10a-옥타히드로-1,4a-디메틸-7-(1-메틸에틸)-1-페난트렌메탄아민, 브롬산염 (1:1)
+kr_acute_toxic	4013-94-9		N,N'-디이소프로필에틸렌디아민
+kr_acute_toxic	40292-82-8		네오데카노일 클로라이드; 염화 네오데카노일
+kr_acute_toxic	4039-32-1		1,1,1-트리메틸-N-(트리메틸실일)실란아민 리튬(1:1)
+kr_acute_toxic	404362-22-7		1,3-벤젠디메탄아민, N-(2-페닐에틸) 유도체
+kr_acute_toxic	4067-16-7		3,6,9,12-테트라아자테트라데칸-1,14-디아민
+kr_acute_toxic	409071-16-5		리튬 디플루오로(옥살라토)보레이트(1-)
+kr_acute_toxic	4098-71-9		디이소시안산 이소포론; 이소포론 디이소시아네이트
+kr_acute_toxic	4104-14-7		포스아세팀
+kr_acute_toxic	41083-11-8		아조시클로틴
+kr_acute_toxic	4109-96-0		디클로로실란
+kr_acute_toxic	41198-08-7		프로페노포스
+kr_acute_toxic	41267-76-9		2,3,6,7-테트라하이드로-9-메틸-1H,5H,11H-[1]벤조피라노[6,7,8-ij]퀴놀리진-11-온
+kr_acute_toxic	4170-30-3		크로톤알데히드; 2-부텐알
+kr_acute_toxic	420-04-2		시안아미드
+kr_acute_toxic	421-50-1		1,1,1-트리플루오로-2-프로파논
+kr_acute_toxic	42509-80-8		이사조포스
+kr_acute_toxic	425670-64-0		(4-사이클로헥실페닐)디페닐술포늄과 1,1,2,2,3,3,4,4,4-노나플루오로-1-부탄술폰산 (1:1)의 염
+kr_acute_toxic	425670-97-9		트리페닐술포늄, 2-(트리플루오로메틸)벤젠술포네이트(1:1)
+kr_acute_toxic	42867-40-3		3,3-디메틸-2-옥소부탄니트릴
+kr_acute_toxic	4299-07-4		2-n-부틸-벤조[d]이소티아졸-3-온
+kr_acute_toxic	431059-71-1		디페닐(2,4,6-트리메틸페닐)술포늄과 2,4-디플루오로벤젠술폰산의 염 (1:1)
+kr_acute_toxic	4360-47-8		3-페닐-2-프로펜니트릴
+kr_acute_toxic	4464-23-7		카드뮴 디포메이트
+kr_acute_toxic	4499-86-9		수산화 N,N,N-트리프로필-1-프로판아미늄(1:1)
+kr_acute_toxic	4538-42-5		디이소시안산 펜타메틸렌; 펜타메틸렌 디이소시아네이트
+kr_acute_toxic	4554-16-9		2,3-디브로모프로판 니트릴
+kr_acute_toxic	460731-19-5		(4-메틸페닐)디페닐술포늄과 1,1,1-트리플루오로-N-[(트리플루오로메틸)술포닐]메탄술폰아미드의 염(1:1)
+kr_acute_toxic	463-58-1		황화 카르보닐
+kr_acute_toxic	4635-59-0		4-클로로부타노일 클로라이드; 염화 4-클로로부타노일
+kr_acute_toxic	467-63-0		4-(디메틸아미노)-α,α-비스[4-(디메틸아미노)페닐]벤젠메탄올
+kr_acute_toxic	470-90-6		클로르펜빈포스
+kr_acute_toxic	4717-96-8		테트라히드로-4-메틸-2H-피란
+kr_acute_toxic	4721-24-8		헥실포스폰산
+kr_acute_toxic	478945-46-9		염화 클로로[디메틸 9,9-디히드록시-3-메틸-2,4-디(2-피리디닐-κN)-7-[(2-피리디닐-κN)메틸]-3,7-디아자비시클로[3.3.1]노난-1,5-디카르복실레이트-κN3, κN7]철(1+)
+kr_acute_toxic	4824-78-6		브로모포스-에틸
+kr_acute_toxic	485-31-4		비나파크릴
+kr_acute_toxic	49556-16-3		네오테칸산, 주석(2+) 염 (2:1)
+kr_acute_toxic	50-00-0		포름알데히드(파라포름알데히드를 포함한다); 포르말린
+kr_acute_toxic	50-14-6		에르고칼시페롤
+kr_acute_toxic	50-29-3		디디티(DDT)
+kr_acute_toxic	501-53-1		벤질 클로로포메이트; 클로로포름산 벤질
+kr_acute_toxic	504-24-5		4-아미노피리딘
+kr_acute_toxic	505-60-2		머스타드 가스
+kr_acute_toxic	506-64-9		시안화은
+kr_acute_toxic	506-77-4		염화 시안
+kr_acute_toxic	506-87-6		탄산 이암모늄
+kr_acute_toxic	50976-17-5		ar-에테닐-N,N-디메틸벤젠메탄아민
+kr_acute_toxic	51-28-5		2,4-디니트로페놀
+kr_acute_toxic	51-75-2		메클로르에타민과 그 염산염
+kr_acute_toxic	5124-30-1		1,1'-메틸렌비스[4-이소시아나토시클로헥산]
+kr_acute_toxic	51487-69-5		클로에토캅
+kr_acute_toxic	51594-55-9		에피클로로히드린; 2-(클로로메틸) 옥시란
+kr_acute_toxic	51630-58-1		펜발러레이트
+kr_acute_toxic	51981-73-8		2-히드록시-1,2,3-프로판트리카복실산 티타늄염(1:?)
+kr_acute_toxic	52-46-0		아폴레이트
+kr_acute_toxic	52-51-7		브로노폴
+kr_acute_toxic	52-68-6		트리클로르폰
+kr_acute_toxic	52-85-7		팜퍼
+kr_acute_toxic	5202-85-7		2-아미노-5-클로로벤즈아미드
+kr_acute_toxic	521065-36-1		리튬 테트라플루오로(옥살라토)포스페이트
+kr_acute_toxic	5221-49-8		피리미테이트
+kr_acute_toxic	52217-57-9		트리메톡시-7-옥텐일실란
+kr_acute_toxic	52315-07-8		제타 싸이퍼메트린
+kr_acute_toxic	524067-97-8		비스[4-(1,1-디메틸에틸)페닐]이오도늄과 1,1,2,2,3,3,4,4,4-노나플루오로-N-[(1,1,2,2,3,3,4,4,4-노나플루오로부틸)술포닐]-1-부탄술폰아미드의 염(1:1)
+kr_acute_toxic	52918-63-5		데카메트린
+kr_acute_toxic	5308-25-8		1-에틸피퍼라진
+kr_acute_toxic	5349-28-0		티오시아노아세트산 에틸
+kr_acute_toxic	5350-57-2		벤조페논 히드라존
+kr_acute_toxic	53558-25-1		피리미닐
+kr_acute_toxic	53803-13-7		N,N,N-트리메틸메탄아미늄과 2,2-디메틸프로판산 (1:1)의 염
+kr_acute_toxic	5382-16-1		4-히드록시피페리딘
+kr_acute_toxic	539-48-0		1,4-벤젠디메탄아민
+kr_acute_toxic	540-51-2		2-브로모에탄올
+kr_acute_toxic	541-59-3		말레이미드
+kr_acute_toxic	542-75-6		1,3-디클로로프로펜
+kr_acute_toxic	542-83-6		시안화 카드뮴
+kr_acute_toxic	542-88-1		비스(클로로메틸)에테르
+kr_acute_toxic	543-21-5		셀로시딘
+kr_acute_toxic	543-27-1		클로로포름산 2-메틸프로필
+kr_acute_toxic	54381-26-9		아미도티오산
+kr_acute_toxic	544-92-3		시안화구리
+kr_acute_toxic	545-06-2		트리클로로아세토니트릴
+kr_acute_toxic	545-55-1		아폭사이드
+kr_acute_toxic	546-80-5		(1S,4R,5R)-4-메틸-1-(1-메틸에틸)바이사이클로[3.1.0]헥산-3-온
+kr_acute_toxic	55-38-9		펜티온
+kr_acute_toxic	55-68-5		질산 페닐수은
+kr_acute_toxic	55-86-7		메클로르에타민과 그 염산염
+kr_acute_toxic	55-91-4		이소플루오르페이트
+kr_acute_toxic	55285-14-8		카보술판
+kr_acute_toxic	553-26-4		4,4'-디피리딜
+kr_acute_toxic	55566-30-8		황산 테트라키스(히드록시메틸)포스포늄
+kr_acute_toxic	556-52-5		글리시돌
+kr_acute_toxic	556-61-6		이소티오시안산 메틸
+kr_acute_toxic	5570-19-4		2-니트로페닐붕산
+kr_acute_toxic	559-40-0		퍼플루오로시클로펜텐
+kr_acute_toxic	56-18-8		3,3'-이미노디(프로필아민)
+kr_acute_toxic	56-23-5		사염화 탄소
+kr_acute_toxic	56-38-2		파라티온
+kr_acute_toxic	56073-07-5		디페나쿰
+kr_acute_toxic	56073-10-0		브로디파쿰
+kr_acute_toxic	563-12-2		에티온
+kr_acute_toxic	563-68-8		아세트산 탈륨
+kr_acute_toxic	56792-69-9		헥사카르보닐 (3,3-디메틸-1-부틴)다이코발트
+kr_acute_toxic	569-64-2		말라카이트 그린의 염산염
+kr_acute_toxic	57-39-6		메틸 아폭시드
+kr_acute_toxic	57-74-9		클로르단
+kr_acute_toxic	57028-96-3		폴리헥사메틸렌구아니딘의 인산염 및 염산염; 피에치엠지(PHMG) 인산염 및 염산염
+kr_acute_toxic	5707-69-7		드라족솔론
+kr_acute_toxic	572-48-5		쿠미토에이트
+kr_acute_toxic	57214-10-5		포름알데히드 1,3-벤젠디메탄아민과 페놀의 중합체
+kr_acute_toxic	57235-57-7		트리페닐술포늄과 α,α-디플루오로비사이클로[2.2.1]헵탄-2-에탄술폰산의 염 (1:1)
+kr_acute_toxic	5746-86-1		(±)-노르니코틴
+kr_acute_toxic	57583-34-3	2026-12-19	모노메틸틴 트리스(2-에틸헥실 메르캅토아세테이트)
+kr_acute_toxic	577-16-2		2-메틸아세토페논
+kr_acute_toxic	58-89-9		헥사클로로시클로헥산
+kr_acute_toxic	5827-05-4		아피단
+kr_acute_toxic	58339-34-7		피그먼트 레드 108
+kr_acute_toxic	5836-29-3		쿠마테트라릴
+kr_acute_toxic	5836-73-7		클로로프로뮤리트
+kr_acute_toxic	584-84-9		톨루엔 디이소시아네이트; 티디아이
+kr_acute_toxic	5873-54-1		메틸렌 디페닐 디이소시아네이트; 메틸렌 디페닐 디이소시안산; 엠디아이(MDI)
+kr_acute_toxic	5903-13-9		엠엔에프에이
+kr_acute_toxic	592-39-2		(T-4)-트리플로로(피페리딘)보론
+kr_acute_toxic	593-84-0		티오시안산과 구아니딘의 화합물 (1:1)
+kr_acute_toxic	594-72-9		1,1-디클로로-1-니트로에탄
+kr_acute_toxic	59653-74-6		rel-1,3,5-트리스[(2R)-2-옥시란일메틸]-1,3,5-트리아진-2,4,6(1H,3H,5H)-트리온
+kr_acute_toxic	59669-26-0		티오디캅
+kr_acute_toxic	598-31-2		브로모-2-프로판온
+kr_acute_toxic	60-09-3		p-아미노아조벤젠
+kr_acute_toxic	60-24-2		2-메르캅토에탄올
+kr_acute_toxic	60-34-4		메틸히드라진
+kr_acute_toxic	60-51-5		디메토에이트
+kr_acute_toxic	60-57-1		디엘드린
+kr_acute_toxic	600-05-5		2,3-디브로모프로판산
+kr_acute_toxic	602-01-7		디니트로톨루엔
+kr_acute_toxic	602-56-2		9-페닐아크리딘
+kr_acute_toxic	606-20-2		디니트로톨루엔
+kr_acute_toxic	608-73-1		헥사클로로시클로헥산
+kr_acute_toxic	609-40-5		2-니트로티오펜
+kr_acute_toxic	610-39-9		디니트로톨루엔
+kr_acute_toxic	612-83-9		3,3'-디클로로벤지딘 염산염
+kr_acute_toxic	615-21-4		2-하이드라진일벤조티아졸
+kr_acute_toxic	61764-71-4		메틸 2-프로핀일 카보네이트
+kr_acute_toxic	618-85-9		디니트로톨루엔
+kr_acute_toxic	619-15-8		디니트로톨루엔
+kr_acute_toxic	62-38-4		아세트산 페닐수은
+kr_acute_toxic	62-73-7		디클로르보스
+kr_acute_toxic	621-27-2		3-프로필페놀
+kr_acute_toxic	62262-84-4		4-메르캅토페닐 메탄 술폰산
+kr_acute_toxic	624-18-0		1,4-페닐렌디아민 염산염
+kr_acute_toxic	624-92-0		이황화 이메틸
+kr_acute_toxic	62566-74-9		테트라플루오로게르마늄; 사불화게르마늄
+kr_acute_toxic	6291-85-6		3-에톡시프로필아민
+kr_acute_toxic	6294-89-9		히드라진카르복시산 메틸
+kr_acute_toxic	6299-39-4		7-니트로-1H-벤조트리아졸
+kr_acute_toxic	63-25-2		카바릴
+kr_acute_toxic	630-08-0		일산화탄소
+kr_acute_toxic	6317-18-6		비스티오시안산 메틸렌; 메틸렌 비스티오시아네이트
+kr_acute_toxic	63333-35-7		브롬에탈린
+kr_acute_toxic	637-89-8		4-메르캅토페놀
+kr_acute_toxic	638-29-9		펜타노일 클로라이드
+kr_acute_toxic	6392-46-7		알릭시캅
+kr_acute_toxic	64-18-6		포름산
+kr_acute_toxic	64-19-7		아세트산
+kr_acute_toxic	64-67-5		황산 디에틸
+kr_acute_toxic	640-15-3		티오메톤
+kr_acute_toxic	640-19-7		플루오로아세트아미드
+kr_acute_toxic	643-79-8		Ο-프탈알데하이드
+kr_acute_toxic	64359-81-5		4,5-디클로로-2-N-옥틸-4-이소티아졸린-3-온
+kr_acute_toxic	644-64-4		디메틸란
+kr_acute_toxic	644-97-3		디클로로(페닐)포스핀
+kr_acute_toxic	6535-70-2		2-아미노-5-히드록시-1,7-나프탈렌디술폰산
+kr_acute_toxic	65753-47-1		2-클로로-3-트리플루오로메틸피리딘
+kr_acute_toxic	658-19-5		(T-4)-트리플루오로(N-메틸시클로헥산아민)보론
+kr_acute_toxic	65907-30-4		푸라티오캅
+kr_acute_toxic	66-81-9		시클로헥시미드
+kr_acute_toxic	66003-76-7		1,1,1-트리플루오로메탄술폰산 디페닐이오도늄 (1:1)
+kr_acute_toxic	66003-78-9		트리플루오로메탄술폰산 트리페닐술포늄 (1:1)
+kr_acute_toxic	661476-43-3		2,2,3,3,4,4-헥사플루오로-4-[(트리플루오로에테닐)옥시]부탄산 메틸 중합체
+kr_acute_toxic	66230-04-4		에스펜발러레이트
+kr_acute_toxic	66230-21-5		N-(1,3-디메틸부틸리덴)-5-[(1,3-디메틸부틸리덴)아미노]-1,3,3-트리메틸시클로헥산메탄아민
+kr_acute_toxic	66790-57-6		4,15-디옥소-5,8,11,14-테트라옥사옥타데카-2,16-디엔디오산
+kr_acute_toxic	66841-25-6		트랄로메트린
+kr_acute_toxic	66952-49-6		메타술포캅
+kr_acute_toxic	67-56-1		메틸 알코올; 메탄올
+kr_acute_toxic	67-66-3		클로로포름; 트리클로로메탄
+kr_acute_toxic	67-97-0		에비비트
+kr_acute_toxic	671-04-5		카바놀에이트
+kr_acute_toxic	6711-48-4		N'-[3-(디메틸아미노)프로필]-N,N-디메틸프로판-1,3-디아민
+kr_acute_toxic	677-43-0		N,N-디메틸포스포아미딕 디클로라이드
+kr_acute_toxic	67843-74-7		에피클로로히드린; 2-(클로로메틸) 옥시란
+kr_acute_toxic	678966-16-0		리튬 비스[에탄디오에이토 (2-)-κO1,κO2]디플루오로포스페이트(1-)
+kr_acute_toxic	67963-74-0		3-히드록시-2-나프탈렌카복실산과 2,3,4,6,7,8,9,10-옥타하이드로피리미도[1,2-a]아제핀의 화합물(1:1)
+kr_acute_toxic	68-11-1		메르캅토아세트산
+kr_acute_toxic	68085-85-8		싸이할로쓰린
+kr_acute_toxic	68133-90-4		백금산과 2-아미노에탄올의 화합물 (1:2)
+kr_acute_toxic	68156-13-8		디페닐[(페닐티오)페닐]술포늄 헥사플루오로포스페이트(1-)
+kr_acute_toxic	68186-41-4		α-트리데실-ω-히드록시폴리(옥시-1,2-에탄디일)의 이소옥틸 인산, 칼륨염
+kr_acute_toxic	683-18-1		이염화 이부틸주석; 디부틸틴 디클로라이드
+kr_acute_toxic	68359-37-5		싸이플루트린
+kr_acute_toxic	68391-04-8		알킬(C=12~18)디메틸아민
+kr_acute_toxic	685-63-2		헥사플루오로-1,3-부타디엔
+kr_acute_toxic	68511-92-2		(Z)-9-옥타데센산과 디에틸렌트리아민(고리화), 디-에틸 황산의 반응생성물(4차)
+kr_acute_toxic	68572-87-2		B-9-페난트레닐붕산
+kr_acute_toxic	68584-22-5		벤젠술폰산 알킬(C=10~16) 유도체
+kr_acute_toxic	68910-05-4		2-아미노에탄올과 암모니아의 반응생성물
+kr_acute_toxic	69029-97-6		스파이스 구리
+kr_acute_toxic	69094-18-4		2,2-디브로모-2-니트로에탄올
+kr_acute_toxic	6923-22-4		모노크로토포스
+kr_acute_toxic	693-13-0		N,N'-메탄테트라일비스(2-프로판아민)
+kr_acute_toxic	69409-94-5		플루발린에이트
+kr_acute_toxic	69563-88-8		4,4'-[[2,2,2-트리플루오로-1-(트리플루오로메틸)에틸리덴]비스(4,1-페닐렌옥시)]비스벤젠아민
+kr_acute_toxic	69581-33-5		싸이프로푸람
+kr_acute_toxic	697-83-6		5-클로로-2,4,6-트리플루오로피리미딘
+kr_acute_toxic	69711-44-0		1,4-디클로로-3-부텐-2-온
+kr_acute_toxic	6988-21-2		디옥사캅
+kr_acute_toxic	70124-77-5		플루싸이트린에이트
+kr_acute_toxic	70693-62-8		포타슘 퍼옥시모노설페이트 설페이트
+kr_acute_toxic	71074-89-0		비스[(디메틸아미노)메틸]페놀
+kr_acute_toxic	7173-51-5		염화 디데실디메틸암모늄
+kr_acute_toxic	72-20-8		엔드린
+kr_acute_toxic	72162-46-0		N-[3-(이소데실옥시)프로필]-1,3-프로판디아민
+kr_acute_toxic	722-56-5		질산 디페닐요오도늄
+kr_acute_toxic	7292-16-2		프로파포스
+kr_acute_toxic	73003-80-2		2,2-디브로모프로판디아미드
+kr_acute_toxic	731-27-1		톨릴플루아니드
+kr_acute_toxic	732-11-6		포스멧
+kr_acute_toxic	73602-61-6		불화 트리에틸암모늄; 플루오르화트리에틸암모늄
+kr_acute_toxic	73771-62-7		2-(아미노티옥소메틸)하이드라진카보디티오산 칼륨 (1:1)
+kr_acute_toxic	7378-99-6		디메틸(옥틸)아민
+kr_acute_toxic	7397-46-8		메틸 B,B-디에틸보리네이트
+kr_acute_toxic	74-83-9		브롬화 메틸; 메틸 브로마이드
+kr_acute_toxic	74-88-4		요오드화 메틸; 요오드메탄
+kr_acute_toxic	74-89-5		메틸아민
+kr_acute_toxic	74-94-2		디엠에이비(DMAB)
+kr_acute_toxic	74-95-3	2026-12-19	디브로모메탄
+kr_acute_toxic	741-58-2		벤술라이드
+kr_acute_toxic	7439-97-6		수은
+kr_acute_toxic	7440-09-7		칼륨
+kr_acute_toxic	7440-23-5		나트륨
+kr_acute_toxic	7440-41-7		베릴륨
+kr_acute_toxic	7440-48-4		코발트
+kr_acute_toxic	7446-09-5		이산화 황
+kr_acute_toxic	7446-18-6		황산 탈륨
+kr_acute_toxic	7446-70-0		염화 알루미늄
+kr_acute_toxic	7487-94-7		이염화수은
+kr_acute_toxic	75-05-8		아세토니트릴
+kr_acute_toxic	75-15-0		이황화 탄소
+kr_acute_toxic	75-21-8		산화에틸렌
+kr_acute_toxic	75-35-4		1,1-디클로로에틸렌
+kr_acute_toxic	75-44-5		포스겐
+kr_acute_toxic	75-50-3		트리메틸아민
+kr_acute_toxic	75-54-7		디클로로메틸실란
+kr_acute_toxic	75-56-9		산화 프로필렌
+kr_acute_toxic	75-57-0		염화테트라메틸암모늄
+kr_acute_toxic	75-59-2		수산화 테트라메틸암모늄; 티엠에이에치(TMAH)
+kr_acute_toxic	75-75-2		메탄술폰산
+kr_acute_toxic	75-77-4		트리메틸클로로실란
+kr_acute_toxic	75-78-5		디메틸 디클로로실란
+kr_acute_toxic	75-79-6		메틸트리클로로실란
+kr_acute_toxic	75-86-5		아세톤 시아노히드린
+kr_acute_toxic	75-89-8		2,2,2-트리플루오로에탄올
+kr_acute_toxic	75-91-2		tet-부틸 하이드로퍼옥사이드; tert -부틸 하이드로과산화물
+kr_acute_toxic	75-94-5		트리클로로비닐실란
+kr_acute_toxic	7550-45-0		사염화 티타늄
+kr_acute_toxic	757-58-4		헥사에틸 테트라포스페이트
+kr_acute_toxic	76-03-9		트리클로로아세트산
+kr_acute_toxic	76-06-2		클로로피크린; 트리클로로니트로메탄
+kr_acute_toxic	76-44-8		헵타클로르
+kr_acute_toxic	76-87-9		수산화 트리페닐주석
+kr_acute_toxic	760-67-8		2-에틸엑사노일 클로라이드; 염화 2-에틸헥사노일
+kr_acute_toxic	7637-07-2		트리플루오로보란
+kr_acute_toxic	7646-85-7		염화아연
+kr_acute_toxic	7646-93-7	2026-12-19	황산 수소 칼륨
+kr_acute_toxic	7647-01-0		염화 수소; 염산
+kr_acute_toxic	7664-38-2	2026-12-19	인산
+kr_acute_toxic	7664-39-3		플루오르화 수소; 불화수소; 불산
+kr_acute_toxic	7664-41-7		암모니아
+kr_acute_toxic	7664-93-9		황산
+kr_acute_toxic	767-10-2		N-부틸피롤리딘
+kr_acute_toxic	768-66-1		2,2,6,6-테트라메틸피페리딘
+kr_acute_toxic	7681-49-4		플루오르화 나트륨; 불화나트륨
+kr_acute_toxic	7681-52-9	2028-01-01	차아염소산 나트륨
+kr_acute_toxic	7697-37-2		질산
+kr_acute_toxic	77-47-4		헥사클로로시클로펜타디엔
+kr_acute_toxic	77-73-6		디사이클로펜타디엔
+kr_acute_toxic	77-78-1		황산 디메틸
+kr_acute_toxic	7700-17-6		크로톡시포스
+kr_acute_toxic	7718-54-9		염화니켈
+kr_acute_toxic	7719-09-7		염화 티오닐; 티오닐 클로라이드
+kr_acute_toxic	7719-12-2		삼염화 인
+kr_acute_toxic	77215-47-5		1-이미다졸리딘에탄올
+kr_acute_toxic	7722-64-7		과망간산 칼륨
+kr_acute_toxic	7722-84-1		과산화 수소
+kr_acute_toxic	7726-95-6		브롬
+kr_acute_toxic	7738-94-5		크롬산
+kr_acute_toxic	7758-19-2		아염소산 나트륨
+kr_acute_toxic	7758-89-6		염화구리
+kr_acute_toxic	7761-88-8		질산은
+kr_acute_toxic	7774-82-5		2-트리데세날
+kr_acute_toxic	7775-11-3		크롬산 나트륨
+kr_acute_toxic	7782-41-4		불소
+kr_acute_toxic	7782-50-5		염소
+kr_acute_toxic	7782-65-2		사수소화게르마늄
+kr_acute_toxic	7783-06-4		황화수소
+kr_acute_toxic	7783-07-5		셀레늄화 수소
+kr_acute_toxic	7783-55-3		트리플루오르화 인; 불화인
+kr_acute_toxic	7783-56-4		삼불화 안티몬; 플루오르화 안티몬
+kr_acute_toxic	7783-61-1		테트라플루오로실리콘
+kr_acute_toxic	7783-82-6		헥사플루오르 텅스텐; 육불화텅스텐
+kr_acute_toxic	7784-42-1		아르신
+kr_acute_toxic	7786-81-4		황산니켈
+kr_acute_toxic	7789-00-6		크롬산 칼륨
+kr_acute_toxic	7789-06-2		크롬산 스트론튬
+kr_acute_toxic	7789-23-3		플루오르화 칼륨; 불화칼륨
+kr_acute_toxic	7789-24-4		플루오르화 리튬; 불화리튬
+kr_acute_toxic	7789-30-2		오불화브롬
+kr_acute_toxic	7790-94-5		클로로술폰산
+kr_acute_toxic	78-06-8		디부틸주석 3-메르캅토프로피오네이트
+kr_acute_toxic	78-34-2		디옥사티온
+kr_acute_toxic	78-48-8		S,S,S-트리부틸 포스포르트리티오에이트; S,S,S-트리부틸 삼티오인산; 삼티오인산 S,S,S-트리부틸
+kr_acute_toxic	78-53-5		아미톤과 그 옥살산염
+kr_acute_toxic	78-81-9		이소부틸아민
+kr_acute_toxic	78-82-0		2-메틸프로판니트릴
+kr_acute_toxic	78-85-3		2-메틸-2-프로펜알
+kr_acute_toxic	78-87-5		1,2-디클로로프로판
+kr_acute_toxic	78-94-4		메틸 비닐 케톤
+kr_acute_toxic	78-96-6		모노이소프로판올아민
+kr_acute_toxic	7803-51-2		포스핀
+kr_acute_toxic	7803-55-6	2026-12-19	암모늄 트리옥소바나듐염 (1:1)
+kr_acute_toxic	7803-57-8		히드라진 수화물
+kr_acute_toxic	786-19-6		카보페노티온
+kr_acute_toxic	78643-41-1		디클로로디메틸주석과 트리클로로메틸주석의 혼합물
+kr_acute_toxic	788-67-0	2026-12-19	2-플루오로-2-(1,1,2,2,2-펜타플루오로에틸)-3,3-비스(트리플루오로메틸)옥시란
+kr_acute_toxic	79-00-5		1,1,2-트리클로로에탄
+kr_acute_toxic	79-04-9		염화 클로로아세틸; 클로로아세틸 클로라이드
+kr_acute_toxic	79-06-1		아크릴아미드
+kr_acute_toxic	79-10-7		아크릴산
+kr_acute_toxic	79-11-8		클로로아세트산
+kr_acute_toxic	79-19-6		티오세미카르바지드
+kr_acute_toxic	79-27-6		1,1,2,2-테트라브로모에탄
+kr_acute_toxic	79-41-4		메타크릴산
+kr_acute_toxic	79-43-6		디클로로아세트산
+kr_acute_toxic	79456-26-1		에이시티피
+kr_acute_toxic	79538-32-2		테플루트린
+kr_acute_toxic	79622-59-6		플루아지남
+kr_acute_toxic	79720-19-7		3-도데실-1-(2,2,6,6-테트라메틸-4-피페리디닐)-2,5-피롤리딘디온
+kr_acute_toxic	79723-02-7		프탈산 수소 테트라메틸암모늄
+kr_acute_toxic	80-15-9		α,α'-디메틸 벤질하이드로과산화물; α,α'-디메틸 벤질하이드로퍼옥사이드
+kr_acute_toxic	8001-35-2		캄페클로르
+kr_acute_toxic	80060-09-9		다이아펜티유론
+kr_acute_toxic	8014-95-7		발연황산
+kr_acute_toxic	80196-03-8		1-클로로에틸 메틸 카보네이트
+kr_acute_toxic	8022-00-2		디메톤-메틸
+kr_acute_toxic	802333-90-0		1-데실-4-메틸피리디늄과 1,1,1-트리플루오로-N-[(트리플루오로메틸)술포닐]메탄술폰아미드의 염 (1:1)
+kr_acute_toxic	8065-36-9		브펜캅
+kr_acute_toxic	8065-48-3		디메톤
+kr_acute_toxic	81-82-3		쿠마클로르
+kr_acute_toxic	814-49-3		디에틸 클로로포스페이트; 디에틸에스테르 클로로인산
+kr_acute_toxic	814-68-6		아크릴로일 클로라이드
+kr_acute_toxic	818-08-6		산화 디부틸주석; 디부틸틴 옥사이드
+kr_acute_toxic	818-61-1		아크릴산 하이드록시에틸; 하이드록시에틸 아크릴레이트
+kr_acute_toxic	82-66-6		디파시논
+kr_acute_toxic	822-06-0		디이소시안산 헥사메틸렌; 헥사메틸렌 디이소시아네이트
+kr_acute_toxic	82560-54-1		벤프라캅
+kr_acute_toxic	82857-68-9		1-클로로-N,N-디에틸-1,1-디페닐-1-(페닐메틸)포스포르아민
+kr_acute_toxic	82984-64-3		3-(트리메톡시실일)-N,N-비스[3-(트리메톡시실일)프로필]-1-프로판아민
+kr_acute_toxic	83-26-1		핀돈
+kr_acute_toxic	83-79-4		로테논
+kr_acute_toxic	83130-01-2		알라니캅
+kr_acute_toxic	83395-38-4		2-프로핀-1-일 1H-이미다졸-1-카르복실레이트
+kr_acute_toxic	84-67-3		2,2'-디메틸벤지딘
+kr_acute_toxic	84144-79-6		N-(2-아미노에틸)-1,2-에탄다이아민과 글리시딜 톨릴 에테르의 반응생성물
+kr_acute_toxic	84367-31-7		4-클로로-3-히드록시부티로니트릴
+kr_acute_toxic	84852-15-3		노닐페놀류
+kr_acute_toxic	84988-61-4		이소노닐 포스페이트; 이소노닐 인산
+kr_acute_toxic	85-00-7		다이쿼트 디브로마이드; 디브롬화 디콰이트
+kr_acute_toxic	852023-54-2		클로로메틸 헥실 시아노카본이미도디티오에이트
+kr_acute_toxic	85272-31-7		1,1,1-트리플루오로메탄술폰산 비스(1,1-디메틸에틸)[[(트리플루오로메틸)술포닐]옥시]실릴
+kr_acute_toxic	85409-23-0		염화 알킬(C=12~14)[(에틸페닐)메틸]디메틸 암모늄
+kr_acute_toxic	85536-14-7		벤젠술폰산 4-sec-알킬(C=10~13) 유도체
+kr_acute_toxic	857023-53-1		N-메틸-2,4-사이클로펜타디엔-1-에탄아민
+kr_acute_toxic	86-50-0		아진포스-메틸
+kr_acute_toxic	86-57-7		1-니트로나프탈렌
+kr_acute_toxic	86-88-4		안투
+kr_acute_toxic	86089-17-0		트리데실아민(가지형 및 선형)
+kr_acute_toxic	86347-14-0		5-[1-(2,3-디메틸페닐)에틸]-1H-이미다졸
+kr_acute_toxic	864150-47-0		(T-4)-트리스(N-메틸에탄아미나토)[2-메틸-2-프로판아미나토(2-)]니오븀
+kr_acute_toxic	869-24-9		염화 2-클로로에틸디에틸암모늄
+kr_acute_toxic	869-29-4		3,3-디아세톡시-1-프로펜
+kr_acute_toxic	869795-96-0		클로로아세트산 헥사히드로-2-옥소-3,5-메타노-2H-시클로펜타[b]퓨란-6-일
+kr_acute_toxic	87-90-1		심클로센
+kr_acute_toxic	870296-13-2		1-헥실-4-메틸피리디늄과 1,1,1-트리플루오로-N-[(트리플루오로메틸)술포닐]메탄술폰아미드의 염 (1:1)
+kr_acute_toxic	872-93-5		테트라하이드로-3-메틸티오펜 1,1-디옥사이드
+kr_acute_toxic	87787-67-5		2-[2-[(1,1-디메틸에틸)아미노]에톡시]에탄올
+kr_acute_toxic	88-43-7		5-아미노-2-클로로벤젠술폰산
+kr_acute_toxic	88-64-2		4-(아세틸아미노)-2-아미노벤젠술폰산
+kr_acute_toxic	88-73-3		1-클로로-2-니트로벤젠
+kr_acute_toxic	88-85-7		디노셉
+kr_acute_toxic	89697-78-9		폴리헥사메틸렌구아니딘의 인산염 및 염산염; 피에치엠지(PHMG) 인산염 및 염산염
+kr_acute_toxic	89784-60-1		피라클로포스
+kr_acute_toxic	90-72-2		2,4,6-트리스[(디메틸아미노)메틸]페놀
+kr_acute_toxic	900-95-8		아세트산 트리페닐주석; 트리페닐틴 아세테이트
+kr_acute_toxic	900169-60-0		비스(가지형 및 선형 알킬(C=11~14))아민
+kr_acute_toxic	90035-08-8		플로쿠마펜
+kr_acute_toxic	90076-65-6		1,1,1-트리플루오르-N-[(트리플루오로메틸)술포닐]메탄술폰아미드 리튬염
+kr_acute_toxic	90076-67-8		1,1,1-트리플루오로-N-[(트리플루오로메틸)술포닐]메탄술폰아미드의 칼륨염 (1:1)
+kr_acute_toxic	9046-10-0		α-(2-아미노메틸에틸)-ω-(2-아미노메틸에톡시)폴리[옥시(메틸-1,2-에탄디일)]
+kr_acute_toxic	90481-04-2		노닐페놀류
+kr_acute_toxic	90640-66-7		폴리에틸렌폴리아민류, 테트라에틸펜타아민
+kr_acute_toxic	90640-67-8		폴리에틸렌폴리아민류, 트리에틸테트라아민
+kr_acute_toxic	91-08-7		톨루엔 디이소시아네이트; 티디아이
+kr_acute_toxic	91-21-4		1,2,3,4-테트라히드로이소퀴놀린
+kr_acute_toxic	91-22-5		퀴놀린
+kr_acute_toxic	912290-04-1		트리페닐술포늄과 1-[(3-히드록시트리시클로[3.3.1.13,7]데실)메틸] 2,2-디플루오로-2-설포아세테이트(1:1)의 염
+kr_acute_toxic	91273-04-0		N,N-비스(2-에틸헥실)-[(1,2,4-트리아졸-1-일)메틸]아민
+kr_acute_toxic	913269-98-4		4-옥소-1-아다만틸옥시카르보닐디플루오로메탄 술폰산 트리페닐술포늄; 트리페닐술포늄 4-옥소-1-아다만틸옥시카르보닐디플루오로메탄 술폰산
+kr_acute_toxic	914981-36-5		N,N-비스(1-메틸프로필)실란아민
+kr_acute_toxic	91742-16-4		1,1,1-트리플루오로-N-[(트리플루오로메틸)술포닐]메탄술폰아미드의 세슘염 (1:1)
+kr_acute_toxic	917924-18-6		[1,1'-비페닐]-2-올과 옥시란의 중합체
+kr_acute_toxic	920-37-6		2-클로로아크릴로니트릴
+kr_acute_toxic	920-46-7		2-메틸-2-프로페노일 클로라이드; 염화 2-메틸-2-프로페노일
+kr_acute_toxic	928-98-3		1,5-펜탄디티올
+kr_acute_toxic	929-06-6		2-(2-아미노에톡시)에탄올
+kr_acute_toxic	938451-30-0		(4-히드록시페닐)메틸(1-나프탈레닐메틸)술포늄 테트라키스(펜타플루오로페닐)보레이트(1-)
+kr_acute_toxic	93857-00-2		프로필실란트리올산 칼륨
+kr_acute_toxic	93918-10-6		3,5,5-트리메틸헥산산 칼륨(1:1)
+kr_acute_toxic	93982-95-7		클로로아세트산과 사이클로헥실아민의 화합물 (1:1)
+kr_acute_toxic	93982-96-8		N,N'-디페닐구아니딘 브롬산염
+kr_acute_toxic	94-75-7		2,4-디
+kr_acute_toxic	944-22-9		포노포스
+kr_acute_toxic	945-51-7	2026-12-19	1,1'-술피닐비스벤젠
+kr_acute_toxic	947-02-4		포스폴란
+kr_acute_toxic	95-48-7		크레졸
+kr_acute_toxic	95-51-2		2-클로로아닐린
+kr_acute_toxic	95-53-4		o-톨루이딘
+kr_acute_toxic	950-10-7		메포스폴란
+kr_acute_toxic	950-37-8		메티다티온
+kr_acute_toxic	953-17-3		메틸 트리티온
+kr_acute_toxic	95465-99-9		카두사포스
+kr_acute_toxic	959974-09-5		[(1,2,3,4,5-η)-1-메틸-2,4-시클로펜타디엔-1-일]트리스(N-메틸메탄아미나토)지르코늄
+kr_acute_toxic	96-05-9		메타아크릴산 알릴; 알릴 메타아크릴레이트
+kr_acute_toxic	96-09-3		(에폭시에틸)벤젠
+kr_acute_toxic	96-12-8		1,2-디브로모-3-클로로프로판
+kr_acute_toxic	96-13-9		2,3-디브로모-1-프로판올
+kr_acute_toxic	96-23-1		1,3-디클로로-2-프로판올
+kr_acute_toxic	96-24-2		클로로히드린; 1-클로로프로판-2-올
+kr_acute_toxic	96-29-7		메틸 에틸 케톡심
+kr_acute_toxic	96-33-3		아크릴산 메틸; 메틸 아크릴레이트
+kr_acute_toxic	96-34-4		클로로아세트산 메틸
+kr_acute_toxic	96182-53-5		테부피림포스
+kr_acute_toxic	96489-71-3		피리다벤
+kr_acute_toxic	96556-05-7		옥타히드로-1,4,7-트리메틸-1H-1,4,7-트리아조닌
+kr_acute_toxic	97-02-9		2,4-디니트로아닐린
+kr_acute_toxic	97-17-6		디클로펜티온
+kr_acute_toxic	97229-11-3		4-클로로-2-(메틸술포닐)피리미딘
+kr_acute_toxic	973-21-7		디노브톤
+kr_acute_toxic	98-00-0		2-푸란메탄올
+kr_acute_toxic	98-01-1		푸르푸랄
+kr_acute_toxic	98-07-7		(트리클로로메틸)벤젠
+kr_acute_toxic	98-88-4		벤조일 클로라이드; 염화 벤조일
+kr_acute_toxic	98-95-3		니트로벤젠
+kr_acute_toxic	98485-71-3		이황화 비스(2,3-에피티오프로필)
+kr_acute_toxic	98886-44-3		포스티아제이트
+kr_acute_toxic	99-63-8		이스프탈로일 클로라이드; 이염화 이소프탈로일
+kr_acute_toxic	99-97-8		N,N-디메틸-p-톨루이딘
+kr_acute_toxic	99-99-0		4-니트로톨루엔
+kr_acute_toxic	992-98-3		폼산 탈륨 염(1:1)
+kr_acute_toxic	99257-43-9		트리스(도데실벤젠술폰산) 1,1'-이미노디(옥타메틸렌)디구아니디늄
+kr_acute_toxic	99591-74-9		1,5,2,4-디옥사디티안, 2,2,4,4-테트라옥사이드
+kr_acute_toxic	998-40-3		트리부틸포스핀
+kr_acute_toxic	999-97-3		1,1,1,3,3,3-헥사메틸디실라잔
+kr_chronic_toxic	100-42-5		스티렌
+kr_chronic_toxic	100-44-7		벤질 클로라이드; 염화벤질
+kr_chronic_toxic	100-57-2		수산화 페닐수은
+kr_chronic_toxic	100-63-0		페닐히드라진
+kr_chronic_toxic	10024-97-2		아산화질소
+kr_chronic_toxic	10025-87-3		옥시염화 인
+kr_chronic_toxic	10028-18-9		플루오르화 니켈; 불화니켈
+kr_chronic_toxic	10043-35-3		붕산
+kr_chronic_toxic	10099-74-8		질산 납
+kr_chronic_toxic	101-14-4		4,4'-메틸렌비스(2-클로로아닐린)
+kr_chronic_toxic	101-77-9		4,4'-메틸렌디아닐린
+kr_chronic_toxic	101-80-4		4,4'-옥시비스아닐린; 4;4'-옥시비스벤젠아민
+kr_chronic_toxic	101-90-6		2,2'-[1,3-페닐렌비스(옥시메틸렌)]비스[옥시란]
+kr_chronic_toxic	10124-43-3		황산 코발트
+kr_chronic_toxic	10141-05-6		질산 코발트
+kr_chronic_toxic	10294-40-3		크롬산 바륨
+kr_chronic_toxic	106-89-8		에피클로로히드린; 2-(클로로메틸) 옥시란
+kr_chronic_toxic	106-93-4		1,2-디브로모에탄
+kr_chronic_toxic	106-94-5		1-브로모프로판; n-프로필브로마이드
+kr_chronic_toxic	106-99-0		1,3-부타디엔
+kr_chronic_toxic	10605-21-7		카벤다짐
+kr_chronic_toxic	107-06-2		1,2-이염화에탄
+kr_chronic_toxic	107-13-1		아크릴로니트릴
+kr_chronic_toxic	107-19-7		2-프로핀-1-올; 프로파길 알콜
+kr_chronic_toxic	107-30-2		클로로메틸 메틸 에테르
+kr_chronic_toxic	1072-35-1		스테아린산 납
+kr_chronic_toxic	108-31-6		무수 말레산; 2,5-퓨란디온
+kr_chronic_toxic	109-86-4		2-메톡시에탄올
+kr_chronic_toxic	110-57-6		(2E)-1,4-디클로로-2-부텐
+kr_chronic_toxic	110-71-4		1,2-디메톡시에탄
+kr_chronic_toxic	110-80-5		2-에톡시에탄올
+kr_chronic_toxic	11099-02-8		산화니켈류
+kr_chronic_toxic	111-15-9		아세트산 2-에톡시에틸; 2-에톡시에틸 아세테이트
+kr_chronic_toxic	111-96-6		1,1'-옥시비스(2-메톡시에탄)
+kr_chronic_toxic	11113-50-1		붕산
+kr_chronic_toxic	11113-74-9		수산화 니켈
+kr_chronic_toxic	11113-75-0		황화니켈류
+kr_chronic_toxic	1120-71-4		1,2-옥사티올란, 2,2-디옥사이드
+kr_chronic_toxic	116-14-3		테트라플루오로에틸렌
+kr_chronic_toxic	117-52-2		쿠마퍼릴
+kr_chronic_toxic	117-81-7		비스(2-에틸헥실) 프탈레이트
+kr_chronic_toxic	119-90-4		3,3'-디메톡시-[1,1-비페닐]-4,4'-디아민과 그 염산염
+kr_chronic_toxic	119313-12-1		2-벤질-2-디메틸아미노-1-(4-모폴리노-페닐)-1-부타논
+kr_chronic_toxic	12001-28-4		청석면
+kr_chronic_toxic	12001-29-5		백석면
+kr_chronic_toxic	120068-37-3		피프로닐
+kr_chronic_toxic	12035-36-8		산화니켈류
+kr_chronic_toxic	12035-72-2		황화니켈류
+kr_chronic_toxic	12054-48-7		수산화 니켈
+kr_chronic_toxic	12065-90-6		사산화 오납 황산염
+kr_chronic_toxic	121-14-2		디니트로톨루엔
+kr_chronic_toxic	121158-58-5	2026-12-19	가지형 도데실페놀
+kr_chronic_toxic	12141-20-7		산화납 아인산염
+kr_chronic_toxic	12172-73-5		갈석면
+kr_chronic_toxic	122-60-1		2-(페녹시메틸)옥시란
+kr_chronic_toxic	12202-17-4		산화납 황산염
+kr_chronic_toxic	122454-29-9		4-브로모-2-(4-클로로페닐)-5-(트리플루오로메틸)-1H-피롤-3-카르보니트릴
+kr_chronic_toxic	123-39-7		N-메틸포름아미드
+kr_chronic_toxic	123-88-6		염화 2-메톡시에틸수은
+kr_chronic_toxic	123-91-1		1,4-디옥산
+kr_chronic_toxic	12578-12-0		디옥소비스(스테아라토) 트리리드
+kr_chronic_toxic	126-72-7		트리스(2,3-디브로모프로필)포스페이트
+kr_chronic_toxic	12656-57-4		피그먼트 오렌지 20
+kr_chronic_toxic	12656-85-8		피그먼트 레드 104
+kr_chronic_toxic	127-18-4		테트라클로로에틸렌; 퍼클로로에틸렌
+kr_chronic_toxic	127-19-5		N,N-디메틸아세트아미드; 디엠에이(DMA)
+kr_chronic_toxic	12767-90-7		붕산아연
+kr_chronic_toxic	1303-00-0		갈륨 아르세나이드
+kr_chronic_toxic	1303-28-2		오산화비소
+kr_chronic_toxic	1303-86-2		삼산화 이붕소
+kr_chronic_toxic	1306-19-0		산화 카드뮴
+kr_chronic_toxic	1307-96-6		산화코발트
+kr_chronic_toxic	1313-99-1		산화니켈류
+kr_chronic_toxic	13138-45-9		질산니켈
+kr_chronic_toxic	1314-06-3		산화니켈류
+kr_chronic_toxic	1314-41-6		산화납(오렌지 리드)
+kr_chronic_toxic	1314-62-1	2026-12-19	오산화바나듐
+kr_chronic_toxic	1317-36-8		산화납
+kr_chronic_toxic	13269-74-4		디메틸티옥소주석
+kr_chronic_toxic	1327-53-3		삼산화비소
+kr_chronic_toxic	1330-43-4		사붕산 이나트륨
+kr_chronic_toxic	1332-07-6		붕산아연
+kr_chronic_toxic	1333-16-0		비스페놀 F; 메틸렌비스페놀
+kr_chronic_toxic	1333-82-0		무수 크롬산
+kr_chronic_toxic	1335-32-6		아세트산 납; 초산납
+kr_chronic_toxic	1336-36-3		피시비(치환된 염소수가 3개 미만인 것은 제외)
+kr_chronic_toxic	13374-44-2		1,4:3,6-이무수화-2,5-비스-O-(2-옥시라닐메틸)-D-글루시톨
+kr_chronic_toxic	1344-37-2		피그먼트 옐로우 34
+kr_chronic_toxic	13463-39-3		니켈 카르보닐
+kr_chronic_toxic	13463-40-6		펜타카르보닐철
+kr_chronic_toxic	13463-41-7		피리치온 구리 및 피라치온 아연
+kr_chronic_toxic	136-52-7		비스(2-에틸헥산산) 코발트; 2-에틸헥산산 코발트
+kr_chronic_toxic	136426-54-5		플루퀸코나졸
+kr_chronic_toxic	13654-09-6		피비비
+kr_chronic_toxic	13770-89-3		술팜산 니켈
+kr_chronic_toxic	13775-53-6		크리올라이트
+kr_chronic_toxic	13814-96-5		테트라플루오르 붕산 납
+kr_chronic_toxic	1420-07-1		디노텁
+kr_chronic_toxic	14216-74-1		질산 코발트
+kr_chronic_toxic	14216-75-2		질산니켈
+kr_chronic_toxic	142844-00-6		내화성 세라믹섬유
+kr_chronic_toxic	143-33-9		시안화나트륨; 청산가리
+kr_chronic_toxic	143860-04-2		3-에틸-2-메틸-2-(3-메틸부틸)-1.3-옥사졸리딘
+kr_chronic_toxic	1461-22-9		염화 트리부틸주석; 트리부틸틴 클로라이드
+kr_chronic_toxic	1461-25-2		사부틸주석
+kr_chronic_toxic	14708-14-6		테트라플루오르 붕산니켈
+kr_chronic_toxic	14721-18-7		크롬산 니켈
+kr_chronic_toxic	14915-37-8		피리치온 구리 및 피라치온 아연
+kr_chronic_toxic	15096-52-3		크리올라이트
+kr_chronic_toxic	151-56-4		에틸렌이민
+kr_chronic_toxic	15571-58-1		디옥틸주석 비스(2-에틸헥실 메르캅토아세테이트); 디옥틸틴 비스(2-에틸헥실 메르캅토아세테이트)
+kr_chronic_toxic	15586-38-6		중크롬산 니켈
+kr_chronic_toxic	16071-86-6		다이렉트 브라운 95
+kr_chronic_toxic	16222-66-5		황산 탈륨
+kr_chronic_toxic	16812-54-7		황화니켈류
+kr_chronic_toxic	173584-44-6		인독사캅
+kr_chronic_toxic	177997-13-6		산화 리튬 니켈 코발트 알루미늄
+kr_chronic_toxic	182442-95-1		산화 코발트 리튬 망간 니켈
+kr_chronic_toxic	1836-75-5		니트로펜
+kr_chronic_toxic	18721-51-2		시트르산 수소 니켈(2가)
+kr_chronic_toxic	189139-63-7		수산화 코발트 망간 니켈
+kr_chronic_toxic	1937-37-7		다이렉트 블랙 38
+kr_chronic_toxic	20325-40-0		3,3'-디메톡시-[1,1-비페닐]-4,4'-디아민과 그 염산염
+kr_chronic_toxic	21041-93-0		수산화 코발트
+kr_chronic_toxic	2113-61-3		4-아미노비페닐 염산염
+kr_chronic_toxic	2374-14-3		2,4,6-트리메틸-2,4,6-트리스(3,3,3-트리플루오로프로필)사이클로트리실록산
+kr_chronic_toxic	2425-06-1		켑타폴
+kr_chronic_toxic	2451-62-9		트리글리시딜 이소시아누레이트
+kr_chronic_toxic	2467-02-9		비스페놀 F; 메틸렌비스페놀
+kr_chronic_toxic	2467-03-0		비스페놀 F; 메틸렌비스페놀
+kr_chronic_toxic	25214-70-4		포름알데히드와 아닐린 의 반응생성물
+kr_chronic_toxic	25321-14-6		디니트로톨루엔
+kr_chronic_toxic	2687-91-4	2026-12-19	1-에틸피롤리딘-2-온
+kr_chronic_toxic	27083-27-8		폴리(헥사메틸렌비구아니드)의 염산염; 피에치엠비(PHMB)
+kr_chronic_toxic	27193-86-8	2026-12-19	도데실페놀
+kr_chronic_toxic	2795-39-3		퍼플루오로옥탄술폰산 칼륨
+kr_chronic_toxic	28772-56-7		브로마디올론
+kr_chronic_toxic	29904-98-1		2(3H)-벤조티아졸티온, 코발트 염 (2:1)
+kr_chronic_toxic	3006-82-4		tert-부틸 퍼옥시-2-에틸헥사노에이트
+kr_chronic_toxic	301-04-2		아세트산 납; 초산납
+kr_chronic_toxic	301-08-6		2-에틸헥산산 납; 비스(2-에틸헥산산)납
+kr_chronic_toxic	302-01-2		히드라진
+kr_chronic_toxic	3033-77-0		염화 2,3-에폭시프로필트리메틸암모늄
+kr_chronic_toxic	30525-89-4		포름알데히드(파라포름알데히드를 포함한다); 포르말린
+kr_chronic_toxic	309-00-2		알드린
+kr_chronic_toxic	32289-58-0		폴리(헥사메틸렌비구아니드)의 염산염; 피에치엠비(PHMB)
+kr_chronic_toxic	32536-52-0		옥타브로모디페닐 옥사이드
+kr_chronic_toxic	330-55-2		리누론
+kr_chronic_toxic	3349-06-2		니켈 디포메이트
+kr_chronic_toxic	3542-36-7		이염화 이옥틸주석; 디옥틸틴 디클로라이드
+kr_chronic_toxic	3691-35-8		클로로파시논
+kr_chronic_toxic	37211-05-5		염화니켈
+kr_chronic_toxic	3724-43-4		염화 N-(클로로메틸렌)-N-메틸메탄아미늄 (1:1)
+kr_chronic_toxic	373-02-4		아세트산 니켈; 니켈 아세테이트
+kr_chronic_toxic	37300-23-5		피그먼트 옐로우 36
+kr_chronic_toxic	37348-84-8		산화 코발트 망간 니켈
+kr_chronic_toxic	374572-91-5		2,2'-[1,2-에탄디일비스(옥시)]비스에탄아민과 구아니딘 염산염의 중합체
+kr_chronic_toxic	3811-73-2		피리치온 나트륨
+kr_chronic_toxic	39300-45-3		디노캅
+kr_chronic_toxic	404362-22-7		1,3-벤젠디메탄아민, N-(2-페닐에틸) 유도체
+kr_chronic_toxic	409-21-2		실리콘 카바이드 섬유상(지름<3㎛, 길이>5㎛ 및 종횡비>3:1)에 한함)
+kr_chronic_toxic	4759-48-2		13-cis-레틴산
+kr_chronic_toxic	485-31-4		비나파크릴
+kr_chronic_toxic	50-00-0		포름알데히드(파라포름알데히드를 포함한다); 포르말린
+kr_chronic_toxic	50-14-6		에르고칼시페롤
+kr_chronic_toxic	50-29-3		디디티(DDT)
+kr_chronic_toxic	505-60-2		머스타드 가스
+kr_chronic_toxic	51-28-5		2,4-디니트로페놀
+kr_chronic_toxic	51-75-2		메클로르에타민과 그 염산염
+kr_chronic_toxic	51-79-6		에틸 카바메이트
+kr_chronic_toxic	513-78-0		탄산 카드뮴
+kr_chronic_toxic	513-79-1		탄산 코발트
+kr_chronic_toxic	51594-55-9		에피클로로히드린; 2-(클로로메틸) 옥시란
+kr_chronic_toxic	52732-72-6		황산납, 사염기성
+kr_chronic_toxic	5341-61-7		히드라진 염산염 (1:2)
+kr_chronic_toxic	542-83-6		시안화 카드뮴
+kr_chronic_toxic	542-88-1		비스(클로로메틸)에테르
+kr_chronic_toxic	55-38-9		펜티온
+kr_chronic_toxic	55-68-5		질산 페닐수은
+kr_chronic_toxic	55-86-7		메클로르에타민과 그 염산염
+kr_chronic_toxic	556-52-5		글리시돌
+kr_chronic_toxic	557-19-7		시안화니켈
+kr_chronic_toxic	56-23-5		사염화 탄소
+kr_chronic_toxic	56-38-2		파라티온
+kr_chronic_toxic	56073-07-5		디페나쿰
+kr_chronic_toxic	56073-10-0		브로디파쿰
+kr_chronic_toxic	57028-96-3		폴리헥사메틸렌구아니딘의 인산염 및 염산염; 피에치엠지(PHMG) 인산염 및 염산염
+kr_chronic_toxic	57583-35-4		디메틸주석 비스(2-에틸헥실 메르캅토아세테이트); 디메틸틴 비스(2-에틸헥실 메르캅토아세테이트)
+kr_chronic_toxic	5836-29-3		쿠마테트라릴
+kr_chronic_toxic	5931-89-5		아세트산 코발트
+kr_chronic_toxic	59536-65-1		피비비
+kr_chronic_toxic	59653-74-6		rel-1,3,5-트리스[(2R)-2-옥시란일메틸]-1,3,5-트리아진-2,4,6(1H,3H,5H)-트리온
+kr_chronic_toxic	60-09-3		p-아미노아조벤젠
+kr_chronic_toxic	60-34-4		메틸히드라진
+kr_chronic_toxic	60-57-1		디엘드린
+kr_chronic_toxic	602-01-7		디니트로톨루엔
+kr_chronic_toxic	603-35-0		트리페닐포스핀
+kr_chronic_toxic	60304-36-1		플루오르화 알루미늄 칼륨
+kr_chronic_toxic	606-20-2		디니트로톨루엔
+kr_chronic_toxic	610-39-9		디니트로톨루엔
+kr_chronic_toxic	612-52-2		2-나프틸아민과 그 염산염
+kr_chronic_toxic	612-83-9		3,3'-디클로로벤지딘 염산염
+kr_chronic_toxic	618-85-9		디니트로톨루엔
+kr_chronic_toxic	619-15-8		디니트로톨루엔
+kr_chronic_toxic	62-38-4		아세트산 페닐수은
+kr_chronic_toxic	620-92-8		비스페놀 F; 메틸렌비스페놀
+kr_chronic_toxic	630-08-0		일산화탄소
+kr_chronic_toxic	64-67-5		황산 디에틸
+kr_chronic_toxic	65-85-0		벤조산
+kr_chronic_toxic	65753-47-1		2-클로로-3-트리플루오로메틸피리딘
+kr_chronic_toxic	66-81-9		시클로헥시미드
+kr_chronic_toxic	67-66-3		클로로포름; 트리클로로메탄
+kr_chronic_toxic	67-97-0		에비비트
+kr_chronic_toxic	67843-74-7		에피클로로히드린; 2-(클로로메틸) 옥시란
+kr_chronic_toxic	68-12-2		N,N-디메틸포름아미드; 디엠에프(DMF)
+kr_chronic_toxic	68109-88-6		1,1'-(디옥틸스타닐렌) 4,4'-디에틸 2-부텐디오에이트
+kr_chronic_toxic	683-18-1		이염화 이부틸주석; 디부틸틴 디클로라이드
+kr_chronic_toxic	68457-13-6		코발트, 붕산 네오데칸산 착화합물
+kr_chronic_toxic	68476-33-5		잔사, 연료유(DMSO 추출물 함량이 ≥3%인 경우)
+kr_chronic_toxic	68910-05-4		2-아미노에탄올과 암모니아의 반응생성물
+kr_chronic_toxic	69012-63-1		아연제련 제조 부산물
+kr_chronic_toxic	69029-97-6		스파이스 구리
+kr_chronic_toxic	71-43-2		벤젠
+kr_chronic_toxic	71-48-7		아세트산 코발트
+kr_chronic_toxic	7439-92-1		납과 그 화합물. 다만, 본 고시에서 별도로 규정한 것은 제외
+kr_chronic_toxic	7439-97-6		수은
+kr_chronic_toxic	7440-41-7		베릴륨
+kr_chronic_toxic	7440-48-4		코발트
+kr_chronic_toxic	7446-14-2	2026-12-19	황산 납
+kr_chronic_toxic	7446-18-6		황산 탈륨
+kr_chronic_toxic	7487-94-7		이염화수은
+kr_chronic_toxic	75-00-3		에틸 클로라이드; 염화 에틸
+kr_chronic_toxic	75-01-4		염화비닐; 비닐클로로아드
+kr_chronic_toxic	75-07-0		아세트알데히드
+kr_chronic_toxic	75-09-2		염화 메틸렌; 메틸렌클로라이드; 디클로로메탄
+kr_chronic_toxic	75-15-0		이황화 탄소
+kr_chronic_toxic	75-21-8		산화에틸렌
+kr_chronic_toxic	75-56-9		산화 프로필렌
+kr_chronic_toxic	76-87-9		수산화 트리페닐주석
+kr_chronic_toxic	7646-79-9		염화코발트
+kr_chronic_toxic	77-78-1		황산 디메틸
+kr_chronic_toxic	7718-54-9		염화니켈
+kr_chronic_toxic	77215-47-5		1-이미다졸리딘에탄올
+kr_chronic_toxic	7738-94-5		크롬산
+kr_chronic_toxic	77536-66-4		악티놀라이트석면
+kr_chronic_toxic	77536-67-5		안소필라이트석면
+kr_chronic_toxic	77536-68-6		트레몰라이트석면
+kr_chronic_toxic	7758-97-6		크롬산 납
+kr_chronic_toxic	7775-11-3		크롬산 나트륨
+kr_chronic_toxic	7784-42-1		아르신
+kr_chronic_toxic	7786-81-4		황산니켈
+kr_chronic_toxic	7789-00-6		크롬산 칼륨
+kr_chronic_toxic	7789-06-2		크롬산 스트론튬
+kr_chronic_toxic	78-06-8		디부틸주석 3-메르캅토프로피오네이트
+kr_chronic_toxic	78-79-5		이소프렌
+kr_chronic_toxic	78-87-5		1,2-디클로로프로판
+kr_chronic_toxic	7803-55-6	2026-12-19	암모늄 트리옥소바나듐염 (1:1)
+kr_chronic_toxic	7803-57-8		히드라진 수화물
+kr_chronic_toxic	78643-41-1		디클로로디메틸주석과 트리클로로메틸주석의 혼합물
+kr_chronic_toxic	79-01-6		트리클로로에틸렌
+kr_chronic_toxic	79-04-9		염화 클로로아세틸; 클로로아세틸 클로라이드
+kr_chronic_toxic	79-06-1		아크릴아미드
+kr_chronic_toxic	79-94-7		4,4'-(1-메틸에틸리덴)비스[2,6-디브로모페놀]; 테트라브로모비스페놀 A
+kr_chronic_toxic	80-05-7		4,4'-(1-메틸에틸리덴)비스페놀; 비스페놀 A
+kr_chronic_toxic	80-09-1		4,4'-술포닐비스페놀; 비스페놀 S
+kr_chronic_toxic	80-43-3		비스(1-메틸-1-페닐에틸)과산화물; 비스(1-메틸-1-페닐에틸) 퍼옥사이드
+kr_chronic_toxic	8001-58-9		크레오소트
+kr_chronic_toxic	818-08-6		산화 디부틸주석; 디부틸틴 옥사이드
+kr_chronic_toxic	82-66-6		디파시논
+kr_chronic_toxic	83-26-1		핀돈
+kr_chronic_toxic	84-69-5		디이소부틸 프탈레이트
+kr_chronic_toxic	84-74-2		디부틸 프탈레이트
+kr_chronic_toxic	84195-51-7		납 매트
+kr_chronic_toxic	85-00-7		다이쿼트 디브로마이드; 디브롬화 디콰이트
+kr_chronic_toxic	85-68-7		부틸벤질 프탈레이트
+kr_chronic_toxic	85508-44-7		네오데칸산 니켈(2+); 니켈 네오데카노에이트
+kr_chronic_toxic	86347-14-0		5-[1-(2,3-디메틸페닐)에틸]-1H-이미다졸
+kr_chronic_toxic	866-81-9		시트르산 코발트(2+) (2:3)
+kr_chronic_toxic	870-08-6		산화 디옥틸주석; 디-n-옥틸틴 옥사이드
+kr_chronic_toxic	872-50-4		1-메틸-2-피롤리디논
+kr_chronic_toxic	88-72-2		2-니트로톨루엔
+kr_chronic_toxic	88-85-7		디노셉
+kr_chronic_toxic	89697-78-9		폴리헥사메틸렌구아니딘의 인산염 및 염산염; 피에치엠지(PHMG) 인산염 및 염산염
+kr_chronic_toxic	90035-08-8		플로쿠마펜
+kr_chronic_toxic	90640-84-9		크레오소트 오일 아세나프텐
+kr_chronic_toxic	91-22-5		퀴놀린
+kr_chronic_toxic	91-59-8		2-나프틸아민과 그 염산염
+kr_chronic_toxic	91031-62-8		지방산(C=16~18) 납
+kr_chronic_toxic	91782-60-4		코발트, 붕산 2-에틸헥산산 착화합물
+kr_chronic_toxic	91782-61-5		코발트, 붕산 프로피온산 착화합물
+kr_chronic_toxic	91788-83-9		1,2,3,4-부탄테트라카르복실산 테트라키스(1,2,2,6,6-펜타메틸-4-피페리딘일
+kr_chronic_toxic	92-67-1		4-아미노비페닐
+kr_chronic_toxic	93-76-5		2,4,5-티
+kr_chronic_toxic	932384-12-8		실리카겔과 산화 크로뮴, 에톡시디에틸알루미늄의 반응 생성물
+kr_chronic_toxic	95-53-4		o-톨루이딘
+kr_chronic_toxic	96-09-3		(에폭시에틸)벤젠
+kr_chronic_toxic	96-12-8		1,2-디브로모-3-클로로프로판
+kr_chronic_toxic	96-13-9		2,3-디브로모-1-프로판올
+kr_chronic_toxic	96-23-1		1,3-디클로로-2-프로판올
+kr_chronic_toxic	96-29-7		메틸 에틸 케톡심
+kr_chronic_toxic	96-45-7		2-이미다졸리딘티온
+kr_chronic_toxic	98-07-7		(트리클로로메틸)벤젠
+kr_chronic_toxic	98-82-8		큐멘
+kr_chronic_toxic	98-95-3		니트로벤젠
+kr_chronic_toxic	99-97-8		N,N-디메틸-p-톨루이딘
+kr_eco_toxic	100-57-2		수산화 페닐수은
+kr_eco_toxic	100-63-0		페닐히드라진
+kr_eco_toxic	1002754-39-3		트리부틸도데실포스포늄과 1,1,1-트리플루오로-N-[(트리플루오로메틸)술포닐]메탄술폰아미드의 염 (1:1)
+kr_eco_toxic	10028-18-9		플루오르화 니켈; 불화니켈
+kr_eco_toxic	10049-04-4		이산화 염소
+kr_eco_toxic	10075-50-0		5-브로모인돌
+kr_eco_toxic	100912-15-0		3-메틸-1-트리데신-3-올
+kr_eco_toxic	10099-74-8		질산 납
+kr_eco_toxic	101-02-0		트리페닐 포스피트; 아인산 트리페닐
+kr_eco_toxic	101-14-4		4,4'-메틸렌비스(2-클로로아닐린)
+kr_eco_toxic	101-54-2		4-아미노디페닐아민
+kr_eco_toxic	101-72-4		N-(1-메틸에틸)-N’-페닐-1,4-벤젠디아민
+kr_eco_toxic	101-77-9		4,4'-메틸렌디아닐린
+kr_eco_toxic	101-80-4		4,4'-옥시비스아닐린; 4;4'-옥시비스벤젠아민
+kr_eco_toxic	101007-06-1		아크린아트린; 아크리나트린
+kr_eco_toxic	10108-64-2		염화 카드뮴
+kr_eco_toxic	10124-36-4		황산 카드뮴
+kr_eco_toxic	10124-43-3		황산 코발트
+kr_eco_toxic	10141-05-6		질산 코발트
+kr_eco_toxic	10265-92-6		메타아미도포스
+kr_eco_toxic	10294-26-5		황산은
+kr_eco_toxic	10294-40-3		크롬산 바륨
+kr_eco_toxic	10311-84-9		다이알리포스
+kr_eco_toxic	10325-94-7		질산 카드뮴
+kr_eco_toxic	1039756-60-9		염화 히드록시 수소화 수지산 스트론튬 술포[프탈로시아니나토]구리 착화합물
+kr_eco_toxic	104-40-5		노닐페놀류
+kr_eco_toxic	10453-86-8		레스메트린
+kr_eco_toxic	106-20-7		비스(2-에틸헥실)아민
+kr_eco_toxic	106-46-7		1,4-디클로로벤젠
+kr_eco_toxic	106-50-3		1,4-페닐렌디아민
+kr_eco_toxic	106-51-4		1,4-벤조퀴논
+kr_eco_toxic	106-95-6		3-브로모-1-프로펜
+kr_eco_toxic	10605-21-7		카벤다짐
+kr_eco_toxic	106917-52-6		플루술파미드
+kr_eco_toxic	107-02-8		아크롤레인
+kr_eco_toxic	107-18-6		알릴 알콜
+kr_eco_toxic	107-46-0		헥사메틸디실록산; 에치엠디에스(HMDS)
+kr_eco_toxic	107-49-3		테트라에틸 피로포스페이트; 피로인산 테트라에틸
+kr_eco_toxic	107-64-2		염화 N,N-디메틸-N-옥타데실-1-옥타데칸암모늄
+kr_eco_toxic	1072-35-1		스테아린산 납
+kr_eco_toxic	108-42-9		m-아미노클로로벤젠
+kr_eco_toxic	108-46-3		1,3-벤젠디올; 레조시놀
+kr_eco_toxic	108-87-2		메틸사이클로헥산
+kr_eco_toxic	108173-90-6		구아자틴
+kr_eco_toxic	109-28-4		(9Z)-N-[3-(디메틸아미노)프로필]-9-옥타데센아미드
+kr_eco_toxic	109-77-3		말로노니트릴
+kr_eco_toxic	110-57-6		(2E)-1,4-디클로로-2-부텐
+kr_eco_toxic	110-82-7		사이클로헥산
+kr_eco_toxic	11066-49-2		노닐페놀류
+kr_eco_toxic	1109-15-5		트리스(2,3,4,5,6-펜타플루오로페닐)보란
+kr_eco_toxic	11099-02-8		산화니켈류
+kr_eco_toxic	111-30-8		글루타르알데히드
+kr_eco_toxic	111-66-0		1-옥텐
+kr_eco_toxic	111-88-6		1-옥탄티올; n-옥틸메르캅탄
+kr_eco_toxic	11113-74-9		수산화 니켈
+kr_eco_toxic	11113-75-0		황화니켈류
+kr_eco_toxic	1112-55-6		테트라에테닐실란
+kr_eco_toxic	1113-02-6		오메토에이트
+kr_eco_toxic	111479-05-1		프로파퀴자포프
+kr_eco_toxic	111872-58-3		할펜프록스
+kr_eco_toxic	112-02-7		수산화 세트리모늄과 세트리모늄 염류
+kr_eco_toxic	112-18-5		N,N-디메틸-1-도데칸아민
+kr_eco_toxic	112-53-8		1-도데칸올
+kr_eco_toxic	112-69-6	2026-12-19	N,N-디메틸-1-헥사데칸아민
+kr_eco_toxic	112-72-1		1-테트라데칸올
+kr_eco_toxic	112143-82-5		트리아자메이트
+kr_eco_toxic	114-26-1		프로폭서
+kr_eco_toxic	115-29-7		엔도술판
+kr_eco_toxic	115-32-2		디코폴
+kr_eco_toxic	115-86-6		트리페닐포스페이트; 트리페닐인산; 인산 트리페닐
+kr_eco_toxic	115-90-2		펜술포티온
+kr_eco_toxic	1158533-82-4		N3-[(3,4-디클로로페닐)메틸]-N1,N1-디에틸-1,3-프로판디아민의 염산염 (1:2)
+kr_eco_toxic	1159919-46-6		텅스텐산 비스(알킬(C=11~14) 가지형 및 선형)아민
+kr_eco_toxic	116-06-3		알디캅
+kr_eco_toxic	116714-46-6		노발루론
+kr_eco_toxic	117-81-7		비스(2-에틸헥실) 프탈레이트
+kr_eco_toxic	117646-83-0		2-프로펜산 2-[2-[(2-에틸헥실)옥시]에톡시]에틸
+kr_eco_toxic	117933-89-8		2-(2,4-디메틸-3-시클로헥센-1-일)-5-메틸-5-(1-메틸프로필)-1,3-디옥산
+kr_eco_toxic	118-79-6		2,4,6-트리브로모페놀
+kr_eco_toxic	118612-00-3		N,N-디메틸벤젠아민 테트라키스(펜타플루오로페닐)보레이트(1-)
+kr_eco_toxic	118712-89-3		2,3,5,6-테트라플루오로벤질 트랜스-2-(2,2-디클로로비닐)-3,3-디메틸사이클로프로판카르복실레이트
+kr_eco_toxic	119168-77-3		테브펜피라드
+kr_eco_toxic	119313-12-1		2-벤질-2-디메틸아미노-1-(4-모폴리노-페닐)-1-부타논
+kr_eco_toxic	119446-68-3		디페노코나졸
+kr_eco_toxic	119530-69-7		도데실 또는 테트라데실 N-(2,2,6,6-테트라메틸-4-피페리디닐)-β-알라닌
+kr_eco_toxic	119530-70-0		도데실 또는 테트라데실 N-(2,2,6,6-테트라메틸-4-피페리디닐)-β-알라닌
+kr_eco_toxic	119791-41-2		에마멕틴
+kr_eco_toxic	120068-37-3		피프로닐
+kr_eco_toxic	120118-14-1		5-클로로-4-(4-메틸페닐)-1H-이미다졸-2-카보니트릴
+kr_eco_toxic	120307-06-4		(T-4)-부틸트리페닐붕산(1-) N,N,N-트리부틸-1-부탄아미늄 (1:1)
+kr_eco_toxic	12035-36-8		산화니켈류
+kr_eco_toxic	12035-72-2		황화니켈류
+kr_eco_toxic	12054-48-7		수산화 니켈
+kr_eco_toxic	12065-90-6		사산화 오납 황산염
+kr_eco_toxic	120928-09-8		페나자퀸
+kr_eco_toxic	121-14-2		디니트로톨루엔
+kr_eco_toxic	121-75-5		말라티온
+kr_eco_toxic	121158-58-5	2026-12-19	가지형 도데실페놀
+kr_eco_toxic	12141-20-7		산화납 아인산염
+kr_eco_toxic	121552-61-2		싸이프로디닐
+kr_eco_toxic	1217886-69-5	2026-12-19	플루오르화 N-(디플루오로포스피닐) 술파모일의 리튬염 (1:1)
+kr_eco_toxic	12185-10-3		백린
+kr_eco_toxic	122-10-1		보밀
+kr_eco_toxic	122-14-5		페니트로티온
+kr_eco_toxic	122-19-0		염화 벤질디메틸옥타데실암모늄
+kr_eco_toxic	122-39-4		디페닐아민; N-페닐벤젠아민
+kr_eco_toxic	12202-17-4		산화납 황산염
+kr_eco_toxic	1222-05-5		1,3,4,6,7,8-헥사하이드로-4,6,6,7,8,8-헥사메틸사이클로펜타[g]-2-벤조피란
+kr_eco_toxic	122333-30-6		2,4-디히드로-3H-1,2,4-트리아졸-3-온
+kr_eco_toxic	122431-24-7		O,O-디에틸 O-1-페닐-3-트리플루오로메틸피라졸-5-일티오인산; O,O-디에틸 O-1-페닐-3-트리플루오로메틸피라졸-5-일 포스포로티오에이트
+kr_eco_toxic	122453-73-0		4-브로모-2-(4-클로로페닐)-1-(에톡시메틸)-5-(트리플루오로메틸)피롤-3-카보니트릴
+kr_eco_toxic	122454-29-9		4-브로모-2-(4-클로로페닐)-5-(트리플루오로메틸)-1H-피롤-3-카르보니트릴
+kr_eco_toxic	123-31-9		하이드로퀴논
+kr_eco_toxic	123-73-9		크로톤알데히드; 2-부텐알
+kr_eco_toxic	123-88-6		염화 2-메톡시에틸수은
+kr_eco_toxic	123215-04-3		트리플루오로트리스(퍼플루오로에틸)인산 칼륨 (1:1)
+kr_eco_toxic	1239647-75-6		1-4-[[4-(2-히드록시에톡시)페닐]티오]페닐]-1,2-프로판디온 2-(O-아세틸옥심)
+kr_eco_toxic	124-23-2		수산화 세트리모늄과 세트리모늄 염류
+kr_eco_toxic	124358-45-8		시아노아세트산과 10-운데세날의 반응물
+kr_eco_toxic	1254940-85-6		4-(2-메틸프로필)사이클로헥산프로판알
+kr_eco_toxic	1257085-86-1		2-프로펜산 부틸과 1,3-사이클로헥산디메탄아민의 중합체와 부틸 글리시딜 에테르의 반응생성물
+kr_eco_toxic	12578-12-0		디옥소비스(스테아라토) 트리리드
+kr_eco_toxic	126-06-7	2026-12-19	할로겐화 히단토인
+kr_eco_toxic	126-72-7		트리스(2,3-디브로모프로필)포스페이트
+kr_eco_toxic	12656-85-8		피그먼트 레드 104
+kr_eco_toxic	12767-90-7		붕산아연
+kr_eco_toxic	128-04-1		소디움 디메틸디티오카바메이트; 디메칠디치오카밤산 나트륨
+kr_eco_toxic	128-39-2		2,6-비스(1,1-디메틸에틸)페놀
+kr_eco_toxic	128275-31-0		1,3-디히드로-1,3-디옥소-2H-이소인돌-2-헥산퍼옥소산
+kr_eco_toxic	1287766-92-0		에틸 1-[3-시아노-1-(1-메틸에틸)-1H-인돌-5-일]-1H-피라졸-4-카르복실레이트
+kr_eco_toxic	1302-42-7		이산화 알루미늄 나트륨
+kr_eco_toxic	1303-28-2		오산화비소
+kr_eco_toxic	13048-33-4		아크릴산 1,6-헥산디일; 1,6-엑산디올 디아크릴레이트
+kr_eco_toxic	1306-19-0		산화 카드뮴
+kr_eco_toxic	1306-23-6		황화 카드뮴
+kr_eco_toxic	1306617-58-2		2-메틸-2-프로펜산 2-(디메틸아미노)에틸 중합체와 1-브로모테트라데칸 화합물
+kr_eco_toxic	1307-96-6		산화코발트
+kr_eco_toxic	13071-79-9		터브포스
+kr_eco_toxic	13080-86-9		4,4'-[이소프로필리덴비스(4,1-페닐렌옥시)]디아닐린
+kr_eco_toxic	130841-23-5		1,4-디클로로-2-(1,1,2,3,3,3-헥사플루오로프로폭시)-5-니트로벤젠
+kr_eco_toxic	131-17-9		디아릴 프탈레이트
+kr_eco_toxic	131-89-5		디넥스
+kr_eco_toxic	13121-70-5		싸이헥사틴
+kr_eco_toxic	1313-99-1		산화니켈류
+kr_eco_toxic	131341-86-1		플루디옥소닐
+kr_eco_toxic	13138-45-9		질산니켈
+kr_eco_toxic	1314-06-3		산화니켈류
+kr_eco_toxic	1314-13-2		산화아연
+kr_eco_toxic	1314-41-6		산화납(오렌지 리드)
+kr_eco_toxic	1314-80-3		오황화 인
+kr_eco_toxic	1314-84-7		인화 아연
+kr_eco_toxic	1315251-11-6		6,7,8,9-테트라히드로-7,7,8,9,9-펜타메틸-5H-사이클로펜타[h]퀴나졸린
+kr_eco_toxic	131538-00-6		4-메르캅토메틸-3,6-디티아-1,8-옥탄디티올
+kr_eco_toxic	1317-36-8		산화납
+kr_eco_toxic	1317-38-0		산화구리
+kr_eco_toxic	1317-39-1		산화구리
+kr_eco_toxic	13171-21-6		포스파미돈
+kr_eco_toxic	131807-57-3		팜옥사돈
+kr_eco_toxic	131812-51-6		2,4-디메틸-2-(5,6,7,8-테트라히드로-5,5,8,8-테트라메틸-2-나프탈레닐)-1,3-디옥소란
+kr_eco_toxic	131812-52-7		2,4-디메틸-2-(5,6,7,8-테트라히드로-5,5,8,8-테트라메틸-2-나프탈레닐)-1,3-디옥소란
+kr_eco_toxic	131812-67-4		2,4-디메틸-2-(5,6,7,8-테트라히드로-5,5,8,8-테트라메틸-2-나프탈레닐)-1,3-디옥소란
+kr_eco_toxic	13194-48-4		에토프로포스
+kr_eco_toxic	13269-74-4		디메틸티옥소주석
+kr_eco_toxic	1327-53-3		삼산화비소
+kr_eco_toxic	1329-99-3		1-메틸-4-(1-메틸에틸)시클로헥산, 테트라히드로 유도체
+kr_eco_toxic	133-06-2		켑탄
+kr_eco_toxic	133-07-3		폴펫
+kr_eco_toxic	1332-07-6		붕산아연
+kr_eco_toxic	1333-82-0		무수 크롬산
+kr_eco_toxic	1335-32-6		아세트산 납; 초산납
+kr_eco_toxic	13356-08-6		산화 펜브타틴; 펜브타틴 옥사이드
+kr_eco_toxic	1336-36-3		피시비(치환된 염소수가 3개 미만인 것은 제외)
+kr_eco_toxic	1339119-15-1	2026-12-19	옥타하이드로-4,7-메타노-1H-인덴-5-아세트알데하이드
+kr_eco_toxic	134098-61-6		펜피록시메이트
+kr_eco_toxic	1344-37-2		피그먼트 옐로우 34
+kr_eco_toxic	1344-70-3		산화구리
+kr_eco_toxic	13463-39-3		니켈 카르보닐
+kr_eco_toxic	13463-41-7		피리치온 구리 및 피라치온 아연
+kr_eco_toxic	13466-78-9		3,7,7-트리메틸바이사이클로[4.1.0]헵-3-텐
+kr_eco_toxic	135-19-3		2-나프톨
+kr_eco_toxic	13516-27-3		구아자틴
+kr_eco_toxic	13593-03-8		퀴날포스
+kr_eco_toxic	136-23-2		디부틸디티오카밤산 아연
+kr_eco_toxic	136-52-7		비스(2-에틸헥산산) 코발트; 2-에틸헥산산 코발트
+kr_eco_toxic	136-83-4		노닐페놀류
+kr_eco_toxic	136122-15-1		1,4-디티안-2,5-디(메탄티올)
+kr_eco_toxic	136426-54-5		플루퀸코나졸
+kr_eco_toxic	137-07-5		2-아미노티오페놀
+kr_eco_toxic	137-26-8		티람
+kr_eco_toxic	137-30-4		지람
+kr_eco_toxic	137398-54-0		디이소프로필 잔토젠폴리술파이드
+kr_eco_toxic	13770-89-3		술팜산 니켈
+kr_eco_toxic	1378867-81-2		(4R)-4-(1-메틸에틸)-1-사이클로헥센-1-프로판알
+kr_eco_toxic	138-86-3		리모넨
+kr_eco_toxic	13814-96-5		테트라플루오르 붕산 납
+kr_eco_toxic	139-84-4		노닐페놀류
+kr_eco_toxic	1392277-05-2		헥사하이드로-5,5-디메틸-2-프로필-2H-2,4a-메타노나프탈렌-1(5H)-온
+kr_eco_toxic	1392325-86-8		6,6a,7,8,9,9a-헥사히드로-7,7,8,9,9-펜타메틸-5H-사이클로펜타[h]퀴나졸린
+kr_eco_toxic	1393645-32-3		1-(5-에틸-5-메틸-1-사이클로헥센-1-일)-4-펜텐-1-온
+kr_eco_toxic	13952-84-6		1-메틸프로필아민
+kr_eco_toxic	140-66-9		4-tert-옥틸페놀
+kr_eco_toxic	1401065-88-0		2,6-디메틸-4-(2,2,3-트리메틸-3-사이클로펜텐-1-yl)-2-사이클로헥센-1-올
+kr_eco_toxic	141-66-2		디크로토포스
+kr_eco_toxic	1412893-77-6		인산 메틸과 가지형 도데실벤젠아민의 화합물
+kr_eco_toxic	142-16-5		비스(2-에틸헥실) 말레이트
+kr_eco_toxic	1420-07-1		디노텁
+kr_eco_toxic	14216-74-1		질산 코발트
+kr_eco_toxic	14216-75-2		질산니켈
+kr_eco_toxic	1429808-42-3		(6E)-6-(2,4,4-트리메틸사이클로펜틸리덴)헥사날
+kr_eco_toxic	143-33-9		시안화나트륨; 청산가리
+kr_eco_toxic	14324-55-1		디에틸디티오카밤산 아연
+kr_eco_toxic	144020-22-4		무수 아세트산과 1,5,10-트리메틸-1,5,9-사이클로도데카트리엔의 반응생성물
+kr_eco_toxic	1449104-34-0		(4E)-5-사이클로헥실-2,4-디메틸-4-펜테날
+kr_eco_toxic	1454803-04-3		N,N-비스(2-히드록시프로필) 탈로우 아미드
+kr_eco_toxic	1458-98-6		3-브로모-2-메틸-1-프로펜
+kr_eco_toxic	14595-54-1		(4Z)-4-사이클로펜타데센-1-온
+kr_eco_toxic	1461-22-9		염화 트리부틸주석; 트리부틸틴 클로라이드
+kr_eco_toxic	1461-25-2		사부틸주석
+kr_eco_toxic	14643-87-9	2026-12-19	아크릴산 아연
+kr_eco_toxic	14708-14-6		테트라플루오르 붕산니켈
+kr_eco_toxic	14721-18-7		크롬산 니켈
+kr_eco_toxic	1484-13-5		9-에테닐-9H-카바졸
+kr_eco_toxic	148788-55-0		N-데실-N,N-디메틸-1-데칸아미늄 카보네이트
+kr_eco_toxic	148812-65-1		N-데실-N,N-디메틸-1-데칸아미늄 카보네이트
+kr_eco_toxic	1488380-58-0		불포화지방산(C=18) 이합체와 알킬(C=12~18)아민 화합물
+kr_eco_toxic	149-30-4		2(3H)-벤조티아졸티온
+kr_eco_toxic	149057-64-7		황산비스(3-디메틸아미노-7-히드록시-8-메틸-5-페닐페나지늄)
+kr_eco_toxic	14915-37-8		피리치온 구리 및 피라치온 아연
+kr_eco_toxic	151-50-8		시안화 칼륨
+kr_eco_toxic	153965-50-5		N,N-디메틸-N-2-프로페닐-2-프로펜-1-염화아미늄과 테트라페닐보레이트(1-)나트륨의 반응생성물
+kr_eco_toxic	154279-60-4		4,4'-메틸렌비스[N-(1-메틸프로필)시클로헥산아민]
+kr_eco_toxic	15571-58-1		디옥틸주석 비스(2-에틸헥실 메르캅토아세테이트); 디옥틸틴 비스(2-에틸헥실 메르캅토아세테이트)
+kr_eco_toxic	15586-38-6		중크롬산 니켈
+kr_eco_toxic	15625-89-5		2-프로판산 2-에틸-2-[[(1-옥소-2-프로페닐)옥시]메틸]-1,3-프로판디일
+kr_eco_toxic	1563-66-2		카보푸란
+kr_eco_toxic	1581235-15-5		2-메틸-2-프로펜산 1,1'-[(1,1,5,5-테트라메틸-3,3-디페닐-1,5-트리실록산디일)디-3,1-프로판디일]
+kr_eco_toxic	1582-09-8		트리플루라린
+kr_eco_toxic	1588442-20-9		폴리에틸렌폴리아민, N-[3-(알킬(C=12~14)옥시)-2-히드록시프로필] 유도체
+kr_eco_toxic	1592-20-7		1-(클로로메틸)-4-에테닐벤젠
+kr_eco_toxic	16079-88-2		할로겐화 히단토인
+kr_eco_toxic	1612842-42-8		1-부틸-3-도데실-1H-이미다졸리움과 1,1,1-트리플루오로-N-[(트리플루오로메틸)술포닐]메탄술폰아미드의 염 (1:1)
+kr_eco_toxic	1623405-26-4		N'-[3-[(3-아미노프로필)아미노]프로필]-N,N-디알킬(C=16~18)트리메틸렌디아민
+kr_eco_toxic	162627-18-1		불포화지방산(C=18) 삼합체와 트리에틸렌테트라아민의 반응생성물
+kr_eco_toxic	1631-25-0		1-사이클로헥실-1H-피롤-2,5-디온
+kr_eco_toxic	163269-30-5		베톡사진
+kr_eco_toxic	163520-33-0		에틸5,5-디페닐-2-이소사졸린-3-카르복실레이트
+kr_eco_toxic	163831-67-2		이염화1-[2-[에틸[4-[4-[4-[에틸(2-피리디노에틸)아미노]-2-메틸페닐아조]벤조일아미노]페닐아조]-3-메틸페닐]아미노]에틸]피리디늄
+kr_eco_toxic	1643-20-5		N,N-디메틸-1-도데칸아민, N-옥사이드
+kr_eco_toxic	16627-68-2		1,1,2,2-테트라플루오로-3-(1,1,2,2-테트라플루오로에톡시)프로판
+kr_eco_toxic	167078-06-0	2026-12-19	지방산(C=12~21)과 불포화지방산(C=18), 2,2,6,6,-테트라메틸-4-피페리디닐 에스테르
+kr_eco_toxic	16721-80-5		황화수소나트륨
+kr_eco_toxic	16752-77-5		메토밀
+kr_eco_toxic	1678-91-7		에틸사이클로헥산
+kr_eco_toxic	16812-54-7		황화니켈류
+kr_eco_toxic	1689-83-4		이옥시닐
+kr_eco_toxic	1702310-11-9		1-데실피리디늄 비스(플루오로술포닐)이미드
+kr_eco_toxic	17040-19-6		디메톤-S-메틸술폰
+kr_eco_toxic	17109-49-8		에디펜포스
+kr_eco_toxic	173010-79-2		염화 코코 알킬(2,3-디히드록시프로필)디메틸 암모늄 3-포스페이트, 나트륨 염
+kr_eco_toxic	173584-44-6		인독사캅
+kr_eco_toxic	176022-82-5		α-[2-[비스(2-히드록시에틸)아미노]프로필]-ω-히드록시폴리[옥시(메틸-1,2-에탄디일)]과α-히드로-ω-히드록시폴리(옥시-1,2-에탄디일)의 에테르(1:2), 모노-C12-16-알킬에테르
+kr_eco_toxic	177997-13-6		산화 리튬 니켈 코발트 알루미늄
+kr_eco_toxic	1814903-27-9		산화 칼슘 몰리브데넘 네오디뮴
+kr_eco_toxic	1836-75-5		니트로펜
+kr_eco_toxic	184477-29-0		[4-(1-메틸에틸)페닐](4-메틸페닐)이오도늄, 헥사플루오로포스페이트(1-) (1:1)
+kr_eco_toxic	1861-40-1		벤플루랄린
+kr_eco_toxic	18721-51-2		시트르산 수소 니켈(2가)
+kr_eco_toxic	18836-52-7		(2E,4E)-N-(2-메틸프로필)-2,4-(데카디엔아마이드)
+kr_eco_toxic	18854-01-8		이속사티온
+kr_eco_toxic	1892-03-1		1,3,3,4,4,5,5-헵타플루오로시클로펜텐
+kr_eco_toxic	1897-45-6		클로로타로닐
+kr_eco_toxic	19287-89-9		황산은
+kr_eco_toxic	19362-77-7	2026-12-19	4,4'-티오비스벤젠티올
+kr_eco_toxic	1942-46-7		5-데신
+kr_eco_toxic	194934-66-2		(3S,6E)-3,7,11-트리메틸-6,10-도데카디엔알
+kr_eco_toxic	1953-99-7		3,4,5,6-테트라클로로-1,2-벤젠디카르보니트릴
+kr_eco_toxic	1966153-30-9		2,2-비스(히드록시메틸)-1,3-프로판디올 3-메르캅토프로필 에테르
+kr_eco_toxic	1975-78-6		데칸니트릴
+kr_eco_toxic	198404-98-7		1-메틸-2-[(1,2,2-트리메틸비시클로[3.1.0]헥스-3-일)메틸]시클로프로판메탄올
+kr_eco_toxic	199111-50-7		N,N-디메틸-N-[3-(트리하이드록시실일)프로필]-1-옥타데칸아미늄, 클로라이드 (1:1)
+kr_eco_toxic	20018-09-1		p-톨릴 디요오도메틸 술폰
+kr_eco_toxic	201363-52-2		프로폭실화 N-(히드록시에틸) 코코 아미드
+kr_eco_toxic	2032-59-9		아미노캅
+kr_eco_toxic	2032-65-7		메티오캅
+kr_eco_toxic	20407-84-5		(E)-2-도데세날
+kr_eco_toxic	206565-89-1		불포화지방산(C=18) 이합체와 1-피페라진에탄아민, 톨유지방산의 반응생성물
+kr_eco_toxic	20859-73-8		인화 알루미늄
+kr_eco_toxic	2094-99-7		3-[(프롭-1-엔-2-일)페닐]프롭-2-일 이소시안산
+kr_eco_toxic	2104-64-5		이피엔
+kr_eco_toxic	21041-93-0		수산화 코발트
+kr_eco_toxic	21041-95-2		수산화 카드뮴
+kr_eco_toxic	21609-90-5		렙토포스
+kr_eco_toxic	216970-21-7		3-메톡시-7,7-디메틸-10-메틸렌바이사이클로[4.3.1]데칸
+kr_eco_toxic	219125-19-6		(T-4)-부틸트리-1-나프탈레닐붕산(1-) N,N,N-트리부틸-1-부틸아미늄 (1:1)
+kr_eco_toxic	21923-23-9		클로르티오포스
+kr_eco_toxic	22029-76-1		4-(2,6,6-트리메틸-1-사이클로헥센-1-일)-3-부텐-2-올
+kr_eco_toxic	2212-67-1		몰리네이트
+kr_eco_toxic	22224-92-6		페나미포스
+kr_eco_toxic	22259-30-9		포메탄에이트
+kr_eco_toxic	224031-70-3		1-스피로[4.5]덱-7-엔-7-일-4-펜텐-1-온
+kr_eco_toxic	224031-71-4		1-스피로[4.5]덱-6-엔-7-일-4-펜텐-1-온
+kr_eco_toxic	22535-49-5		2-프로펜산 4-벤조일페닐
+kr_eco_toxic	2275-14-1		펜캅톤
+kr_eco_toxic	2275-23-2		바미도티온
+kr_eco_toxic	22781-23-3		벤디오캅
+kr_eco_toxic	2310-17-0		포살론
+kr_eco_toxic	23103-98-2		피리미캅
+kr_eco_toxic	2312-35-8		프로파르지트
+kr_eco_toxic	23135-22-0		옥사밀
+kr_eco_toxic	23505-41-1		피리미포스-에틸
+kr_eco_toxic	23560-59-0		헵테노포스
+kr_eco_toxic	236408-49-4		염화 [4-(1,1-디메틸에틸)페닐]트리페닐포스포늄
+kr_eco_toxic	2372-82-9		N1-(3-아미노프로필)-N1-도데실-1,3-프로판디아민
+kr_eco_toxic	2375-96-4		1,4-디브로모-2,5-비스(트리플루오로메틸)벤젠
+kr_eco_toxic	2389051-65-2	2026-12-19	1,2-디부틸 1,4-사이클로헥사디엔-1, 2-디카르복실레이트
+kr_eco_toxic	23911-56-0		1-(3-메틸-2-벤조퍼릴)에탄-1-온
+kr_eco_toxic	24017-47-8		트리아조포스
+kr_eco_toxic	240494-70-6		2,2-디메틸-3-(1-프로펜-1-일)사이클로프로판카복실산 [2,3,5,6-테트라플루오로-4-(메톡시메틸)페닐]메틸
+kr_eco_toxic	2425-06-1		켑타폴
+kr_eco_toxic	2425-66-3		1-클로로-2-니트로프로판
+kr_eco_toxic	2437-25-4		도데칸니트릴
+kr_eco_toxic	2437-29-8		말라카이트 그린의 옥살산염
+kr_eco_toxic	2439-01-2		치노메티오나트
+kr_eco_toxic	2439-10-3		도딘
+kr_eco_toxic	2439-35-2		디메틸아미노에틸 아크릴레이트; 디메틸아미노에틸 아크릴산; 아크릴산 디메틸아미노에틸
+kr_eco_toxic	2446466-96-0	2026-12-19	테트라코사-μ-옥소도테카옥소[μ12-[포스페토(3-)-κO:κO:κO:κO':κO':κO':κO'':κO'':κO'':κO''':κO''':κO''']]도데카텅스텐산(3-), 2-[3-클로로-5-(1,3-디하이드로-1,3,3-트리메틸-2H-인돌-2-일리덴)-1,3-펜타디엔-1-일]-1,3,3-트리메틸-3H-인돌리움 (3:1)
+kr_eco_toxic	24636-31-5		2-메틸-2-프로펜산 3-(클로로디메틸실일)프로필
+kr_eco_toxic	24717-85-9		2-메틸-2-부텐산 (2E)-3,7-디메틸-6-옥텐-1-일
+kr_eco_toxic	24934-91-6		클로르메포스
+kr_eco_toxic	24948-66-1		1-데센-4-인
+kr_eco_toxic	25054-76-6		N-카르복시메틸-N,N-디메틸-3-[[(9Z)-1-옥소-9-옥타데세닐]아미노]-프로판 아미늄
+kr_eco_toxic	250578-38-2		[3-(2-에틸헥실옥시)프로필아민]트리페닐보론
+kr_eco_toxic	25081-70-3		인산 이부틸, 아연 (2:1); 비스(디부틸 포스페이트) 아연
+kr_eco_toxic	25103-58-6		tert-도데칸티올
+kr_eco_toxic	25154-52-3		노닐페놀류
+kr_eco_toxic	25167-70-8		트리메틸펜텐
+kr_eco_toxic	25214-70-4		포름알데히드와 아닐린 의 반응생성물
+kr_eco_toxic	2527-66-4		2-메틸-1,2-벤즈이소티아졸린-3-온
+kr_eco_toxic	25307-17-9		2,2'-(9-옥타데세닐이미노)비스에탄올
+kr_eco_toxic	25311-71-1		이소펜포스
+kr_eco_toxic	25321-14-6		디니트로톨루엔
+kr_eco_toxic	25637-99-4		헥사브로모사이클로도데칸
+kr_eco_toxic	25640-78-2		(1-메틸에틸)-1,1'-비페닐
+kr_eco_toxic	2595-54-2		메카밤
+kr_eco_toxic	2597-03-7		펜토에이트
+kr_eco_toxic	259854-70-1		3-메틸-5-사이클로테트라데센-1-온
+kr_eco_toxic	259854-71-2		3-메틸-5-사이클로테트라데센-1-온
+kr_eco_toxic	26087-47-8		이프로벤포스
+kr_eco_toxic	26172-55-4		5-클로로-2-메틸-4-이소티아졸린-3-온
+kr_eco_toxic	2631-37-0		프로메캅
+kr_eco_toxic	263137-41-3		2-클로로-N-(시아노-2-티에닐메틸)-아세트아미드
+kr_eco_toxic	2634-33-5		1,2-벤즈이소티아졸-3-(2H)-온
+kr_eco_toxic	26530-20-1		2-옥틸-3(2H)-이소티아졸론
+kr_eco_toxic	265647-11-8		인산과 은(1+), 나트륨, 지르코늄(4+)의 염
+kr_eco_toxic	26628-22-8		아지드화 나트륨
+kr_eco_toxic	2682-20-4		2-메틸-4-이소티아졸린-3-온
+kr_eco_toxic	2699-79-8		플루오르화 술퍼릴; 불화술퍼릴
+kr_eco_toxic	27083-27-8		폴리(헥사메틸렌비구아니드)의 염산염; 피에치엠비(PHMB)
+kr_eco_toxic	27193-86-8	2026-12-19	도데실페놀
+kr_eco_toxic	2760622-70-4		S1,S1',S1''-[(2,4,6-트리옥소-1,3,5-트리아진-1,3,5(2H,4H,6H)-트리일)트리-3,1-프로판디일] 에탄티오에이트
+kr_eco_toxic	27936-43-2		노닐페놀 칼륨 염(1:1)
+kr_eco_toxic	2797-51-5		퀴노클라민
+kr_eco_toxic	284685-45-6		디에틸포스핀산 아연
+kr_eco_toxic	28772-56-7		브로마디올론
+kr_eco_toxic	2893-78-9		트로클로센 나트륨
+kr_eco_toxic	29104-30-1		벤족시메이트
+kr_eco_toxic	2921-88-2		클로르피리포스
+kr_eco_toxic	29590-42-9		아크릴산 이소옥틸; 이소옥틸 아크릴레이트
+kr_eco_toxic	297-78-9		이소벤잔
+kr_eco_toxic	298-00-0		파라티온-메틸
+kr_eco_toxic	298-02-2		포레이트
+kr_eco_toxic	298-04-4		디술포톤
+kr_eco_toxic	2982233-43-0		에탄티오산과 2,2-비스(히드록시메틸)-1,3-프로판디올 알릴 에테르의 반응생성물
+kr_eco_toxic	29904-98-1		2(3H)-벤조티아졸티온, 코발트 염 (2:1)
+kr_eco_toxic	29973-13-5		에티오펜캅
+kr_eco_toxic	300-76-5		날레드
+kr_eco_toxic	30030-25-2		(클로로메틸)에테닐벤젠
+kr_eco_toxic	3006-82-4		tert-부틸 퍼옥시-2-에틸헥사노에이트
+kr_eco_toxic	301-04-2		아세트산 납; 초산납
+kr_eco_toxic	301-08-6		2-에틸헥산산 납; 비스(2-에틸헥산산)납
+kr_eco_toxic	301-12-2		옥시디메톤-메틸
+kr_eco_toxic	30168-23-1		4-(옥타하이드로-4,7-메타노-5H-인덴-5-일리덴)부탄알
+kr_eco_toxic	302-01-2		히드라진
+kr_eco_toxic	3029-19-4		1-피렌카복스알데하이드
+kr_eco_toxic	30785-74-1		3-히드록시-4-[(2-히드록시-1-나프틸)아조]-1-나프탈렌술포나토(3-)[1-[[2-히드록시-5-[(r-메톡시페닐)아조]페닐)아조]-2-나프토라토(2-)]크롬산(2-) 이나트륨
+kr_eco_toxic	309-00-2		알드린
+kr_eco_toxic	3100-36-5		8-시클로헥사데센-1-온
+kr_eco_toxic	31119-53-6		황산 카드뮴
+kr_eco_toxic	31218-83-4		프로페탐포스
+kr_eco_toxic	315-18-4		멕사카베이트
+kr_eco_toxic	31512-74-0		더불유에스시피(WSCP)
+kr_eco_toxic	31895-21-3		티오시클람
+kr_eco_toxic	319-86-8		헥사클로로시클로헥산
+kr_eco_toxic	3194-55-6		헥사브로모사이클로도데칸
+kr_eco_toxic	321-60-8		2-플루오로-1,1'-비페닐
+kr_eco_toxic	32289-58-0		폴리(헥사메틸렌비구아니드)의 염산염; 피에치엠비(PHMB)
+kr_eco_toxic	3236-71-3		9,9-비스(4-히드록시페닐)플루오렌
+kr_eco_toxic	3251-23-8		질산 구리
+kr_eco_toxic	32534-81-9		펜타브로모디페닐 옥사이드
+kr_eco_toxic	327-98-0		트리클로로나트
+kr_eco_toxic	330-54-1		N'-(3,4-디클로로페닐)-N,N-디메틸 우레아
+kr_eco_toxic	330-55-2		리누론
+kr_eco_toxic	333-41-5		다이아지논
+kr_eco_toxic	3347-22-6		디티아논
+kr_eco_toxic	3349-06-2		니켈 디포메이트
+kr_eco_toxic	3375-31-3		아세트산 팔라듐(Ⅱ); 팔라듐(Ⅱ) 아세티이트
+kr_eco_toxic	3380-30-1		디클로산; 2-히드록시-4,4'-디클로로디페닐에테르
+kr_eco_toxic	3380-34-5		트리클로산
+kr_eco_toxic	33885-51-7		6,6-디메틸바이사이클로[3.1.1]헵-2-텐-2-프로판알
+kr_eco_toxic	33885-52-8		α,α,6,6-테트라메틸비사이클로[3.1.1]헵-2-텐-2-프로판알
+kr_eco_toxic	3407-42-9		3-(5,5,6-트리메틸바이사이클로[2.2.1]헵-2-틸)사이클로헥산올
+kr_eco_toxic	34140-91-5		올레산과 (Z)-N-9-옥타데센일-1,3-프로판디아민의 화합물
+kr_eco_toxic	35400-43-2		술프로포스
+kr_eco_toxic	3597-91-9		4-비페닐메탄올
+kr_eco_toxic	3689-24-5		술포텝
+kr_eco_toxic	3691-35-8		클로로파시논
+kr_eco_toxic	37211-05-5		염화니켈
+kr_eco_toxic	373-02-4		아세트산 니켈; 니켈 아세테이트
+kr_eco_toxic	37300-23-5		피그먼트 옐로우 36
+kr_eco_toxic	37348-84-8		산화 코발트 망간 니켈
+kr_eco_toxic	375395-33-8		N-메틸-N,N-디옥틸-1-옥탄아미늄과 1,1,1-트리플루오로-N-[(트리플루오로메틸)술포닐]메탄술폰아미드의 염(1:1)
+kr_eco_toxic	3811-73-2		피리치온 나트륨
+kr_eco_toxic	384347-07-3		헥사플루오로인산 1-옥틸피리디늄(1:1)
+kr_eco_toxic	3913-71-1		2-데세날
+kr_eco_toxic	3913-81-3		(2E)-2-데세날
+kr_eco_toxic	39196-18-4		티오파녹스
+kr_eco_toxic	3926-62-3		모노클로로아세트산 나트륨
+kr_eco_toxic	39300-45-3		디노캅
+kr_eco_toxic	40027-38-1		올레산과 (Z)-N-9-옥타데센일-1,3-프로판디아민의 화합물
+kr_eco_toxic	40043-73-0		(1R,4aS,10aR)-1,2,3,4,4a,9,10,10a-옥타히드로-1,4a-디메틸-7-(1-메틸에틸)-1-페난트렌메탄아민, 브롬산염 (1:1)
+kr_eco_toxic	4067-16-7		3,6,9,12-테트라아자테트라데칸-1,14-디아민
+kr_eco_toxic	409325-06-0		2-프로펜산 (3-페녹시페닐)메틸
+kr_eco_toxic	4104-14-7		포스아세팀
+kr_eco_toxic	41083-11-8		아조시클로틴
+kr_eco_toxic	41198-08-7		프로페노포스
+kr_eco_toxic	41317-15-1		4-메톡시-N-페닐-o-톨루이딘
+kr_eco_toxic	41563-69-3		1,3-벤젠디메탄티올
+kr_eco_toxic	4170-30-3		크로톤알데히드; 2-부텐알
+kr_eco_toxic	42509-80-8		이사조포스
+kr_eco_toxic	4299-07-4		2-n-부틸-벤조[d]이소티아졸-3-온
+kr_eco_toxic	433337-23-6		3-데실-1-메틸-1H-이미다졸리움과 1,1,1-트리플루오로-N-[(트리플루오로메틸)술포닐]메탄술폰아미드의 염(1:1)
+kr_eco_toxic	4464-23-7		카드뮴 디포메이트
+kr_eco_toxic	462629-01-2		N,N-디옥타데실아닐리늄 테트라키스(펜타플루오로페닐)보레이트
+kr_eco_toxic	467-63-0		4-(디메틸아미노)-α,α-비스[4-(디메틸아미노)페닐]벤젠메탄올
+kr_eco_toxic	470-90-6		클로르펜빈포스
+kr_eco_toxic	47073-92-7		4,4'-에틸리덴디페닐 디시아네이트
+kr_eco_toxic	478695-70-4		1-(3,3-디메틸시클로헥실)에틸 에틸 말론산
+kr_eco_toxic	4824-78-6		브로모포스-에틸
+kr_eco_toxic	4826-62-4		2-도데세날
+kr_eco_toxic	485-31-4		비나파크릴
+kr_eco_toxic	50-29-3		디디티(DDT)
+kr_eco_toxic	505-86-2		수산화 세트리모늄과 세트리모늄 염류
+kr_eco_toxic	506-64-9		시안화은
+kr_eco_toxic	506-77-4		염화 시안
+kr_eco_toxic	51-28-5		2,4-디니트로페놀
+kr_eco_toxic	510-15-6		클로로벤질레이트
+kr_eco_toxic	513-78-0		탄산 카드뮴
+kr_eco_toxic	513-79-1		탄산 코발트
+kr_eco_toxic	51630-58-1		펜발러레이트
+kr_eco_toxic	52-51-7		브로노폴
+kr_eco_toxic	52-68-6		트리클로르폰
+kr_eco_toxic	52315-07-8		제타 싸이퍼메트린
+kr_eco_toxic	52645-53-1		퍼메트린
+kr_eco_toxic	52732-72-6		황산납, 사염기성
+kr_eco_toxic	52918-63-5		데카메트린
+kr_eco_toxic	5315-79-7		1-피렌올
+kr_eco_toxic	5317-66-8		α,α-디클로로벤젠아세트산 에틸
+kr_eco_toxic	538-93-2		이소부틸벤젠
+kr_eco_toxic	542-75-6		1,3-디클로로프로펜
+kr_eco_toxic	542-83-6		시안화 카드뮴
+kr_eco_toxic	544-92-3		시안화구리
+kr_eco_toxic	545-06-2		트리클로로아세토니트릴
+kr_eco_toxic	55-38-9		펜티온
+kr_eco_toxic	55-68-5		질산 페닐수은
+kr_eco_toxic	55285-14-8		카보술판
+kr_eco_toxic	553664-68-9		에피클로로히드린, 2-메르캡토에탄올, 황화 나트륨과 티오우레아의 반응생성물
+kr_eco_toxic	55566-30-8		황산 테트라키스(히드록시메틸)포스포늄
+kr_eco_toxic	556-61-6		이소티오시안산 메틸
+kr_eco_toxic	556-67-2		옥타메틸사이클로테트라실록산
+kr_eco_toxic	557-19-7		시안화니켈
+kr_eco_toxic	56-38-2		파라티온
+kr_eco_toxic	56073-07-5		디페나쿰
+kr_eco_toxic	56073-10-0		브로디파쿰
+kr_eco_toxic	5613-46-7		4,4'-(1-메틸에틸리덴)비스[2,6-디메틸페놀]
+kr_eco_toxic	56172-46-4		2-부텐산 (2E)-3,7-디메틸-2,6-옥타디엔-1-일
+kr_eco_toxic	563-12-2		에티온
+kr_eco_toxic	56792-69-9		헥사카르보닐 (3,3-디메틸-1-부틴)다이코발트
+kr_eco_toxic	569-64-2		말라카이트 그린의 염산염
+kr_eco_toxic	57-09-0		수산화 세트리모늄과 세트리모늄 염류
+kr_eco_toxic	57-74-9		클로르단
+kr_eco_toxic	57028-96-3		폴리헥사메틸렌구아니딘의 인산염 및 염산염; 피에치엠지(PHMG) 인산염 및 염산염
+kr_eco_toxic	5707-69-7		드라족솔론
+kr_eco_toxic	57122-49-3		브롬화 N,N-비스(2-히드록시에틸)-N-메틸-1-도데칸아미늄 (1:1)
+kr_eco_toxic	57214-10-5		포름알데히드 1,3-벤젠디메탄아민과 페놀의 중합체
+kr_eco_toxic	58-27-5		2-메틸-1,4-나프탈렌디온
+kr_eco_toxic	58-89-9		헥사클로로시클로헥산
+kr_eco_toxic	5827-05-4		아피단
+kr_eco_toxic	58339-34-7		피그먼트 레드 108
+kr_eco_toxic	5888-33-5	2026-12-19	이소보르닐 아크릴레이트
+kr_eco_toxic	5931-89-5		아세트산 코발트
+kr_eco_toxic	59669-26-0		티오디캅
+kr_eco_toxic	59690-88-9	2026-12-19	3-우레이도아닐린 염산염
+kr_eco_toxic	5989-27-5		리모넨
+kr_eco_toxic	5989-54-8		리모넨
+kr_eco_toxic	60-09-3		p-아미노아조벤젠
+kr_eco_toxic	60-24-2		2-메르캅토에탄올
+kr_eco_toxic	60-34-4		메틸히드라진
+kr_eco_toxic	60-57-1		디엘드린
+kr_eco_toxic	602-01-7		디니트로톨루엔
+kr_eco_toxic	606-20-2		디니트로톨루엔
+kr_eco_toxic	608-73-1		헥사클로로시클로헥산
+kr_eco_toxic	610-39-9		디니트로톨루엔
+kr_eco_toxic	612-52-2		2-나프틸아민과 그 염산염
+kr_eco_toxic	612-83-9		3,3'-디클로로벤지딘 염산염
+kr_eco_toxic	61358-25-6		비스[4-(1,1-디메틸에틸)페닐]이오도늄, 헥사플루오로포스페이트(1-) (1:1)
+kr_eco_toxic	61788-44-1		스티렌화 페놀
+kr_eco_toxic	61791-46-6		2,2'-이미노비스에탄올 N-탈로우 알킬 유도체, N-산화
+kr_eco_toxic	618-85-9		디니트로톨루엔
+kr_eco_toxic	61813-52-3		(Z)-2-부테인이산 1,1'-(디부틸스타닐렌) 4,4'-(디옥타데실)
+kr_eco_toxic	619-15-8		디니트로톨루엔
+kr_eco_toxic	62-38-4		아세트산 페닐수은
+kr_eco_toxic	62-73-7		디클로르보스
+kr_eco_toxic	624-18-0		1,4-페닐렌디아민 염산염
+kr_eco_toxic	624-31-7		4-이오도톨루엔; 4-요오드톨루엔
+kr_eco_toxic	624-92-0		이황화 이메틸
+kr_eco_toxic	62850-32-2		페노티오캅
+kr_eco_toxic	629-63-0		테트라데칸니트릴
+kr_eco_toxic	63-25-2		카바릴
+kr_eco_toxic	6317-18-6		비스티오시안산 메틸렌; 메틸렌 비스티오시아네이트
+kr_eco_toxic	63333-35-7		브롬에탈린
+kr_eco_toxic	63451-47-8		히드록시(2-메틸-2-프로펜산-κO)아연
+kr_eco_toxic	6362-80-7		1,1'-(1,1-디메틸-3-메틸렌-1,3-프로판디일)비스벤젠
+kr_eco_toxic	637-89-8		4-메르캅토페놀
+kr_eco_toxic	6392-46-7		알릭시캅
+kr_eco_toxic	64359-81-5		4,5-디클로로-2-N-옥틸-4-이소티아졸린-3-온
+kr_eco_toxic	65113-55-5		3-[[4-(페닐아미노)페닐]아조]벤젠술폰산 N-[4-[비스[4-(디메틸아미노)페닐]메틸렌]-2,5-시클로헥사디엔-1-일리딘]-N-메틸메탄아미늄 (1:1)
+kr_eco_toxic	65405-84-7		α,2,2,6-테트라메틸사이클로헥센부탄알
+kr_eco_toxic	65907-30-4		푸라티오캅
+kr_eco_toxic	66230-04-4		에스펜발러레이트
+kr_eco_toxic	66327-54-6		1-메틸-4-(4-메틸펜틸)-3-사이클로헥센-1-카복스알데하이드
+kr_eco_toxic	66841-25-6		트랄로메트린
+kr_eco_toxic	67-72-1		헥사클로로에탄
+kr_eco_toxic	68085-85-8		싸이할로쓰린
+kr_eco_toxic	68133-90-4		백금산과 2-아미노에탄올의 화합물 (1:2)
+kr_eco_toxic	68156-13-8		디페닐[(페닐티오)페닐]술포늄 헥사플루오로포스페이트(1-)
+kr_eco_toxic	683-10-3	2026-12-19	N-카르복시메틸-N,N-디메틸-1-도데칸아미늄
+kr_eco_toxic	683-18-1		이염화 이부틸주석; 디부틸틴 디클로라이드
+kr_eco_toxic	68359-37-5		싸이플루트린
+kr_eco_toxic	68391-04-8		알킬(C=12~18)디메틸아민
+kr_eco_toxic	68457-13-6		코발트, 붕산 네오데칸산 착화합물
+kr_eco_toxic	68476-33-5		잔사, 연료유. 다만, 본 고시에서 별도로 정한 물질은 제외
+kr_eco_toxic	68511-92-2		(Z)-9-옥타데센산과 디에틸렌트리아민(고리화), 디-에틸 황산의 반응생성물(4차)
+kr_eco_toxic	68526-86-3		알코올, (C=11∼14)-이소-, (C=13)-리치
+kr_eco_toxic	68555-36-2		N,N'-비스[3-(디메틸아미노)프로필]우레아와 1,1'-옥시비스[2-클로로에탄]의 중합체
+kr_eco_toxic	68876-84-6		(C=8~18) 및 (C=18)-불포화 지방산 카드뮴
+kr_eco_toxic	689-65-6		5,9-디메틸-4-데세날
+kr_eco_toxic	68910-05-4		2-아미노에탄올과 암모니아의 반응생성물
+kr_eco_toxic	69012-63-1		아연제련 제조 부산물
+kr_eco_toxic	69029-97-6		스파이스 구리
+kr_eco_toxic	69094-18-4		2,2-디브로모-2-니트로에탄올
+kr_eco_toxic	6923-22-4		모노크로토포스
+kr_eco_toxic	693-13-0		N,N'-메탄테트라일비스(2-프로판아민)
+kr_eco_toxic	69409-94-5		플루발린에이트
+kr_eco_toxic	69581-33-5		싸이프로푸람
+kr_eco_toxic	70124-77-5		플루싸이트린에이트
+kr_eco_toxic	70693-62-8		포타슘 퍼옥시모노설페이트 설페이트
+kr_eco_toxic	70693-64-0		N,​N-디에틸-​3-​메틸-​4-​[2-​(5-​니트로-​2-​티아졸릴)​디아제닐]벤젠아민
+kr_eco_toxic	70750-20-8		2-프로펜아미드 중합체와 클로로메탄, 디메틸아민, 포름알데히드의 반응 생성물
+kr_eco_toxic	71-48-7		아세트산 코발트
+kr_eco_toxic	71283-80-2		페녹사프롭-피
+kr_eco_toxic	71449-78-0		헥사플루오로안티몬산 디페닐(4-페닐티오페닐)술포늄
+kr_eco_toxic	7173-51-5		염화 디데실디메틸암모늄
+kr_eco_toxic	72-20-8		엔드린
+kr_eco_toxic	72162-46-0		N-[3-(이소데실옥시)프로필]-1,3-프로판디아민
+kr_eco_toxic	731-27-1		톨릴플루아니드
+kr_eco_toxic	732-11-6		포스멧
+kr_eco_toxic	74-83-9		브롬화 메틸; 메틸 브로마이드
+kr_eco_toxic	74-88-4		요오드화 메틸; 요오드메탄
+kr_eco_toxic	741-58-2		벤술라이드
+kr_eco_toxic	7439-92-1		납과 그 화합물. 다만, 본 고시에서 별도로 규정한 것은 제외
+kr_eco_toxic	7439-97-6		수은
+kr_eco_toxic	7440-43-9		카드뮴
+kr_eco_toxic	7440-48-4		코발트
+kr_eco_toxic	7440-50-8		구리(단, 입자크기 1㎜ 이상인 경우 제외)
+kr_eco_toxic	7440-66-6		아연 (단, 입자크기 1㎜ 이상인 경우 제외)
+kr_eco_toxic	7446-14-2	2026-12-19	황산 납
+kr_eco_toxic	7487-94-7		이염화수은
+kr_eco_toxic	75-86-5		아세톤 시아노히드린
+kr_eco_toxic	75444-69-8	2026-12-19	알킬(C=16~22) 디메틸아민
+kr_eco_toxic	76-06-2		클로로피크린; 트리클로로니트로메탄
+kr_eco_toxic	76-44-8		헵타클로르
+kr_eco_toxic	76-87-9		수산화 트리페닐주석
+kr_eco_toxic	7646-79-9		염화코발트
+kr_eco_toxic	7646-85-7		염화아연
+kr_eco_toxic	7664-41-7		암모니아
+kr_eco_toxic	7681-52-9	2028-01-01	차아염소산 나트륨
+kr_eco_toxic	77-47-4		헥사클로로시클로펜타디엔
+kr_eco_toxic	77-73-6		디사이클로펜타디엔
+kr_eco_toxic	7700-17-6		크로톡시포스
+kr_eco_toxic	7718-54-9		염화니켈
+kr_eco_toxic	7722-64-7		과망간산 칼륨
+kr_eco_toxic	7726-95-6		브롬
+kr_eco_toxic	7738-94-5		크롬산
+kr_eco_toxic	7758-19-2		아염소산 나트륨
+kr_eco_toxic	7758-89-6		염화구리
+kr_eco_toxic	7758-97-6		크롬산 납
+kr_eco_toxic	7758-98-7		황산 구리
+kr_eco_toxic	7761-88-8		질산은
+kr_eco_toxic	7774-82-5		2-트리데세날
+kr_eco_toxic	7775-11-3		크롬산 나트륨
+kr_eco_toxic	7782-50-5		염소
+kr_eco_toxic	7783-06-4		황화수소
+kr_eco_toxic	7784-42-1		아르신
+kr_eco_toxic	7785-33-3		2-메틸-2-부텐산 (E,E)-3,7-디메틸-2,6-옥타디엔-1-일
+kr_eco_toxic	7786-81-4		황산니켈
+kr_eco_toxic	7789-00-6		크롬산 칼륨
+kr_eco_toxic	7789-06-2		크롬산 스트론튬
+kr_eco_toxic	7790-79-6		플루오르화 카드뮴; 불화 카드뮴
+kr_eco_toxic	7790-80-9		요오드화 카드뮴
+kr_eco_toxic	78-34-2		디옥사티온
+kr_eco_toxic	78-48-8		S,S,S-트리부틸 포스포르트리티오에이트; S,S,S-트리부틸 삼티오인산; 삼티오인산 S,S,S-트리부틸
+kr_eco_toxic	78-85-3		2-메틸-2-프로펜알
+kr_eco_toxic	78-94-4		메틸 비닐 케톤
+kr_eco_toxic	7803-51-2		포스핀
+kr_eco_toxic	7803-57-8		히드라진 수화물
+kr_eco_toxic	786-19-6		카보페노티온
+kr_eco_toxic	78643-41-1		디클로로디메틸주석과 트리클로로메틸주석의 혼합물
+kr_eco_toxic	79-04-9		염화 클로로아세틸; 클로로아세틸 클로라이드
+kr_eco_toxic	79-10-7		아크릴산
+kr_eco_toxic	79-11-8		클로로아세트산
+kr_eco_toxic	79-92-5	2026-12-19	캄펜; 2,2-디메틸-3-메틸렌바이사이클로[2.2.1]헵탄
+kr_eco_toxic	79-94-7		4,4'-(1-메틸에틸리덴)비스[2,6-디브로모페놀]; 테트라브로모비스페놀 A
+kr_eco_toxic	793-24-8		N-(1,3-디메틸부틸-N'-페닐-p-페닐렌디아민)
+kr_eco_toxic	79538-32-2		테플루트린
+kr_eco_toxic	79622-59-6		플루아지남
+kr_eco_toxic	79720-19-7		3-도데실-1-(2,2,6,6-테트라메틸-4-피페리디닐)-2,5-피롤리딘디온
+kr_eco_toxic	79723-02-7		프탈산 수소 테트라메틸암모늄
+kr_eco_toxic	80-51-3		옥시벤젠술포닐 히드라진
+kr_eco_toxic	8001-35-2		캄페클로르
+kr_eco_toxic	8001-58-9		크레오소트
+kr_eco_toxic	80060-09-9		다이아펜티유론
+kr_eco_toxic	80206-82-2		알코올, (C=12∼14)
+kr_eco_toxic	8022-00-2		디메톤-메틸
+kr_eco_toxic	802333-90-0		1-데실-4-메틸피리디늄과 1,1,1-트리플루오로-N-[(트리플루오로메틸)술포닐]메탄술폰아미드의 염 (1:1)
+kr_eco_toxic	8065-36-9		브펜캅
+kr_eco_toxic	8065-48-3		디메톤
+kr_eco_toxic	80858-47-5		[2-(사이클로헥실옥시)에틸]벤젠
+kr_eco_toxic	814-49-3		디에틸 클로로포스페이트; 디에틸에스테르 클로로인산
+kr_eco_toxic	81741-28-8		염화 트리부틸테트라데실포스포늄
+kr_eco_toxic	818-61-1		아크릴산 하이드록시에틸; 하이드록시에틸 아크릴레이트
+kr_eco_toxic	82209-88-9		N-(2-에틸헥실)-N'-페닐-1,4-벤젠디아민
+kr_eco_toxic	82560-54-1		벤프라캅
+kr_eco_toxic	83-26-1		핀돈
+kr_eco_toxic	83-79-4		로테논
+kr_eco_toxic	83130-01-2		알라니캅
+kr_eco_toxic	83395-38-4		2-프로핀-1-일 1H-이미다졸-1-카르복실레이트
+kr_eco_toxic	84-74-2		디부틸 프탈레이트
+kr_eco_toxic	84144-79-6		N-(2-아미노에틸)-1,2-에탄다이아민과 글리시딜 톨릴 에테르의 반응생성물
+kr_eco_toxic	84195-51-7		납 매트
+kr_eco_toxic	84852-15-3		노닐페놀류
+kr_eco_toxic	85-00-7		다이쿼트 디브로마이드; 디브롬화 디콰이트
+kr_eco_toxic	85-68-7		부틸벤질 프탈레이트
+kr_eco_toxic	850918-68-2		(8-퀴놀리노라토-κN1,κO8)리튬
+kr_eco_toxic	852023-54-2		클로로메틸 헥실 시아노카본이미도디티오에이트
+kr_eco_toxic	85409-23-0		염화 알킬(C=12~14)[(에틸페닐)메틸]디메틸 암모늄
+kr_eco_toxic	85508-44-7		네오데칸산 니켈(2+); 니켈 네오데카노에이트
+kr_eco_toxic	85535-85-9		클로로알칸(C=14~17)
+kr_eco_toxic	86-50-0		아진포스-메틸
+kr_eco_toxic	86089-17-0		트리데실아민(가지형 및 선형)
+kr_eco_toxic	86347-14-0		5-[1-(2,3-디메틸페닐)에틸]-1H-이미다졸
+kr_eco_toxic	86403-32-9		지방산(C=15~18) 테트라메틸피페리딘올 에스테르
+kr_eco_toxic	86598-92-7		이미벤코나졸
+kr_eco_toxic	869795-96-0		클로로아세트산 헥사히드로-2-옥소-3,5-메타노-2H-시클로펜타[b]퓨란-6-일
+kr_eco_toxic	87-90-1		심클로센
+kr_eco_toxic	874299-51-1		[3-(히드록시-kO)-4-[[2-(히드록시-kO)-1-나프탈렌일]아조-kN1]-7-니트로-1-나프탈렌술포나토(3-)][4-(히드록시-kO)-3-[[2-(히드록시-kO)-5-니트로페닐]아조-kN1]-7-(페닐아미노)-2-나프탈렌술포나토(3-)]크롬산(3-), 이수소 나트륨
+kr_eco_toxic	874299-52-2		[3-(히드록시-kO)-4-[[2-(히드록시-kO)-1-나프탈렌일]아조-kN1]-7-니트로-1-나프탈렌술포나토(3-)][4-(히드록시-kO)-3-[[2-(히드록시-kO)-5-니트로페닐]아조-kN1]-8-[(2-히드록시-5-니트로페닐)아조]-7-(페닐아미노)-2-나프탈렌술포나토(3-)]크롬산(3-), 이수소 나트륨
+kr_eco_toxic	874299-53-3		[μ-[4-(히드록시-kO)-3,8-비스[[2-(히드록시-kO)-5-니트로페닐]아조-kN1]-7-(페닐아미노-kN)-2-나프탈렌술포나토](5-)]비스[3-(히드록시-kO)-4-[[2-(히드록시-kO)-1-나프탈렌일]아조-kN1]-7-니트로-1-나프탈렌술포나토(3-)]중크롬산(5-), 삼수소 이나트륨
+kr_eco_toxic	88-85-7		디노셉
+kr_eco_toxic	89697-78-9		폴리헥사메틸렌구아니딘의 인산염 및 염산염; 피에치엠지(PHMG) 인산염 및 염산염
+kr_eco_toxic	89784-60-1		피라클로포스
+kr_eco_toxic	90-30-2		N-페닐-1-나프탈렌아민
+kr_eco_toxic	90-43-7		o-페닐페놀
+kr_eco_toxic	900-95-8		아세트산 트리페닐주석; 트리페닐틴 아세테이트
+kr_eco_toxic	90035-08-8		플로쿠마펜
+kr_eco_toxic	9016-45-9		α-(노닐페닐)-ω-하이드로옥시폴리(옥시-1,2-에탄디일)
+kr_eco_toxic	90481-04-2		노닐페놀류
+kr_eco_toxic	90640-84-9		크레오소트 오일 아세나프텐
+kr_eco_toxic	91-20-3		나프탈렌
+kr_eco_toxic	91-59-8		2-나프틸아민과 그 염산염
+kr_eco_toxic	91-97-4		4,4'-디이소시아나토-3,3'-디메틸-1,1'-비페닐
+kr_eco_toxic	91031-62-8		지방산(C=16~18) 납
+kr_eco_toxic	91782-60-4		코발트, 붕산 2-에틸헥산산 착화합물
+kr_eco_toxic	91782-61-5		코발트, 붕산 프로피온산 착화합물
+kr_eco_toxic	91788-83-9		1,2,3,4-부탄테트라카르복실산 테트라키스(1,2,2,6,6-펜타메틸-4-피페리딘일
+kr_eco_toxic	91995-81-2	2026-12-19	(C=10~20) 및 (C=16~18)-불포화 지방산, 트리에탄올아민과 디메틸 황산의 반응생성물(4차)
+kr_eco_toxic	92-52-4		1,1'-비페닐
+kr_eco_toxic	921213-47-0		4,4'-[2,2,2-트리플루오로-1-(트리플루오로메틸)에틸리덴]비스페놀과 벤젠, 염소, 염화 황의 반응생성물
+kr_eco_toxic	922519-17-3		S-[3-(트리에톡시실일)프로필] 옥탄티오에이트와 2-메틸-1,3-프로판디올, 3-(트리에톡시실일)-1-프로판티올의 반응생성물
+kr_eco_toxic	93-76-5		2,4,5-티
+kr_eco_toxic	93705-66-9		2,2'-[메틸렌비스[(2,6-디메틸-4,1-페닐렌)옥시메틸렌]]비스옥시란
+kr_eco_toxic	93821-12-6		가지형 및 선형 (C=10∼14) 알켄
+kr_eco_toxic	94-36-0		과산화 벤조일; 벤조일 퍼옥사이드
+kr_eco_toxic	944-22-9		포노포스
+kr_eco_toxic	95-31-8		N-tert-부틸벤조티아졸-2-설펜아미드
+kr_eco_toxic	95-33-0		N-사이클로헥실-2-벤조티아졸설펜아미드
+kr_eco_toxic	95-46-5		1-브로모-2-메틸벤젠
+kr_eco_toxic	95-50-1		1,2-디클로로벤젠
+kr_eco_toxic	95-51-2		2-클로로아닐린
+kr_eco_toxic	95-53-4		o-톨루이딘
+kr_eco_toxic	950-37-8		메티다티온
+kr_eco_toxic	951627-45-5		메탄술폰산 O-메틸하이드록실아민 (1:1)
+kr_eco_toxic	953-17-3		메틸 트리티온
+kr_eco_toxic	95465-99-9		카두사포스
+kr_eco_toxic	95718-78-8		퍼옥시네오데칸산 3-히드록시-1,1-디메틸부틸
+kr_eco_toxic	95962-14-4		2-[2-(4-메틸-3-시클로헥센-1-일)프로필]시클로펜탄온
+kr_eco_toxic	96-05-9		메타아크릴산 알릴; 알릴 메타아크릴레이트
+kr_eco_toxic	96-34-4		클로로아세트산 메틸
+kr_eco_toxic	96-76-4		2,4-비스(1,1-디메틸에틸)페놀
+kr_eco_toxic	96182-53-5		테부피림포스
+kr_eco_toxic	96489-71-3		피리다벤
+kr_eco_toxic	96491-05-3		테닐클로르
+kr_eco_toxic	96526-35-1		브롬화 N,N-디메틸-N-[2-[(2-메틸-1-옥소-2-프로펜-1-일)옥시]에틸]-1-도데칸아미늄 (1:1)
+kr_eco_toxic	97-17-6		디클로펜티온
+kr_eco_toxic	97-77-8		디설피람
+kr_eco_toxic	971-66-4		피리딘-트리페닐보란(1/1)
+kr_eco_toxic	973-21-7		디노브톤
+kr_eco_toxic	97659-53-5		N-알킬(C=8~22) 폴리트리메틸렌폴리아민, 카르복시메틸 유도체, 나트륨염
+kr_eco_toxic	97886-45-8		디티오피르
+kr_eco_toxic	98-54-4		p-tert-부틸페놀
+kr_eco_toxic	98485-71-3		이황화 비스(2,3-에피티오프로필)
+kr_eco_toxic	98886-44-3		포스티아제이트
+kr_eco_toxic	98969-19-8		2-메틸펜틸 2-히드록시벤조산
+kr_managed_hazardous	100-00-5		
+kr_managed_hazardous	100-01-6		
+kr_managed_hazardous	100-37-8		
+kr_managed_hazardous	100-41-4		
+kr_managed_hazardous	100-42-5		
+kr_managed_hazardous	10028-15-6		
+kr_managed_hazardous	10035-10-6		
+kr_managed_hazardous	10102-43-9		
+kr_managed_hazardous	10102-44-0		
+kr_managed_hazardous	106-89-8		
+kr_managed_hazardous	106-92-3		
+kr_managed_hazardous	106-94-5		
+kr_managed_hazardous	106-99-0		
+kr_managed_hazardous	107-06-2		
+kr_managed_hazardous	107-07-3		
+kr_managed_hazardous	107-13-1		
+kr_managed_hazardous	107-21-1		
+kr_managed_hazardous	108-05-4		
+kr_managed_hazardous	108-10-1		
+kr_managed_hazardous	108-21-4		
+kr_managed_hazardous	108-24-7		
+kr_managed_hazardous	108-31-6		
+kr_managed_hazardous	108-83-8		
+kr_managed_hazardous	108-88-3		
+kr_managed_hazardous	108-90-7		
+kr_managed_hazardous	108-91-8		
+kr_managed_hazardous	108-93-0		
+kr_managed_hazardous	108-94-1		
+kr_managed_hazardous	108-95-2		
+kr_managed_hazardous	109-60-4		
+kr_managed_hazardous	109-86-4		
+kr_managed_hazardous	109-89-7		
+kr_managed_hazardous	109-99-9		
+kr_managed_hazardous	110-19-0		
+kr_managed_hazardous	110-43-0		
+kr_managed_hazardous	110-49-6		
+kr_managed_hazardous	110-54-3		
+kr_managed_hazardous	110-80-5		
+kr_managed_hazardous	110-82-7		
+kr_managed_hazardous	110-83-8		
+kr_managed_hazardous	110-86-1		
+kr_managed_hazardous	111-15-9		
+kr_managed_hazardous	111-30-8		
+kr_managed_hazardous	111-40-0		
+kr_managed_hazardous	111-42-2		
+kr_managed_hazardous	111-76-2		
+kr_managed_hazardous	112-07-2		
+kr_managed_hazardous	117-81-7		
+kr_managed_hazardous	121-44-8		
+kr_managed_hazardous	121-69-7		
+kr_managed_hazardous	122-60-1		
+kr_managed_hazardous	123-31-9		
+kr_managed_hazardous	123-51-3		
+kr_managed_hazardous	123-86-4		
+kr_managed_hazardous	123-91-1		
+kr_managed_hazardous	123-92-2		
+kr_managed_hazardous	124-40-3		
+kr_managed_hazardous	126-99-8		
+kr_managed_hazardous	127-18-4		
+kr_managed_hazardous	127-19-5		
+kr_managed_hazardous	1303-86-2		
+kr_managed_hazardous	1309-48-4		
+kr_managed_hazardous	1310-58-3		
+kr_managed_hazardous	1310-73-2		
+kr_managed_hazardous	1314-62-1		
+kr_managed_hazardous	1319-77-3		
+kr_managed_hazardous	1330-20-7		
+kr_managed_hazardous	1330-43-4		
+kr_managed_hazardous	13463-67-7		
+kr_managed_hazardous	140-88-5		
+kr_managed_hazardous	141-43-5		
+kr_managed_hazardous	141-78-6		
+kr_managed_hazardous	142-82-5		
+kr_managed_hazardous	143-33-9		
+kr_managed_hazardous	151-50-8		
+kr_managed_hazardous	151-56-4		
+kr_managed_hazardous	1717-00-6		
+kr_managed_hazardous	25321-14-6		
+kr_managed_hazardous	25639-42-3		
+kr_managed_hazardous	302-01-2		
+kr_managed_hazardous	50-00-0		
+kr_managed_hazardous	50-32-8		
+kr_managed_hazardous	540-59-0		
+kr_managed_hazardous	55-63-0		
+kr_managed_hazardous	556-52-5		
+kr_managed_hazardous	56-23-5		
+kr_managed_hazardous	583-60-8		
+kr_managed_hazardous	584-84-9		
+kr_managed_hazardous	591-78-6		
+kr_managed_hazardous	592-01-8		
+kr_managed_hazardous	60-29-7		
+kr_managed_hazardous	62-53-3		
+kr_managed_hazardous	628-96-6		
+kr_managed_hazardous	630-08-0		
+kr_managed_hazardous	64-18-6		
+kr_managed_hazardous	64-19-7		
+kr_managed_hazardous	67-56-1		
+kr_managed_hazardous	67-63-0		
+kr_managed_hazardous	67-64-1		
+kr_managed_hazardous	67-66-3		
+kr_managed_hazardous	68-12-2		
+kr_managed_hazardous	71-36-3		
+kr_managed_hazardous	71-43-2		
+kr_managed_hazardous	71-55-6		
+kr_managed_hazardous	74-83-9		
+kr_managed_hazardous	74-87-3		
+kr_managed_hazardous	74-88-4		
+kr_managed_hazardous	74-89-5		
+kr_managed_hazardous	74-90-8		
+kr_managed_hazardous	7429-90-5		
+kr_managed_hazardous	7439-89-6		
+kr_managed_hazardous	7439-92-1		
+kr_managed_hazardous	7439-96-5		
+kr_managed_hazardous	7439-97-6		
+kr_managed_hazardous	7440-02-0		
+kr_managed_hazardous	7440-06-4		
+kr_managed_hazardous	7440-22-4		
+kr_managed_hazardous	7440-31-5		
+kr_managed_hazardous	7440-33-7		
+kr_managed_hazardous	7440-36-0		
+kr_managed_hazardous	7440-39-3		
+kr_managed_hazardous	7440-43-9		
+kr_managed_hazardous	7440-47-3		
+kr_managed_hazardous	7440-48-4		
+kr_managed_hazardous	7440-50-8		
+kr_managed_hazardous	7440-66-6		
+kr_managed_hazardous	7440-67-7		
+kr_managed_hazardous	7440-74-6		
+kr_managed_hazardous	7446-09-5		
+kr_managed_hazardous	75-04-7		
+kr_managed_hazardous	75-05-8		
+kr_managed_hazardous	75-07-0		
+kr_managed_hazardous	75-09-2		
+kr_managed_hazardous	75-12-7		
+kr_managed_hazardous	75-15-0		
+kr_managed_hazardous	75-21-8		
+kr_managed_hazardous	75-26-3		
+kr_managed_hazardous	75-43-4		
+kr_managed_hazardous	75-44-5		
+kr_managed_hazardous	75-52-5		
+kr_managed_hazardous	75-55-8		
+kr_managed_hazardous	75-56-9		
+kr_managed_hazardous	7553-56-2		
+kr_managed_hazardous	76-03-9		
+kr_managed_hazardous	7647-01-0		
+kr_managed_hazardous	7664-38-2		
+kr_managed_hazardous	7664-39-3		
+kr_managed_hazardous	7664-41-7		
+kr_managed_hazardous	7664-93-9		
+kr_managed_hazardous	7697-37-2		
+kr_managed_hazardous	77-78-1		
+kr_managed_hazardous	7722-84-1		
+kr_managed_hazardous	7726-95-6		
+kr_managed_hazardous	7782-41-4		
+kr_managed_hazardous	7782-49-2		
+kr_managed_hazardous	7782-50-5		
+kr_managed_hazardous	7783-06-4		
+kr_managed_hazardous	7784-42-1		
+kr_managed_hazardous	78-83-1		
+kr_managed_hazardous	78-87-5		
+kr_managed_hazardous	78-92-2		
+kr_managed_hazardous	78-93-3		
+kr_managed_hazardous	7803-51-2		
+kr_managed_hazardous	79-00-5		
+kr_managed_hazardous	79-01-6		
+kr_managed_hazardous	79-06-1		
+kr_managed_hazardous	79-10-7		
+kr_managed_hazardous	79-20-9		
+kr_managed_hazardous	79-34-5		
+kr_managed_hazardous	8032-32-4		
+kr_managed_hazardous	8052-41-3		
+kr_managed_hazardous	81-81-2		
+kr_managed_hazardous	822-06-0		
+kr_managed_hazardous	84-74-2		
+kr_managed_hazardous	85-44-9		
+kr_managed_hazardous	88-72-2		
+kr_managed_hazardous	91-08-7		
+kr_managed_hazardous	95-50-1		
+kr_managed_hazardous	96-18-4		
+kr_managed_hazardous	98-95-3		
+kr_prohibited	101007-06-1		
+kr_prohibited	10102-45-1		
+kr_prohibited	10265-92-6		
+kr_prohibited	10311-84-9		
+kr_prohibited	10476-82-1		
+kr_prohibited	10476-87-6		
+kr_prohibited	106-93-4		
+kr_prohibited	111-44-4		
+kr_prohibited	115-29-7		
+kr_prohibited	116-06-3		
+kr_prohibited	12001-28-4		
+kr_prohibited	12001-29-5		
+kr_prohibited	12172-73-5		
+kr_prohibited	126-72-7		
+kr_prohibited	1303-28-2		
+kr_prohibited	131-52-2		
+kr_prohibited	13171-21-6		
+kr_prohibited	1323-31-5		
+kr_prohibited	133-06-2		
+kr_prohibited	1336-36-3		
+kr_prohibited	134098-61-6		
+kr_prohibited	1421-86-9		
+kr_prohibited	14414-68-7		
+kr_prohibited	14807-96-6		
+kr_prohibited	1582-09-8		
+kr_prohibited	1836-75-5		
+kr_prohibited	1910-42-5		
+kr_prohibited	19750-95-9		
+kr_prohibited	2074-50-2		
+kr_prohibited	20859-73-8		
+kr_prohibited	2113-61-3		
+kr_prohibited	21136-70-9		
+kr_prohibited	21609-90-5		
+kr_prohibited	2425-06-1		
+kr_prohibited	2917-31-9		
+kr_prohibited	2917-32-0		
+kr_prohibited	297-78-9		
+kr_prohibited	298-00-0		
+kr_prohibited	298-04-4		
+kr_prohibited	309-00-2		
+kr_prohibited	32534-81-9		
+kr_prohibited	32536-52-0		
+kr_prohibited	3644-38-0		
+kr_prohibited	50-29-3		
+kr_prohibited	509-42-2		
+kr_prohibited	510-15-6		
+kr_prohibited	531-85-1		
+kr_prohibited	531-86-2		
+kr_prohibited	53558-25-1		
+kr_prohibited	542-88-1		
+kr_prohibited	56-38-2		
+kr_prohibited	563-68-8		
+kr_prohibited	57-24-9		
+kr_prohibited	57-74-9		
+kr_prohibited	59536-65-1		
+kr_prohibited	60-41-3		
+kr_prohibited	60-51-5		
+kr_prohibited	60-57-1		
+kr_prohibited	60491-10-3		
+kr_prohibited	608-73-1		
+kr_prohibited	612-52-2		
+kr_prohibited	6164-98-3		
+kr_prohibited	62-38-4		
+kr_prohibited	640-19-7		
+kr_prohibited	6923-22-4		
+kr_prohibited	72-20-8		
+kr_prohibited	7446-18-6		
+kr_prohibited	76-06-2		
+kr_prohibited	76-44-8		
+kr_prohibited	77536-66-4		
+kr_prohibited	77536-67-5		
+kr_prohibited	77536-68-6		
+kr_prohibited	7778-73-6		
+kr_prohibited	7784-40-9		
+kr_prohibited	79622-59-6		
+kr_prohibited	8001-35-2		
+kr_prohibited	86-88-4		
+kr_prohibited	87-86-5		
+kr_prohibited	89784-60-1		
+kr_prohibited	91-59-8		
+kr_prohibited	92-67-1		
+kr_prohibited	92-87-5		
+kr_prohibited	93-76-5		
+kr_prohibited	96-12-8		
+kr_restricted	10034-82-9		
+kr_restricted	10099-74-8		
+kr_restricted	101-14-4		
+kr_restricted	10294-40-3		
+kr_restricted	10294-52-7		
+kr_restricted	10309-95-2		
+kr_restricted	104-40-5		
+kr_restricted	10588-01-9		
+kr_restricted	1067-97-6		
+kr_restricted	1072-35-1		
+kr_restricted	11066-49-2		
+kr_restricted	11103-86-9		
+kr_restricted	11119-70-3		
+kr_restricted	12065-90-6		
+kr_restricted	12141-20-7		
+kr_restricted	12202-17-4		
+kr_restricted	12433-50-0		
+kr_restricted	12578-12-0		
+kr_restricted	12656-85-8		
+kr_restricted	127-18-4		
+kr_restricted	127087-87-0		
+kr_restricted	1314-41-6		
+kr_restricted	1317-36-8		
+kr_restricted	1333-82-0		
+kr_restricted	1335-32-6		
+kr_restricted	13423-61-5		
+kr_restricted	13424-46-9		
+kr_restricted	1344-37-2		
+kr_restricted	13446-73-6		
+kr_restricted	13453-35-5		
+kr_restricted	13454-78-9		
+kr_restricted	13455-25-9		
+kr_restricted	13473-75-1		
+kr_restricted	13530-65-9		
+kr_restricted	13530-68-2		
+kr_restricted	13548-42-0		
+kr_restricted	136-83-4		
+kr_restricted	13765-19-0		
+kr_restricted	13814-96-5		
+kr_restricted	139-84-4		
+kr_restricted	14018-95-2		
+kr_restricted	14307-33-6		
+kr_restricted	14307-35-8		
+kr_restricted	1461-22-9		
+kr_restricted	14721-18-7		
+kr_restricted	14977-61-8		
+kr_restricted	15245-44-0		
+kr_restricted	15586-38-6		
+kr_restricted	16037-50-6		
+kr_restricted	1624-02-8		
+kr_restricted	18015-76-4		
+kr_restricted	18454-12-1		
+kr_restricted	18540-29-9		
+kr_restricted	1983-10-4		
+kr_restricted	20039-37-6		
+kr_restricted	2155-70-6		
+kr_restricted	2437-29-8		
+kr_restricted	24613-89-6		
+kr_restricted	25154-52-3		
+kr_restricted	26027-38-3		
+kr_restricted	27177-05-5		
+kr_restricted	301-04-2		
+kr_restricted	301-08-6		
+kr_restricted	3090-36-6		
+kr_restricted	31732-71-5		
+kr_restricted	34493-01-1		
+kr_restricted	37205-87-1		
+kr_restricted	37300-23-5		
+kr_restricted	4027-18-3		
+kr_restricted	41189-36-0		
+kr_restricted	4342-30-7		
+kr_restricted	4782-29-0		
+kr_restricted	49663-84-5		
+kr_restricted	50-00-0		
+kr_restricted	52732-72-6		
+kr_restricted	56-23-5		
+kr_restricted	56-35-9		
+kr_restricted	569-64-2		
+kr_restricted	61725-50-6		
+kr_restricted	67772-01-4		
+kr_restricted	68083-41-0		
+kr_restricted	68412-53-3		
+kr_restricted	68412-54-4		
+kr_restricted	688-73-3		
+kr_restricted	74-83-9		
+kr_restricted	7439-92-1		
+kr_restricted	7440-43-9		
+kr_restricted	75-09-2		
+kr_restricted	7738-94-5		
+kr_restricted	7758-97-6		
+kr_restricted	7775-11-3		
+kr_restricted	7778-50-9		
+kr_restricted	7784-01-2		
+kr_restricted	7784-02-3		
+kr_restricted	7788-98-9		
+kr_restricted	7789-00-6		
+kr_restricted	7789-01-7		
+kr_restricted	7789-06-2		
+kr_restricted	7789-09-5		
+kr_restricted	7789-10-8		
+kr_restricted	7789-12-0		
+kr_restricted	79-01-6		
+kr_restricted	79-06-1		
+kr_restricted	84852-15-3		
+kr_restricted	9016-45-9		
+kr_restricted	90481-04-2		
+kr_restricted	91031-62-8		
+kr_special_health_exam	100-00-5		
+kr_special_health_exam	100-01-6		
+kr_special_health_exam	100-41-4		
+kr_special_health_exam	100-42-5		
+kr_special_health_exam	10028-15-6		
+kr_special_health_exam	101-14-4		
+kr_special_health_exam	101-68-8		
+kr_special_health_exam	10102-43-9		
+kr_special_health_exam	10102-44-0		
+kr_special_health_exam	106-89-8		
+kr_special_health_exam	106-94-5		
+kr_special_health_exam	106-99-0		
+kr_special_health_exam	107-06-2		
+kr_special_health_exam	107-07-3		
+kr_special_health_exam	107-13-1		
+kr_special_health_exam	107-21-1		
+kr_special_health_exam	107-30-2		
+kr_special_health_exam	108-10-1		
+kr_special_health_exam	108-24-7		
+kr_special_health_exam	108-31-6		
+kr_special_health_exam	108-83-8		
+kr_special_health_exam	108-88-3		
+kr_special_health_exam	108-90-7		
+kr_special_health_exam	108-93-0		
+kr_special_health_exam	108-94-1		
+kr_special_health_exam	108-95-2		
+kr_special_health_exam	109-86-4		
+kr_special_health_exam	109-99-9		
+kr_special_health_exam	110-43-0		
+kr_special_health_exam	110-49-6		
+kr_special_health_exam	110-54-3		
+kr_special_health_exam	110-80-5		
+kr_special_health_exam	110-82-7		
+kr_special_health_exam	110-83-8		
+kr_special_health_exam	110-86-1		
+kr_special_health_exam	11097-69-1		
+kr_special_health_exam	111-15-9		
+kr_special_health_exam	111-30-8		
+kr_special_health_exam	111-40-0		
+kr_special_health_exam	111-76-2		
+kr_special_health_exam	112-07-2		
+kr_special_health_exam	119-90-4		
+kr_special_health_exam	119-93-7		
+kr_special_health_exam	12035-72-2		
+kr_special_health_exam	121-69-7		
+kr_special_health_exam	123-31-9		
+kr_special_health_exam	123-51-3		
+kr_special_health_exam	123-91-1		
+kr_special_health_exam	123-92-2		
+kr_special_health_exam	127-18-4		
+kr_special_health_exam	127-19-5		
+kr_special_health_exam	1309-37-1		
+kr_special_health_exam	1314-13-2		
+kr_special_health_exam	1314-62-1		
+kr_special_health_exam	1319-77-3		
+kr_special_health_exam	1327-53-3		
+kr_special_health_exam	1330-20-7		
+kr_special_health_exam	1332-21-4		
+kr_special_health_exam	134-32-7		
+kr_special_health_exam	13463-39-3		
+kr_special_health_exam	13530-65-9		
+kr_special_health_exam	140-88-5		
+kr_special_health_exam	142-82-5		
+kr_special_health_exam	143-33-9		
+kr_special_health_exam	151-50-8		
+kr_special_health_exam	151-56-4		
+kr_special_health_exam	16812-54-7		
+kr_special_health_exam	25321-14-6		
+kr_special_health_exam	25639-42-3		
+kr_special_health_exam	302-01-2		
+kr_special_health_exam	492-80-8		
+kr_special_health_exam	50-00-0		
+kr_special_health_exam	53469-21-9		
+kr_special_health_exam	540-59-0		
+kr_special_health_exam	542-88-1		
+kr_special_health_exam	55-63-0		
+kr_special_health_exam	556-52-5		
+kr_special_health_exam	56-23-5		
+kr_special_health_exam	569-61-9		
+kr_special_health_exam	57-57-8		
+kr_special_health_exam	583-60-8		
+kr_special_health_exam	584-84-9		
+kr_special_health_exam	591-78-6		
+kr_special_health_exam	60-11-7		
+kr_special_health_exam	60-29-7		
+kr_special_health_exam	62-53-3		
+kr_special_health_exam	628-96-6		
+kr_special_health_exam	630-08-0		
+kr_special_health_exam	65996-93-2		
+kr_special_health_exam	67-56-1		
+kr_special_health_exam	67-63-0		
+kr_special_health_exam	67-64-1		
+kr_special_health_exam	67-66-3		
+kr_special_health_exam	68-12-2		
+kr_special_health_exam	71-36-3		
+kr_special_health_exam	71-43-2		
+kr_special_health_exam	71-55-6		
+kr_special_health_exam	74-83-9		
+kr_special_health_exam	74-87-3		
+kr_special_health_exam	74-88-4		
+kr_special_health_exam	74-90-8		
+kr_special_health_exam	7429-90-5		
+kr_special_health_exam	7439-92-1		
+kr_special_health_exam	7439-96-5		
+kr_special_health_exam	7439-97-6		
+kr_special_health_exam	7440-02-0		
+kr_special_health_exam	7440-31-5		
+kr_special_health_exam	7440-33-7		
+kr_special_health_exam	7440-36-0		
+kr_special_health_exam	7440-38-2		
+kr_special_health_exam	7440-41-7		
+kr_special_health_exam	7440-43-9		
+kr_special_health_exam	7440-47-3		
+kr_special_health_exam	7440-48-4		
+kr_special_health_exam	7440-50-8		
+kr_special_health_exam	7440-67-7		
+kr_special_health_exam	7440-74-6		
+kr_special_health_exam	7446-09-5		
+kr_special_health_exam	75-01-4		
+kr_special_health_exam	75-05-8		
+kr_special_health_exam	75-07-0		
+kr_special_health_exam	75-09-2		
+kr_special_health_exam	75-15-0		
+kr_special_health_exam	75-21-8		
+kr_special_health_exam	75-26-3		
+kr_special_health_exam	75-43-4		
+kr_special_health_exam	75-44-5		
+kr_special_health_exam	75-52-5		
+kr_special_health_exam	7553-56-2		
+kr_special_health_exam	76-03-9		
+kr_special_health_exam	7647-01-0		
+kr_special_health_exam	7664-39-3		
+kr_special_health_exam	7664-93-9		
+kr_special_health_exam	7697-37-2		
+kr_special_health_exam	77-78-1		
+kr_special_health_exam	7726-95-6		
+kr_special_health_exam	7782-41-4		
+kr_special_health_exam	7782-50-5		
+kr_special_health_exam	7783-06-4		
+kr_special_health_exam	7784-42-1		
+kr_special_health_exam	78-00-2		
+kr_special_health_exam	78-83-1		
+kr_special_health_exam	78-87-5		
+kr_special_health_exam	78-92-2		
+kr_special_health_exam	78-93-3		
+kr_special_health_exam	7803-51-2		
+kr_special_health_exam	79-00-5		
+kr_special_health_exam	79-01-6		
+kr_special_health_exam	79-06-1		
+kr_special_health_exam	79-34-5		
+kr_special_health_exam	8006-61-9		
+kr_special_health_exam	8006-64-2		
+kr_special_health_exam	8007-45-2		
+kr_special_health_exam	8052-41-3		
+kr_special_health_exam	822-06-0		
+kr_special_health_exam	85-44-9		
+kr_special_health_exam	87-86-5		
+kr_special_health_exam	91-08-7		
+kr_special_health_exam	91-15-6		
+kr_special_health_exam	91-59-8		
+kr_special_health_exam	91-94-1		
+kr_special_health_exam	92-87-5		
+kr_special_health_exam	95-50-1		
+kr_special_health_exam	96-18-4		
+kr_special_health_exam	98-07-7		
+kr_special_health_exam	98-95-3		
+kr_work_env_measurement	100-00-5		
+kr_work_env_measurement	100-01-6		
+kr_work_env_measurement	100-37-8		
+kr_work_env_measurement	100-41-4		
+kr_work_env_measurement	100-42-5		
+kr_work_env_measurement	10028-15-6		
+kr_work_env_measurement	10035-10-6		
+kr_work_env_measurement	101-68-8		
+kr_work_env_measurement	10102-43-9		
+kr_work_env_measurement	10102-44-0		
+kr_work_env_measurement	106-89-8		
+kr_work_env_measurement	106-92-3		
+kr_work_env_measurement	106-94-5		
+kr_work_env_measurement	106-99-0		
+kr_work_env_measurement	107-06-2		
+kr_work_env_measurement	107-07-3		
+kr_work_env_measurement	107-13-1		
+kr_work_env_measurement	107-21-1		
+kr_work_env_measurement	108-05-4		
+kr_work_env_measurement	108-10-1		
+kr_work_env_measurement	108-21-4		
+kr_work_env_measurement	108-24-7		
+kr_work_env_measurement	108-31-6		
+kr_work_env_measurement	108-83-8		
+kr_work_env_measurement	108-88-3		
+kr_work_env_measurement	108-90-7		
+kr_work_env_measurement	108-93-0		
+kr_work_env_measurement	108-94-1		
+kr_work_env_measurement	108-95-2		
+kr_work_env_measurement	109-60-4		
+kr_work_env_measurement	109-86-4		
+kr_work_env_measurement	109-89-7		
+kr_work_env_measurement	109-99-9		
+kr_work_env_measurement	110-19-0		
+kr_work_env_measurement	110-43-0		
+kr_work_env_measurement	110-49-6		
+kr_work_env_measurement	110-54-3		
+kr_work_env_measurement	110-80-5		
+kr_work_env_measurement	110-82-7		
+kr_work_env_measurement	110-83-8		
+kr_work_env_measurement	110-86-1		
+kr_work_env_measurement	111-15-9		
+kr_work_env_measurement	111-30-8		
+kr_work_env_measurement	111-40-0		
+kr_work_env_measurement	111-42-2		
+kr_work_env_measurement	111-76-2		
+kr_work_env_measurement	112-07-2		
+kr_work_env_measurement	119-90-4		
+kr_work_env_measurement	119-93-7		
+kr_work_env_measurement	12001-26-2		
+kr_work_env_measurement	12035-72-2		
+kr_work_env_measurement	121-44-8		
+kr_work_env_measurement	121-69-7		
+kr_work_env_measurement	123-31-9		
+kr_work_env_measurement	123-51-3		
+kr_work_env_measurement	123-86-4		
+kr_work_env_measurement	123-91-1		
+kr_work_env_measurement	123-92-2		
+kr_work_env_measurement	124-40-3		
+kr_work_env_measurement	127-18-4		
+kr_work_env_measurement	127-19-5		
+kr_work_env_measurement	1309-37-1		
+kr_work_env_measurement	1309-48-4		
+kr_work_env_measurement	1310-58-3		
+kr_work_env_measurement	1310-73-2		
+kr_work_env_measurement	1314-13-2		
+kr_work_env_measurement	1314-62-1		
+kr_work_env_measurement	1319-77-3		
+kr_work_env_measurement	1330-20-7		
+kr_work_env_measurement	1332-21-4		
+kr_work_env_measurement	134-32-7		
+kr_work_env_measurement	13463-39-3		
+kr_work_env_measurement	13463-67-7		
+kr_work_env_measurement	13530-65-9		
+kr_work_env_measurement	140-88-5		
+kr_work_env_measurement	141-43-5		
+kr_work_env_measurement	141-78-6		
+kr_work_env_measurement	142-82-5		
+kr_work_env_measurement	143-33-9		
+kr_work_env_measurement	14464-46-1		
+kr_work_env_measurement	14807-96-6		
+kr_work_env_measurement	14808-60-7		
+kr_work_env_measurement	151-50-8		
+kr_work_env_measurement	151-56-4		
+kr_work_env_measurement	15468-32-3		
+kr_work_env_measurement	16812-54-7		
+kr_work_env_measurement	1717-00-6		
+kr_work_env_measurement	25321-14-6		
+kr_work_env_measurement	25639-42-3		
+kr_work_env_measurement	302-01-2		
+kr_work_env_measurement	50-00-0		
+kr_work_env_measurement	540-59-0		
+kr_work_env_measurement	55-63-0		
+kr_work_env_measurement	556-52-5		
+kr_work_env_measurement	56-23-5		
+kr_work_env_measurement	583-60-8		
+kr_work_env_measurement	584-84-9		
+kr_work_env_measurement	591-78-6		
+kr_work_env_measurement	592-01-8		
+kr_work_env_measurement	60-29-7		
+kr_work_env_measurement	62-53-3		
+kr_work_env_measurement	628-96-6		
+kr_work_env_measurement	630-08-0		
+kr_work_env_measurement	64-18-6		
+kr_work_env_measurement	64-19-7		
+kr_work_env_measurement	65996-93-2		
+kr_work_env_measurement	65997-15-1		
+kr_work_env_measurement	67-56-1		
+kr_work_env_measurement	67-63-0		
+kr_work_env_measurement	67-64-1		
+kr_work_env_measurement	67-66-3		
+kr_work_env_measurement	68-12-2		
+kr_work_env_measurement	71-36-3		
+kr_work_env_measurement	71-43-2		
+kr_work_env_measurement	71-55-6		
+kr_work_env_measurement	74-83-9		
+kr_work_env_measurement	74-87-3		
+kr_work_env_measurement	74-88-4		
+kr_work_env_measurement	74-89-5		
+kr_work_env_measurement	74-90-8		
+kr_work_env_measurement	7429-90-5		
+kr_work_env_measurement	7439-92-1		
+kr_work_env_measurement	7439-96-5		
+kr_work_env_measurement	7439-97-6		
+kr_work_env_measurement	7440-02-0		
+kr_work_env_measurement	7440-06-4		
+kr_work_env_measurement	7440-22-4		
+kr_work_env_measurement	7440-31-5		
+kr_work_env_measurement	7440-33-7		
+kr_work_env_measurement	7440-36-0		
+kr_work_env_measurement	7440-38-2		
+kr_work_env_measurement	7440-39-3		
+kr_work_env_measurement	7440-41-7		
+kr_work_env_measurement	7440-43-9		
+kr_work_env_measurement	7440-47-3		
+kr_work_env_measurement	7440-48-4		
+kr_work_env_measurement	7440-50-8		
+kr_work_env_measurement	7440-67-7		
+kr_work_env_measurement	7440-74-6		
+kr_work_env_measurement	7446-09-5		
+kr_work_env_measurement	75-01-4		
+kr_work_env_measurement	75-04-7		
+kr_work_env_measurement	75-05-8		
+kr_work_env_measurement	75-07-0		
+kr_work_env_measurement	75-09-2		
+kr_work_env_measurement	75-15-0		
+kr_work_env_measurement	75-21-8		
+kr_work_env_measurement	75-26-3		
+kr_work_env_measurement	75-43-4		
+kr_work_env_measurement	75-44-5		
+kr_work_env_measurement	75-52-5		
+kr_work_env_measurement	75-55-8		
+kr_work_env_measurement	75-56-9		
+kr_work_env_measurement	7553-56-2		
+kr_work_env_measurement	76-03-9		
+kr_work_env_measurement	7647-01-0		
+kr_work_env_measurement	7664-38-2		
+kr_work_env_measurement	7664-39-3		
+kr_work_env_measurement	7664-41-7		
+kr_work_env_measurement	7664-93-9		
+kr_work_env_measurement	7697-37-2		
+kr_work_env_measurement	77-78-1		
+kr_work_env_measurement	7722-84-1		
+kr_work_env_measurement	7726-95-6		
+kr_work_env_measurement	7782-41-4		
+kr_work_env_measurement	7782-42-5		
+kr_work_env_measurement	7782-49-2		
+kr_work_env_measurement	7782-50-5		
+kr_work_env_measurement	7783-06-4		
+kr_work_env_measurement	7784-42-1		
+kr_work_env_measurement	78-83-1		
+kr_work_env_measurement	78-87-5		
+kr_work_env_measurement	78-92-2		
+kr_work_env_measurement	78-93-3		
+kr_work_env_measurement	7803-51-2		
+kr_work_env_measurement	79-00-5		
+kr_work_env_measurement	79-01-6		
+kr_work_env_measurement	79-06-1		
+kr_work_env_measurement	79-10-7		
+kr_work_env_measurement	79-20-9		
+kr_work_env_measurement	79-34-5		
+kr_work_env_measurement	8052-41-3		
+kr_work_env_measurement	822-06-0		
+kr_work_env_measurement	85-44-9		
+kr_work_env_measurement	87-86-5		
+kr_work_env_measurement	91-08-7		
+kr_work_env_measurement	91-94-1		
+kr_work_env_measurement	95-50-1		
+kr_work_env_measurement	96-18-4		
+kr_work_env_measurement	98-07-7		
+kr_work_env_measurement	98-95-3		

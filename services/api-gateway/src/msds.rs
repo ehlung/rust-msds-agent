@@ -23,7 +23,7 @@ use pekko_agent_msds::checks;
 use pekko_agent_msds::message::{JobCreated, JobStatus, JobStatusChanged};
 use pekko_agent_msds::result::{MsdsResult, SCHEMA};
 use pekko_agent_msds::{topics, Envelope};
-use pekko_agent_msds_format::{pre_survey, table::UTF8_BOM, Approval, NotChecked};
+use pekko_agent_msds_format::{pre_survey, table::UTF8_BOM, Approval, KrLists};
 use pekko_agent_msds_io::job_store::{status_str, JobRow, UsageSummary};
 use pekko_agent_msds_io::storage::job_pdf_key;
 use pekko_agent_msds_io::{Bus, JobStore, LocalStorage};
@@ -322,7 +322,7 @@ fn file_type(path: &str) -> Option<&'static str> {
 
 /// GET /api/msds/jobs/:job_id/export/pre-survey.csv — 사전조사서(성분 하나가 한 행, 엑셀용 BOM이 붙은 UTF-8 CSV).
 /// 게시와 같이 최신 버전이 아니라 확인완료한 버전으로 만든다. 확인완료 전이면 409.
-/// 국내 법규 해당 여부는 공식 목록을 붙이기 전이라 "미대조"로 나간다.
+/// 국내 법규 해당 여부는 저장소에 넣어 둔 공식 목록(`KrLists`)과 CAS로 대조한다. 시행일은 한국 날짜라 오늘(KST) 기준으로 본다.
 async fn export_pre_survey(auth: AuthUser, State(state): State<AppState>, Path(job_id): Path<Uuid>) -> Result<Response, ApiError> {
     require_permission(&state, &auth.0, PERMISSION).await?;
     let api = api(&state)?;
@@ -333,7 +333,8 @@ async fn export_pre_survey(auth: AuthUser, State(state): State<AppState>, Path(j
     let value = api.store.result_version(job_id, version).await.map_err(db_error)?.ok_or_else(|| not_found(format!("작업 {job_id}의 결과 버전 {version}이 없음")))?;
     let result: MsdsResult = serde_json::from_value(value).map_err(|e| crate::internal_error(format!("저장된 결과를 읽지 못함: {e}")))?;
     let approval = Approval { version, by, at: at.to_rfc3339_opts(chrono::SecondsFormat::Secs, true) };
-    let csv = format!("{UTF8_BOM}{}", pre_survey(&result, &approval, &NotChecked).to_csv());
+    let today_kst = (chrono::Utc::now() + chrono::Duration::hours(9)).format("%Y-%m-%d").to_string();
+    let csv = format!("{UTF8_BOM}{}", pre_survey(&result, &approval, &KrLists::embedded(&today_kst)).to_csv());
     let stem = job.file_name.strip_suffix(".pdf").or_else(|| job.file_name.strip_suffix(".PDF")).unwrap_or(&job.file_name);
     let disposition = attachment(&format!("{stem}_사전조사서_v{version}.csv"), "pre-survey.csv");
     Ok(([(header::CONTENT_TYPE, "text/csv; charset=utf-8".to_string()), (header::CONTENT_DISPOSITION, disposition)], csv).into_response())

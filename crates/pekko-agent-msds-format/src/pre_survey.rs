@@ -4,8 +4,9 @@
 //! - 성분 열: MSDS 3항 「구성성분의 명칭 및 함유량」, 화학물질관리법 시행규칙 별지 제1호서식 「화학물질 확인명세서」
 //!   (화학물질명·CAS No.·함량 또는 함량범위(%))
 //! - 물질 하나가 한 행, 영업비밀 물질은 CAS를 비움: IPC-1752A·IEC 62474 성분 신고
-//! - 국내 법규 해당 여부: 2025-08-07 개정 화학물질관리법의 구분 + 산업안전보건법 대상. 공식 목록과 대조하는 일은
-//!   `RegulationCheck`가 맡고, 대조하지 않은 칸은 "미대조"로 둔다(빈칸이면 "해당 없음"으로 읽힐 수 있다).
+//! - 국내 법규 해당 여부: 화평법(인체등유해성물질·허가·제한·금지), 화관법(사고대비물질), 산업안전보건법 대상.
+//!   공식 목록과 대조하는 일은 `RegulationCheck`(구현: `kr_lists::KrLists`)가 맡고, 대조하지 않은 칸은 "미대조"로 둔다
+//!   (빈칸이면 "해당 없음"으로 읽힐 수 있다).
 //!
 //! 결과에 없는 값은 지어내지 않는다(결과 원칙 4). 성분이 없는 제품도 한 행을 남겨 제품이 빠지지 않게 한다.
 
@@ -23,15 +24,17 @@ pub struct Approval {
 }
 
 /// 성분마다 해당 여부를 보는 국내 규제 목록.
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum KrList {
-    /// 화학물질관리법 — 2025-08-07부터 유독물질을 셋으로 나눴다
+    /// 화평법 제2조·제20조 인체등유해성물질 — 2025-08-07부터 종전 유독물질을 셋으로 나눴다
     AcuteToxic,
     ChronicToxic,
     EcoToxic,
+    /// 화평법 제25조·제27조
     Permitted,
     Restricted,
     Prohibited,
+    /// 화학물질관리법 제39조
     AccidentPrecaution,
     /// 산업안전보건법
     ManagedHazardous,
@@ -55,12 +58,12 @@ impl KrList {
 
     pub fn column(self) -> Column {
         let (key, title) = match self {
-            KrList::AcuteToxic => ("kr_acute_toxic", "화관법 인체급성유해성물질"),
-            KrList::ChronicToxic => ("kr_chronic_toxic", "화관법 인체만성유해성물질"),
-            KrList::EcoToxic => ("kr_eco_toxic", "화관법 생태유해성물질"),
-            KrList::Permitted => ("kr_permitted", "화관법 허가물질"),
-            KrList::Restricted => ("kr_restricted", "화관법 제한물질"),
-            KrList::Prohibited => ("kr_prohibited", "화관법 금지물질"),
+            KrList::AcuteToxic => ("kr_acute_toxic", "화평법 인체급성유해성물질"),
+            KrList::ChronicToxic => ("kr_chronic_toxic", "화평법 인체만성유해성물질"),
+            KrList::EcoToxic => ("kr_eco_toxic", "화평법 생태유해성물질"),
+            KrList::Permitted => ("kr_permitted", "화평법 허가물질"),
+            KrList::Restricted => ("kr_restricted", "화평법 제한물질"),
+            KrList::Prohibited => ("kr_prohibited", "화평법 금지물질"),
             KrList::AccidentPrecaution => ("kr_accident_precaution", "화관법 사고대비물질"),
             KrList::ManagedHazardous => ("kr_managed_hazardous", "산안법 관리대상유해물질"),
             KrList::WorkEnvMeasurement => ("kr_work_env_measurement", "산안법 작업환경측정 대상"),
@@ -68,20 +71,43 @@ impl KrList {
         };
         Column { key, title }
     }
+
+    pub fn from_key(key: &str) -> Option<KrList> {
+        KrList::ALL.into_iter().find(|l| l.column().key == key)
+    }
 }
 
-/// 성분이 국내 규제 목록에 드는지. `None`은 대조하지 않았거나 할 수 없음(예: CAS 없음).
+/// 성분 하나를 목록 하나와 대조한 결과.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum Listing {
+    /// CAS가 목록에 있고 이미 시행 중이다.
+    Listed,
+    /// CAS가 목록에 있지만 이 날짜(`YYYY-MM-DD`)부터 시행된다.
+    ListedFrom(String),
+    /// CAS가 목록에 없다. 목록에는 CAS 없이 묶음으로 적힌 항목("~ 및 그 화합물", "~ 등")도 있어,
+    /// CAS가 없다는 것만으로 "해당 없음"이라고 단정하지 않는다.
+    NotListedByCas,
+    /// 대조하지 않았거나 할 수 없다(CAS 없음·비공개, 목록 없음).
+    NotChecked,
+}
+
+/// 성분이 국내 규제 목록에 드는지.
 /// 목록은 미리 메모리에 올려 두는 구현을 전제로 한다. 그래야 wasm32(공개 페이지)에서도 같은 코드가 돈다.
 pub trait RegulationCheck {
-    fn check(&self, component: &Component, list: KrList) -> Option<bool>;
+    fn check(&self, component: &Component, list: KrList) -> Listing;
+
+    /// 시행 여부를 판단한 날짜(`YYYY-MM-DD`). 대조하지 않으면 없다.
+    fn as_of(&self) -> Option<&str> {
+        None
+    }
 }
 
-/// 공식 목록을 붙이기 전의 기본값. 모든 칸이 "미대조"다.
+/// 대조하지 않는다. 모든 칸이 "미대조"다.
 pub struct NotChecked;
 
 impl RegulationCheck for NotChecked {
-    fn check(&self, _: &Component, _: KrList) -> Option<bool> {
-        None
+    fn check(&self, _: &Component, _: KrList) -> Listing {
+        Listing::NotChecked
     }
 }
 
@@ -114,7 +140,8 @@ const BEFORE_KR: [Column; 21] = [
     col("hazard_reasons", "위험물질 근거(문서)"),
 ];
 
-const AFTER_KR: [Column; 4] = [
+const AFTER_KR: [Column; 5] = [
+    col("kr_as_of", "법규 대조 기준일"),
     col("pages", "근거 쪽"),
     col("approved_version", "확인 버전"),
     col("approved_by", "확인자"),
@@ -132,14 +159,16 @@ pub fn pre_survey(result: &MsdsResult, approval: &Approval, regulations: &dyn Re
     for product in &result.products {
         let head = product_cells(&result.document.file_name, product);
         if product.components.is_empty() {
-            let blank = BEFORE_KR.len() - head.len() + KrList::ALL.len() + 1;
+            // 성분·법규·기준일·근거 쪽 칸을 비운다
+            let blank = BEFORE_KR.len() - head.len() + KrList::ALL.len() + 2;
             rows.push(head.into_iter().chain(std::iter::repeat_n(String::new(), blank)).chain(approval_cells(approval)).collect());
             continue;
         }
         for (i, component) in product.components.iter().enumerate() {
             let mut row = head.clone();
             row.extend(component_cells(product, i, component));
-            row.extend(KrList::ALL.map(|list| kr_cell(regulations.check(component, list)).to_string()));
+            row.extend(KrList::ALL.map(|list| kr_cell(regulations.check(component, list))));
+            row.push(regulations.as_of().unwrap_or_default().to_string());
             row.push(join_pages(&component.pages));
             row.extend(approval_cells(approval));
             rows.push(row);
@@ -196,11 +225,12 @@ fn approval_cells(a: &Approval) -> [String; 3] {
     [a.version.to_string(), a.by.clone(), a.at.clone()]
 }
 
-fn kr_cell(found: Option<bool>) -> &'static str {
-    match found {
-        Some(true) => "해당",
-        Some(false) => "비해당",
-        None => "미대조",
+fn kr_cell(listing: Listing) -> String {
+    match listing {
+        Listing::Listed => "해당".into(),
+        Listing::ListedFrom(date) => format!("해당({date} 시행)"),
+        Listing::NotListedByCas => "비해당(CAS 기준)".into(),
+        Listing::NotChecked => "미대조".into(),
     }
 }
 
@@ -334,15 +364,26 @@ mod tests {
     fn regulation_checker_fills_cells() {
         struct Toluene;
         impl RegulationCheck for Toluene {
-            fn check(&self, c: &Component, list: KrList) -> Option<bool> {
-                let cas = c.cas_no.as_deref().filter(|_| c.cas_check == CasCheck::Valid)?;
-                Some(cas == "108-88-3" && list == KrList::ManagedHazardous)
+            fn check(&self, c: &Component, list: KrList) -> Listing {
+                match (c.cas_no.as_deref().filter(|_| c.cas_check == CasCheck::Valid), list) {
+                    (None, _) => Listing::NotChecked,
+                    (Some("108-88-3"), KrList::ManagedHazardous) => Listing::Listed,
+                    (Some("108-88-3"), KrList::EcoToxic) => Listing::ListedFrom("2026-12-19".into()),
+                    _ => Listing::NotListedByCas,
+                }
+            }
+            fn as_of(&self) -> Option<&str> {
+                Some("2026-10-26")
             }
         }
         let t = pre_survey(&sample(), &approval(), &Toluene);
         assert_eq!(t.cell(0, "kr_managed_hazardous"), Some("해당"));
-        assert_eq!(t.cell(0, "kr_acute_toxic"), Some("비해당"));
+        assert_eq!(t.cell(0, "kr_eco_toxic"), Some("해당(2026-12-19 시행)"));
+        assert_eq!(t.cell(0, "kr_acute_toxic"), Some("비해당(CAS 기준)"));
+        assert_eq!(t.cell(0, "kr_as_of"), Some("2026-10-26"));
         assert_eq!(t.cell(1, "kr_managed_hazardous"), Some("미대조"), "CAS가 없으면 대조할 수 없다");
+        // 성분 없는 제품은 기준일도 비운다
+        assert_eq!(t.cell(2, "kr_as_of"), Some(""));
     }
 
     #[test]

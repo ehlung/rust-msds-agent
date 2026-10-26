@@ -3133,7 +3133,12 @@ mod tests {
         assert!(lines[0].starts_with("원본 파일,제품 번호,제품명,"), "{}", lines[0]);
         assert!(lines[1].starts_with("review.pdf,1,"), "{}", lines[1]);
         assert!(lines[1].contains(",톨루엔,Toluene,108-88-3,정상,"), "{}", lines[1]);
-        assert!(lines[1].contains(",미대조,"), "{}", lines[1]);
+        // 국내 법규: 인체급성·만성·생태 비해당 / 허가물질 목록 없음 / 제한·금지 비해당 / 사고대비·산안법 3개 해당, 그리고 대조 기준일(KST)
+        let today_kst = (chrono::Utc::now() + chrono::Duration::hours(9)).format("%Y-%m-%d").to_string();
+        let kr = format!(
+            ",비해당(CAS 기준),비해당(CAS 기준),비해당(CAS 기준),미대조,비해당(CAS 기준),비해당(CAS 기준),해당,해당,해당,해당,{today_kst},"
+        );
+        assert!(lines[1].contains(&kr), "{}", lines[1]);
         assert!(lines[1].contains(",1,test-admin,"), "확인한 버전과 사람: {}", lines[1]);
         std::fs::remove_dir_all(dir).ok();
     }

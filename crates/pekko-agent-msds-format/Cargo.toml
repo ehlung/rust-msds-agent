@@ -11,3 +11,7 @@ pekko-agent-msds = { path = "../pekko-agent-msds" }
 
 [dev-dependencies]
 uuid = { workspace = true }
+# examples/build_kr_lists.rs(국내 규제 목록 데이터 생성)에서만 쓴다. 라이브러리·wasm32 빌드에는 들어가지 않는다
+calamine = "0.37"
+regex = "1"
+sha2 = "0.10"
